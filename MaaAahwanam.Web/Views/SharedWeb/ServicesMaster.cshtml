@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "ServicesMaster";
+    Layout = "~/Views/SharedWeb/Mainmaster.cshtml";
+}
+<header>
+    <div class="sticky-navigation">
+    </div>
+    <div class="clear"></div>
+    @RenderSection("Navigation", required: true)
+</header>
+<section>
+    <div class="about_main">
+        <div class="pageWidth">
+            <aside>
+                <h4>Services</h4>
+                <span>&nbsp;</span>
+                <ul>
+                    <li><a id="Quotation" href="~/Quatation" >Quotation</a></li> @*onclick="active(this)"*@
+                    <li><a id="Bidding" href="~/Biddings" >Bidding</a></li>
+                    <li><a id="ReverseBidding" href="~/ReverseBiddings">Reverse Bidding</a></li>
+                </ul>
+            </aside>
+            @RenderBody()
+            <div class="clear"></div>
+            @RenderSection("advertisement", required: false)
+        </div>
+    </div>
+</section>
+@section scripts
+{
+    <script type="text/javascript" src="../CSSWeb/js/jquery.datetimepicker.js"></script>
+}
+<script>
+    //window.onload = function () {
+    //    $.ajax({
+    //        url: window.location.href.split("/")[0] + '//' + window.location.href.split("/")[2] + '/Dashboard/SetUserDP',
+    //        //url: "/Dashboard/UpdateDP",
+    //        type: "POST",
+    //        processData: false,
+    //        contentType: false,
+    //        data: {},
+    //        success: function (response) {
+    //            //code after success
+    //            //$("#txtImg").val(response);
+    //            //alert(response);
+    //            $("#imgPreview").attr('src', '/Content/UserDPs/' + response);
+    //            $("#imgPreviewsmall").attr('src', '/Content/UserDPs/' + response);
+    //        },
+    //        error: function (er) {
+    //            alert(er);
+    //        }
+
+    //    });
+    //};
+
+    var page = window.location.pathname;
+    //alert(page);
+    if (page == '/Quatation') {
+        //alert(document.getElementById('Quotation').className="active");
+        document.getElementById('Quotation').className = "active";
+        //$("#Index").removeClass("active hvr-sweep-to-bottom").addClass("hvr-sweep-to-bottom");
+        //$("#Quotation").addClass("active");
+    }
+    if (page == '/Biddings')
+    {
+        document.getElementById('Bidding').className = "active";
+    }
+    if (page == '/ReverseBiddings') {
+        document.getElementById('ReverseBidding').className = "active";
+    }
+    //
+    if (page == '/QuoatationSubmit/Index') {
+        //alert(document.getElementById('Quotation').className="active");
+        document.getElementById('Quotation').className = "active";
+        //$("#Index").removeClass("active hvr-sweep-to-bottom").addClass("hvr-sweep-to-bottom");
+        //$("#Quotation").addClass("active");
+    }
+    if (page == '/Bidding/Index') {
+        document.getElementById('Bidding').className = "active";
+    }
+    if (page == '/ReverseBidding/Index') {
+        document.getElementById('ReverseBidding').className = "active";
+    }
+</script>
+

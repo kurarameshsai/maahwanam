@@ -1,0 +1,165 @@
+﻿@model MaaAahwanam.Models.ServiceRequest
+@{
+    ViewBag.Title = "Index";  
+    Layout = "~/Views/SharedWeb/ServicesMaster.cshtml";
+}
+<style>
+    body, html, #wrapper {
+    width: 100%;
+}
+</style>
+
+@section Navigation
+{
+<div class="breads">
+    <div class="breads_inner">
+        <div class="pageWidth">
+            <div class="title">
+                @if (Model.Type == "Quotation")
+                {
+                    <h3>Quotation Confirmation</h3>
+                }
+                else if (Model.Type == "Bidding")
+                {
+                    <h3>Bidding Confirmation</h3>
+                }
+                else if(Model.Type == "ReverseBidding")
+                {
+                <h3>Reverse Bidding Confirmation</h3>
+                }
+            </div>
+            <div class="breadcrumbs">
+                <ul>
+                    <li><a href="../Index/index">Home</a></li>
+                    <li><i class="breads_arrow"></i></li>
+                    <li><a href="index.html">Services</a></li>
+                    <li><i class="breads_arrow"></i></li>
+                    @if (Model.Type == "Quotation")
+                    {
+                        <li>Quotation Confirmation</li>
+                    }
+                    else if (Model.Type == "Bidding")
+                    {
+                        <li>Bidding Confirmation</li>
+                    }
+                    else if (Model.Type == "ReverseBidding")
+                    {
+                        <li>Reverse Bidding Confirmation</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+    <article>
+        <div class="about_categories">
+            <select>
+                <option>Beautician</option>
+                <option>Photographers</option>
+                <option>Cake Vendors</option>
+                <option>Caterer Decorators</option>
+                <option>Designer Photographers</option>
+                <option>Entertainment</option>
+                <option>Fireworks</option>
+                <option>Godi wale</option>
+            </select>
+        </div>
+        <div class="about_content">
+            <div class="heading-title">
+                <h2>Your request is received</h2>
+            </div>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>
+
+            <p>But also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <div class="displayDiv">
+                <div class="dashboardList dashboardList-nospace">
+                    <table class="responsive" id="div_Detdiv">
+                        <thead>
+                            <tr>
+                                <th style="width:50%">Quotation ID  :  @Model.RequestId</th>
+                                <th style="width:50%">Submitted Date  :  @Model.UpdatedTime.Value.ToShortDateString()</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Budget  :  @Model.Budget</td>
+                                <td>Service Type  : @Model.ServiceType</td>
+                            </tr>
+                            <tr>
+                                <td>Name  : @Model.Name</td>
+                                <td>Preferences  : @Model.Preferences</td>
+                            </tr>
+                            <tr>
+                                <td>Event Address  : @Model.EventAddress</td>
+                                <td>Event Location  : @Model.EventLocation</td>
+                            </tr>
+                            <tr>
+                                <td>State  :  @Model.State</td>
+                                <td>City  : @Model.State</td>
+                            </tr>
+                            <tr>
+                                <td>Postal Code  :  @Model.PostalCode</td>
+                                <td>Email  : @Model.EmailId</td>
+                            </tr>
+                            <tr>
+                                <td>Phone :   @Model.PhoneNo</td>
+                                <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td>Event Start Date  :  @Model.EventStartDate.ToString("dd-MM-yyyy")</td>
+                                <td>Event Start Time  : @Model.EventStartTime.ToShortTimeString()</td>
+                            </tr>
+                            <tr>
+                                <td>Event End Date  :@Model.EventEnddate.ToString("dd-MM-yyyy")</td>
+                                <td>Event End Time  : @Model.EventEndtime.ToShortTimeString()</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p></p>
+
+                    <div class="pagination">
+                        <div class="next">
+                            <button class="btn btn-orange" onClick="javascript: parent.print()">Print</button>
+                            <button class="btn btn-green" onclick="sendemail()">Email</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!-- displayDiv -->
+        </div>
+    </article>
+    <script>
+    function sendemail() {
+        var Detdiv = document.getElementById("div_Detdiv").outerHTML;
+        var Detdivobj = {};
+        Detdivobj.Detdiv = Detdiv;
+        Detdivobj.oid = '@Model.EmailId';
+        $.ajax({
+            type: "POST",
+            url: "/QuoatationConfirm/EmailOrderConfirmation",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: {},
+            data: JSON.stringify(Detdivobj),
+            success: function (data) {
+                alert("Quotation Request sent to your email id");
+            },
+            error: function (data) {
+                alert("E-Mail Sending Failed!!!");
+            }
+        });
+    }
+    </script>
+
+@section advertisement
+{
+<div class="ad">
+    <div class="pageWidth">
+        <div class="ad_728 margin_bottom_20"><img src="../CSSWeb/images/ad_728_2.jpg" alt="advertise"></div>
+    </div>
+</div> 
+}
+

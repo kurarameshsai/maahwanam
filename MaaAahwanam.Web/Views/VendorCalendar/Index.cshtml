@@ -1,0 +1,291 @@
+﻿@model MaaAahwanam.Models.VendorDates
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>:: Calendar ::</title>
+    <link rel="icon" href="http://design.maa-aahwanam.com/contest/images/favIcn.png" type="image/png" sizes="32x32">
+    <link rel="stylesheet" type="text/css" href="~/newdesign/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/newdesign/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="~/newdesign/css/customstyles.css">
+    <!--------- Lato Font ---------->
+    <link rel="stylesheet" type="text/css" href="~/newdesign/css/latofonts.css">
+    <!-- BX Slider -->
+    <link rel="stylesheet" type="text/css" href="~/newdesign/css/jquery.bxslider.css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+    @*<link href="~/newdesign/css/jquery.datetimepicker.css" rel="stylesheet" />*@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <style>
+        body {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+        }
+
+        #wrap {
+            width: 1100px;
+            margin: 0 auto;
+        }
+
+        #external-events {
+            float: left;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            background: #eee;
+        }
+
+            #external-events h4 {
+                font-size: 16px;
+                margin-top: 0;
+                padding-top: 1em;
+            }
+
+            #external-events .fc-event {
+                margin: 10px 0;
+                cursor: pointer;
+            }
+
+            #external-events p {
+                margin: 1.5em 0;
+                font-size: 11px;
+                color: #666;
+            }
+
+                #external-events p input {
+                    margin: 0;
+                    vertical-align: middle;
+                }
+
+        #calendar {
+            float: right;
+            width: 900px;
+        }
+    </style>
+</head>
+@using MaaAahwanam.Web.Custom
+@if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    <body class="dashboard" style="padding-right:0px">
+        <input type="hidden" id="vid" value="@ViewBag.id" />
+        <input type="hidden" id="vsid" value="@ViewBag.vid" />
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div><a href="/vdb?c=first&&vid=@ViewBag.vid" class="btn btn-animate btn-primary" style="margin-bottom:20px">Go Back</a></div>
+                </div>
+                <div class="col-md-4">
+                    <div><button id="refresh" class="btn btn-success">Refresh Calendar</button></div>
+                </div>
+                <div class="col-md-4 top-right-menu">
+                    <ul class="dropdown" style="display:block;top:0;">
+                        <li onclick="window.location.href = '/Home/SignOut';"><i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>Sign out</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix margin-top-30"></div>
+        <div class="container body-content">
+            <div class="row">
+                <div class="col-md-2">
+                    <div id="external-events">
+                        <div class="fc-event ui-draggable ui-draggable-handle">Peak Days</div>
+                        <div class="fc-event ui-draggable ui-draggable-handle">Normal Days</div>
+                        <div class="fc-event ui-draggable ui-draggable-handle">Choice Days</div>
+                        <div class="fc-event ui-draggable ui-draggable-handle">Holidays</div>
+                        <div class="fc-event ui-draggable ui-draggable-handle" style="background-color:red">Morning Availability</div>
+                        <div class="fc-event ui-draggable ui-draggable-handle" style="background-color:green">Evening Availability</div>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    @*Load Calendar*@
+                    <div id='calendar'></div>
+                </div>
+            </div>
+
+            @*Details Display Modal*@
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                        </div>
+                        <div class="modal-body">
+                            <button id="btnDelete" class="btn btn-default btn-sm pull-right">
+                                <span class="glyphicon glyphicon-remove"></span> Remove
+                            </button>
+                            <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right:5px;">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </button>
+                            <p id="pDetails"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- calendar modal -->
+            <div id="CalenderModalNew" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">New Calendar Entry</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="testmodal" style="padding: 5px 20px;">
+                                <form id="antoform" class="form-horizontal calender" role="form">
+                                    <input type="hidden" id="hdEventID" value="0" />
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Type</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="type">
+                                                <option disabled selected value="">Select Type</option>
+                                                <option value="Availability">Availability</option>
+                                                <option value="Packages">Packages</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="pkgdays" style="display:none">
+                                        <label class="col-sm-3 control-label">Days Selection</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="title">
+                                                <option disabled selected value="">Select Days</option>
+                                                <option>Peak Days</option>
+                                                <option>Normal Days</option>
+                                                <option>Holidays</option>
+                                                <option>Choice Days</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-3 control-label">TimeSlot Selection</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" id="title1">
+                                                <option disabled selected value="">Select Slot</option>
+                                                <option value="Morning">Morning</option>
+                                                <option value="Evening">Evening</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Start Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="startdate" name="title" placeholder="Select Start Date">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" id="divEndDate">
+                                        <label class="col-sm-3 control-label">End Date</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="enddate" name="title" placeholder="Select End Date">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default antoclose" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary antosubmit" id="btnSave" disabled>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="CalenderModalEdit" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel2">Edit Calendar Entry</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div id="testmodal2" style="padding: 5px 20px;">
+                                <form id="antoform2" class="form-horizontal calender" role="form">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Title</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="title2" name="title2" placeholder="Enter Subject">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" style="height:55px;" id="descr2" name="descr" placeholder="Enter Description"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default antoclose2" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary antosubmit2">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <script src="~/newdesign/js/jquery-1.11.3.min.js"></script>
+        <script src="~/newdesign/js/jquery-ui-1.12.1.js"></script>
+        <script type="text/javascript" language="javascript" src="~/newdesign/js/bootstrap.min.js"></script>
+        <script src="~/newdesign/js/moment.min.js"></script>
+        <script src="~/newdesign/js/fullcalendar.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+        <script src="~/Scripts/calendar.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var events = [];
+                var selectedEvent = null;
+                FetchEventAndRenderCalendar(@ViewBag.vid);
+            })
+
+            $('#type').on('change', function () {
+                var selected = $(this).val();
+                $('#btnSave').removeAttr("disabled");
+                if (selected == 'Packages') $('#pkgdays').css('display', 'block'); else $('#pkgdays').css('display', 'none');
+            });
+        </script>
+        <script>
+
+            $(document).ready(function() {
+
+
+                /* initialize the external events
+                -----------------------------------------------------------------*/
+
+                $('#external-events .fc-event').each(function() {
+
+                    // store data so the calendar knows to render an event upon drop
+                    $(this).data('event', {
+                        title: $.trim($(this).text()), // use the element's text as the event title
+                        stick: true // maintain when user navigates (see docs on the renderEvent method)
+                    });
+
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 999,
+                        revert: true,      // will cause the event to go back to its
+                        revertDuration: 0  //  original position after the drag
+                    });
+
+                });
+            });
+</script>
+    </body>
+}
+else
+{
+    Response.Redirect("/Home");
+}
+</html>

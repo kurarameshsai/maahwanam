@@ -1,0 +1,91 @@
+﻿   <!-- Modal Header -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+
+
+
+
+<div class="modal-header">
+    <h4 class="modal-title">Modal Heading</h4>
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+
+<!-- Modal body -->
+<div class="modal-body">
+
+    <div class="table-responsive" style="width:auto">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="font-weight:600">S.No</th>
+                    <th style="font-weight:600">Service Name</th>
+                    <th style="font-weight:600">Category</th>
+                    <th style="font-weight:600">Sub-Category</th>
+                    <th style="font-weight:600">Installments</th>
+                    <th style="font-weight:600">Package Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.quotes != null)
+                {
+                    var i = 0;
+                    foreach (var item in ViewBag.quotes)
+                    {
+                        <tr>
+                            <td>@(++i)</td>
+                            <td>@item.BusinessName</td>
+                            <td>@item.ServiceType</td>
+                            <td>@item.SubServiceType</td>
+                            <td>
+                                <p>Installments : @item.Installments</p>
+                                <p>Token Amount : @item.TokenAmount</p>
+                                @if (@item.Installments == 1)
+                                {
+                                    <p>First Installment : @item.FirstInstallment</p>
+                                }
+                                @if (@item.Installments == 2)
+                                {
+                                    <p>First Installment : @item.FirstInstallment</p>
+                                    <p>Second Installment : @item.SecondInstallment</p>
+                                }
+                                @if (@item.Installments == 3)
+                                {
+                                    <p>First Installment : @item.FirstInstallment</p>
+                                    <p>Second Installment : @item.SecondInstallment</p>
+                                    <p>Third Installment : @item.ThirdInstallment</p>
+                                }
+                                @if (@item.Installments == 4)
+                                {
+                                    <p>First Installment : @item.FirstInstallment</p>
+                                    <p>Second Installment : @item.SecondInstallment</p>
+                                    <p>Third Installment : @item.ThirdInstallment</p>
+                                    <p>Fourth Installment : @item.FourthInstallment</p>
+                                }
+                            </td>
+                            <td>@item.TotalAmount</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6">No Quotations Raised Yet!!!</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal footer -->
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.jss"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>

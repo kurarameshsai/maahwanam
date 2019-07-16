@@ -1,0 +1,1279 @@
+﻿@using system;
+@using MaaAahwanam.Web.Custom
+@using System.Globalization
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/SharedWeb/UserModuleMasterPage.cshtml";
+    CustomPrincipal user = null;
+    if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        user = (CustomPrincipal)HttpContext.Current.User;
+    }
+    var servicescount = 0;
+}
+
+@section css{
+    @*<link href="~/newdesign/css/jquery.datetimepicker.css" rel="stylesheet" />*@
+    <link href="~/newdesign/css/alertify.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.10/css/uikit.min.css" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+    @*<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">*@
+}
+<style>
+    /*form {
+        display: none;
+    }*/
+    /* Set the size of the div element that contains the map */
+    #map {
+        height: 400px; /* The height is 400 pixels */
+        width: 100%; /* The width is the width of the web page */
+    }
+
+    body {
+        font-family: "Lato", sans-serif;
+    }
+
+    #example1 {
+        box-sizing: content-box;
+        width: 77px;
+        height: 82px;
+        padding: 15px;
+        border: 1px grey;
+        color: white;
+        background-color: #5829bb;
+    }
+
+    #example2 {
+        box-sizing: content-box;
+        width: 77px;
+        height: 70px;
+        padding: 15px;
+        border: 1px black solid;
+        color: black;
+    }
+
+    .tablink {
+        background-color: #fff;
+        color: #212529;
+        float: left;
+        border: 1px;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 13px;
+        width: 16%;
+        font-family: lato;
+    }
+
+        .tablink:hover {
+            background-color: #fff;
+        }
+
+    /* Style the tab content */
+    .tabcontent {
+        color: white;
+        display: none;
+        padding: 50px;
+        text-align: center;
+    }
+
+    #Food Packages, #Hall Details, #Description, #Gallery, #Check Availability, #Policies {
+        background-color: white;
+    }
+
+    #modal-example .form-group input.form-control {
+        padding-left: 40px;
+    }
+
+    #modal-example .form-group i {
+        font-size: 21px;
+        position: absolute;
+        left: 12px;
+        top: 34px;
+        color: #ccc;
+        width: 25px;
+        height: 25px;
+        display: block;
+        font-weight: 400 !important;
+    }
+
+    body {
+        margin: 40px 10px;
+        padding: 0;
+        font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+        font-size: 14px;
+    }
+
+    .buttonks {
+        border-radius: 50%;
+    }
+
+    .buttonks1 {
+        background-color: yellow;
+        border: none;
+        color: black;
+        padding: 11px;
+    }
+
+    .uk-h6-1 {
+        font-size: 15px;
+        margin: 20px 0 10px 0;
+    }
+
+    .row-2 {
+        margin-left: 5px;
+    }
+
+    .col-md-8-2 {
+        height: 333px;
+        width: 488px;
+        background-color: white;
+    }
+
+    p.caption {
+        margin: 0 30px 35px 0;
+        background-color: yellow;
+        border-radius: 30px;
+        height: 60px;
+        width: 60px;
+    }
+
+        p.caption img {
+            height: 35px;
+            padding-left: 13px;
+            margin-top: 16px;
+        }
+
+        p.caption b {
+            padding-left: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 50px;
+        }
+
+    .col-sm, .col-sm-sm {
+        height: 80px;
+        border: 1px;
+    }
+
+    .col-sm {
+        background-color: #543791;
+    }
+
+    .col-md-4-1 {
+        max-width: 42%;
+    }
+
+    #halldetails {
+        border-collapse: collapse;
+    }
+
+        #halldetails td {
+            border: 1px solid grey;
+        }
+
+    .uk-form-stacked input {
+        font-weight: 700;
+    }
+
+    ul.magnific-gallery {
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+    }
+
+    .uk-h3 {
+        margin: 0 0 20px 15px;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .tdwidhth {
+        width: 140px;
+    }
+
+    .uk-margin {
+        margin-top: 0px !important;
+    }
+
+    table, tr, td {
+        border: none;
+    }
+</style>
+
+<style>
+    .fc-state-highlight {
+        background: blueviolet;
+    }
+
+    .fc-view-container {
+        background: white;
+        width:110%;
+        margin-left:-15px;
+    }
+</style>
+
+<style>
+    .choosemenu:hover .middle {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+    .middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.text {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+</style>
+
+
+@*<main>*@
+<div class="bg_color_1">
+    <div class="container margin_60_35" style="padding-top:0px;padding-bottom:0px;margin-left:0">
+        <div class="row" style="width:1340px">
+            <div class="col-lg-8">
+                <div class="box_cart">
+                    <div class="uk-position-relative uk-visible-toggle uk-light" uk-slideshow="min-height: 300; max-height: 600; animation: push">
+                        <ul class="uk-slideshow-items">
+                            @foreach (var item in ViewBag.allimages)
+                            {
+                                <li class="uk-active uk-transition-active" style="transform: translateX(0px); z-index: 0;">
+                                    <img class="mw-100" src="~/vendorimages/@item.ImageName" alt="@item.ImageName" style="height: 100%; width: 100%;" />
+                                </li>
+                            }
+                        </ul>
+                        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
+                        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
+                    </div>
+                    <!--End step -->
+                    <div class="uk-grid">
+                        <h2 class="uk-h2" style="font-size:20px;text-transform: uppercase;margin: 0px 10px -1px 0px;max-width: 55%;width:100%;font-weight:700">@ViewBag.Productinfo.BusinessName <span style="font-size:16px;font-weight:400;text-transform: capitalize"><br>@ViewBag.Productinfo.City,@ViewBag.Productinfo.State</span></h2>
+                        <img src="http://design.maa-aahwanam.com/panagea/images/heart.png" style="margin-left:200px;width: 10%;height: 50%;max-width: 45%;display:none"/>
+                        <div style="padding-top:10px"><a href="#map">See Address Map</a>&emsp;&emsp; <a href="#address">View Description</a></div>
+                    </div>
+                    <div class="uk-grid-sub">
+                        @foreach (var item in ViewBag.venues)
+                        {
+                            if (item.name != null && item.name != "")
+                            {
+                                <a style="text-transform: uppercase;font-size:16px" class="tablink" href="/viewservice?id=@ViewBag.masterid&&vid=@item.Id"><b>@item.name</b></a>
+                            }
+                            else
+                            {
+                                <a style="text-transform: uppercase;font-size:16px" class="tablink" href="/viewservice?id=@ViewBag.masterid&&vid=@item.Id"><b>@item.VenueType</b></a>
+                            }
+                        }
+                    </div>
+                </div>
+                @*<br><br>*@
+                @foreach (var item in ViewBag.particularVenue)
+                {
+                    <div class="container">
+                        @if (item.name != null && item.name != "")
+                        {
+                            <h2 style="font-size:30px;font-weight:700;text-transform: uppercase">@item.name - @item.VenueType</h2>
+                        }
+                        else
+                        {
+                            <h2 style="font-size:30px;font-weight:700;text-transform: uppercase">@item.VenueType</h2>
+                        }
+                        <h3 class="uk-h3" style="margin-left:4px">AVAILABLE FOOD PACKAGES</h3>
+                        @if (ViewBag.availablepackages.Count != 0)
+                        {
+                            foreach (var item1 in @ViewBag.availablepackages)
+                            {
+                                if (item1.VendorSubId == item.Id)
+                                {
+                                    <input type="hidden" value="@item1.PackageID" name="packageid" id="packageid">
+                                    if (ViewBag.pkgtype == "Peak Days")
+                                    { <input type="hidden" value="@item1.peakdays" name="PackageName" id="PackageName"> }
+                                    else if (ViewBag.pkgtype == "Normal Days")
+                                    { <input type="hidden" value="@item1.normaldays" name="PackageName" id="PackageName"> }
+                                    else if (ViewBag.pkgtype == "Holidays")
+                                    { <input type="hidden" value="@item1.holidays" name="PackageName" id="PackageName"> }
+                                    else if (ViewBag.pkgtype == "Choice Days")
+                                    { <input type="hidden" value="@item1.choicedays" name="PackageName" id="PackageName"> }
+                                    <input type="hidden" value="@item1.PackageName" name="PackageName" id="PackageName">
+                                    <div class="row">
+                                        <div class="col-md-2 pkgsection" style="background-color:#543791;color:white">
+                                            @if (item1.PackageName != null && item1.PackageName != "")
+                                            {
+                                                @item1.PackageName.Replace("_", " ")
+                                            }
+                                            else
+                                            {
+                                                @item1.PackageName
+                                            }
+                                            <br /><br />
+                                            <span>
+                                                ₹
+                                                @if (ViewBag.pkgtype == "Peak Days")
+                                                { <b style="font-size:18px">@item1.peakdays</b> }
+                                                else if (ViewBag.pkgtype == "Normal Days")
+                                                { <b style="font-size:18px">@item1.normaldays</b> }
+                                                else if (ViewBag.pkgtype == "Holidays")
+                                                { <b style="font-size:18px">@item1.holidays</b> }
+                                                else if (ViewBag.pkgtype == "Choice Days")
+                                                { <b style="font-size:18px">@item1.choicedays</b> }
+                                                / Person
+                                            </span>
+                                            <br /><br />
+                                            <span align="center">@item1.Category</span>
+                                            <text class="packageid" style="display:none">@item1.PackageID</text>
+                                        </div>
+                                        <div class="col-md-8 choosemenu" style="background-color:white;height: 100px;overflow-x:hidden;overflow-y:auto" overflow="visible">
+                                            <span>What You Get</span>
+                                            <br />
+                                            @if (item1.menu != null && item1.menu != "")
+                                            {
+                                                for (int i = 0; i < @item1.menu.Split(',').Length; i++)
+                                                {
+                                                    <a class="btn-pill">@item1.menu.Split(',')[i]</a>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <a class="btn-pill">Menu Items Not Available</a>
+                                            }
+                                            <div class="middle">
+                                                <button class="text">Select Menu</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            @if (item1.timeslot != null)
+                                            {
+                                                if (item1.timeslot.Contains("Break Fast"))
+                                                { <div class="row"><input type="checkbox" /><label>BreakFast</label></div> }
+                                                if (item1.timeslot.Contains("Lunch"))
+                                                { <div class="row"><input type="checkbox" /><label>Lunch</label></div> }
+                                                if (item1.timeslot.Contains("Dinner"))
+                                                { <div class="row"><input type="checkbox" /><label>Dinner</label></div> }
+                                            }
+                                            <div class="row">
+                                                @if (item1.timeslot != null)
+                                                {
+                                                    if (item1.timeslot.Contains("High Tea"))
+                                                    { <input type="checkbox" /><label>High Tea</label> }
+                                                }
+                                                @if (ViewBag.pkgtype == "Peak Days")
+                                                { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.peakdays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                else if (ViewBag.pkgtype == "Normal Days")
+                                                { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.normaldays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                else if (ViewBag.pkgtype == "Holidays")
+                                                { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.holidays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                else if (ViewBag.pkgtype == "Choice Days")
+                                                { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.choicedays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <span> No Food Packages Available </span>
+                        }
+
+                        
+                        @if (ViewBag.rentalpackages.Count != 0)
+                        {
+                            <h3 class="uk-h3" style="margin-left:4px">AVAILABLE RENTAL PACKAGES</h3>
+                            foreach (var item1 in ViewBag.rentalpackages)
+                            {
+                                if (item1.VendorSubId == item.Id)
+                                {
+                                    <input type="hidden" value="@item1.PackageID" name="packageid" id="packageid">
+                                    if (ViewBag.pkgtype == "Peak Days")
+                                    { <input type="hidden" value="@item1.peakdays" name="PackagePrice" id="PackagePrice"> }
+                                    else if (ViewBag.pkgtype == "Normal Days")
+                                    { <input type="hidden" value="@item1.normaldays" name="PackagePrice" id="PackagePrice"> }
+                                    else if (ViewBag.pkgtype == "Holidays")
+                                    { <input type="hidden" value="@item1.holidays" name="PackagePrice" id="PackagePrice"> }
+                                    else if (ViewBag.pkgtype == "Choice Days")
+                                    { <input type="hidden" value="@item1.choicedays" name="PackagePrice" id="PackagePrice"> }
+                                    <input type="hidden" value="@item1.PackageName" name="PackageName" id="PackageName">
+                                    <div class="row">
+                                        <div class="col-md-2" style="background-color:#543791;color:white">
+                                            @if (item1.PackageName != null && item1.PackageName != "")
+                                            { @item1.PackageName.Replace("_", " ") }
+                                            else
+                                            { @item1.PackageName }
+                                            <br /><br />
+                                            <span>
+                                                ₹
+                                                @if (ViewBag.pkgtype == "Peak Days")
+                                                { <b style="font-size:18px"> @item1.peakdays </b> }
+                                                else if (ViewBag.pkgtype == "Normal Days")
+                                                { <b style="font-size:18px">@item1.normaldays </b> }
+                                                else if (ViewBag.pkgtype == "Holidays")
+                                                { <b style="font-size:18px">@item1.holidays </b> }
+                                                else if (ViewBag.pkgtype == "Choice Days")
+                                                { <b style="font-size:18px">@item1.choicedays </b> }
+                                            </span>
+                                            <text class="packageid" style="display:none">@item1.PackageID</text>
+                                        </div>
+                                        <div class="col-md-8" style="background-color:white;height: 100px;overflow-x:hidden;overflow-y:auto" overflow="visible">
+                                            @item1.PackageDescription
+                                        </div>
+                                            <div class="col-md-2">
+                                                @if (item1.timeslot.Contains("Morning"))
+                                                { <div class="row"><input type="checkbox" /><label>Morning</label></div> }
+                                                @if (item1.timeslot.Contains("Evening"))
+                                                { <div class="row"><input type="checkbox" /><label>Evening</label></div> }
+                                                @if (item1.timeslot.Contains("FullDay"))
+                                                { <div class="row"><input type="checkbox" /><label>FullDay</label></div> }
+                                                <div class="row">
+                                                    @if (ViewBag.pkgtype == "Peak Days")
+                                                    { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.peakdays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                    else if (ViewBag.pkgtype == "Normal Days")
+                                                    { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.normaldays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                    else if (ViewBag.pkgtype == "Holidays")
+                                                    { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.holidays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                    else if (ViewBag.pkgtype == "Choice Days")
+                                                    { <button style="background-color:yellow" value="@item1.PackageID,@item1.PackageName,@item1.choicedays" onclick="ks(this.value)" class="btnpkg">Add</button> }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <br />
+                                }
+                            }
+                        }
+                    </div>
+
+                    <h3 class="uk-h3">HALL DETAILS</h3>
+                    <div class="row" style="margin-left:20px">
+                        <div class="col-md-4-1">
+                            @if (ViewBag.image != null)
+                            {
+                                <img src="~/vendorimages/@ViewBag.image" alt="@ViewBag.image" style="width:330px;height:140px;">
+                            }
+                            else
+                            {
+                                <img src="http://design.maa-aahwanam.com/panagea/images/banquet3.jpg" style="width:330px;height:140px;">
+                            }
+                            <table id="halldetails" style="width:330px;height:193px">
+                                <tbody>
+                                    <tr>
+                                        <td class="tdwidhth"><h1 class="uk-h1">Area Name</h1></td>
+                                        <td>
+                                            @if (item.name != null)
+                                            {@item.name }
+                                            else
+                                            { <text>NA</text>}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdwidhth"><h1 class="uk-h1">Area Type</h1></td>
+                                        <td>
+                                            @if (item.VenueType != null)
+                                            {@item.VenueType }
+                                            else
+                                            { <text>NA</text>}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdwidhth"><h1 class="uk-h1">Area Dimensions</h1></td>
+                                        <td>
+                                            @if (item.Dimentions != null)
+                                            {@item.Dimentions }
+                                            else
+                                            { <text>NA</text>}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdwidhth"><h1 class="uk-h1">Max Capacity</h1></td>
+                                        <td>
+                                            @if (item.Maximumcapacity != null)
+                                            {@item.Maximumcapacity }
+                                            else
+                                            { <text>NA</text>}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdwidhth"><h1 class="uk-h1">Seating Style</h1></td>
+                                        <td>Seating Style</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-8-2">
+                            <h6>AMENITIES</h6>
+                            <div class="row-2" overflow="visible">
+                                <table>
+                                    @if (ViewBag.amenities[servicescount].Split(',').Length != 0 && ViewBag.amenities[servicescount] != "")
+                                    {
+                                        var rcount = ViewBag.amenities.Count;
+                                        var first = 0; var next = 0;
+                                        for (int i = 0; i < ViewBag.amenities[servicescount].Split(',').Length; i++)
+                                        {
+                                            var count = ViewBag.amenities[servicescount].Split(',').Length;
+                                            first = i;
+                                            if (next < count)
+                                            {
+                                                next = ++i;
+                                            }
+                                            <tr>
+                                                <td><img src="~/newdesignstyles/VenueIcons/@(ViewBag.amenities[servicescount].Split(',')[first]).png" /></td>
+                                                <td>@(ViewBag.amenities[servicescount].Split(',')[first].Replace('_', ' '))</td>
+                                                @if (next < count)
+                                                {
+                                                    <td><img src="~/newdesignstyles/VenueIcons/@(ViewBag.amenities[servicescount].Split(',')[next]).png" /></td>
+                                                    <td>@(ViewBag.amenities[servicescount].Split(',')[next].Replace('_', ' '))</td>
+                                                }
+                                            </tr>
+                                            first = next;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="4">
+                                                No Amenities
+                                            </td>
+                                        </tr>
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                    <div class="white-wrapper">
+                        <h2 class="heading"><b>Policies</b></h2>
+                        @if (ViewBag.policy != null)
+                        {
+                            <div class="policies">
+                                <div class="policies-col">
+                                    <div class="decorators">
+                                        <h4 class="sub-title"><b>Decor</b></h4>
+                                        <ul class="tab-data highlights" style="padding-left: 0px;">
+                                            <li>
+                                                @if (ViewBag.policy.Outside_decorators_allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Outside decorators allowed
+                                            </li>
+                                            <li>
+                                                @if (ViewBag.policy.Decor_provided == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Decor provided by the venue
+                                            </li>
+
+                                            <li>
+                                                @if (ViewBag.policy.Decorators_allowed_with_royalty == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Decorators allowed with royalty
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="policies-col">
+                                    <!-- Caterers -->
+                                    <div class="caterers">
+                                        <h4 class="sub-title"><b>Food</b></h4>
+                                        <ul class="tab-data highlights" style="padding-left: 0px;">
+                                            <li>
+                                                @if (ViewBag.policy.Food_provided == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Food provided by the venue
+                                            </li>
+                                            <li>
+                                                @if (ViewBag.policy.Outside_food_or_caterer_allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">} Outside food/caterer allowed at the venue
+                                            </li>
+                                            <li>
+                                                @if (ViewBag.policy.NonVeg_allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                } Non-Veg allowed at the venue
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="policies-col alcohol">
+                                    <h4 class="sub-title"><b>Alcohol</b></h4>
+                                    <ul class="tab-data highlights" style="padding-left: 0px;">
+                                        <li>
+                                            @if (ViewBag.policy.Alcohol_allowed == "Yes")
+                                            {
+                                                <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                            else
+                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                            }Alcohol allowed at the venue
+                                        </li>
+                                        <li>
+                                            @if (ViewBag.policy.Outside_Alcohol_allowed == "Yes")
+                                            {
+                                                <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                            else
+                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                            } Outside alcohol allowed at the venue
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+
+                                @*<div class="policies-col taxes" style="margin-left:288px;margin-top:-99px;">
+                                        <h4 class="sub-title"><b>Taxes</b></h4>
+                                        <ul class="tab-data" style="padding-left: 0px;">
+                                            <li>
+                                                Taxes F&amp;B : <b>
+                                                    Decoration starting costs Rs  @if (ViewBag.policy.Tax == "undefined")
+                                                    { }
+                                                    else
+                                                    {@ViewBag.policy.Tax}%
+                                                </b>
+                                            </li>
+                                        </ul>
+                                    </div>*@
+
+
+                                <div class="policies-col parking" style="margin-top:41px;">
+                                    <h4 class="sub-title"><b>Parking</b></h4>
+                                    <ul class="tab-data highlights" style="padding-left: 0px;">
+                                        <li>
+                                            @if (ViewBag.policy.Valet_Parking == "Yes")
+                                            {
+                                                <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                            else
+                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                            } Valet provided by venue
+                                        </li>
+                                        @*<li>
+                                                Parking space available for @if (ViewBag.policy.Parking_Space == "undefined")
+                                                { }
+                                                else
+                                                {@ViewBag.policy.Parking_Space} vehicles
+                                            </li>*@
+                                    </ul>
+                                </div>
+
+
+                                <div class="policies-col cancellation" style="margin-left:288px;margin-top:-99px;">
+                                    <h4 class="sub-title"><b>Cancellation</b></h4>
+                                    <ul class="tab-data" style="padding-left: 0px;">
+
+                                        <li>
+                                            @if (ViewBag.policy.Cancellation == "Yes")
+                                            {
+                                                <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                            else
+                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                            } Non cancellable
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                                @*<div class="policies-col advance" style="margin-top:37px;">
+                                        <h4 class="sub-title"><b>Advance</b></h4>
+                                        <ul class="tab-data" style="padding-left: 0px;">
+                                            <li>
+                                                <b>
+                                                    @if (ViewBag.policy.Advance_Amount == "undefined")
+                                                    { }
+                                                    else
+                                                    {@ViewBag.policy.Advance_Amount}  %
+                                                </b> at the time of booking
+                                            </li>
+                                        </ul>
+                                    </div>*@
+                                <!-- </div> -->
+
+                                <div class="policies-col parking" style="margin-left:288px;margin-top:-99px;">
+                                    <h4 class="sub-title"><b>Changing Room</b></h4>
+                                    <ul class="tab-data highlights" style="padding-left: 0px;">
+                                        <li>
+                                            @if (ViewBag.policy.Available_Rooms == "Yes")
+                                            {
+                                                <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                            else
+                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                            }Changing Room A/C
+                                        </li>
+                                        @*<li>
+                                                No. of complimentary changing rooms: <strong>
+                                                    @if (ViewBag.policy.Rooms_Count == "undefined")
+                                                    { }
+                                                    else
+                                                    {@ViewBag.policy.Rooms_Count}
+                                                </strong>
+                                            </li>*@
+                                    </ul>
+                                </div>
+
+                                <div class="policies-col highlights high-light">
+                                    <h4 class="sub-title"><b>Other Policies</b></h4>
+                                    <ul class="tab-data venue-highlights highlights" style="padding-left: 0px;">
+                                        <li>
+                                            @if (ViewBag.policy.Music_Allowed_Late == "Yes")
+                                            {
+                                                <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                            else
+                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                            }
+                                            Music allowed late
+                                        </li>
+                                        <li>
+                                            @if (ViewBag.policy.Halls_AC == "Yes")
+                                            {
+                                                <im<img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                            else
+                                                            { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                        }
+                                                        Halls are air conditioned
+                                            </li>
+                                            <li>
+                                                @if (ViewBag.policy.Ample_Parking == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Ample parking
+                                            </li>
+                                            <li>
+                                                @if (ViewBag.policy.Baarat_Allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Baarat allowed
+                                            </li>
+                                            <li style="margin-left: 193px;margin-top: -89px;">
+
+                                                @if (ViewBag.policy.Fire_Crackers_Allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Fire crackers allowed
+                                            </li>
+                                            <li style="margin-left: 193px;margin-top: 4px;">
+                                                @if (ViewBag.policy.Hawan_Allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Hawan allowed
+                                            </li>
+                                            <li style="margin-left: 193px;margin-top: 6px;">
+                                                @if (ViewBag.policy.Overnight_wedding_Allowed == "Yes")
+                                                {
+                                                    <img src="http://design.maa-aahwanam.com/panagea/images/checkmark.png"> }
+                                                else
+                                                { <img src="http://design.maa-aahwanam.com/panagea/images/error1.png">
+                                                }
+                                                Overnight wedding allowed
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                        }
+                    </div>
+                    <br />
+                    <br />
+                    <h3 class="uk-h3">GALLERY/VIDEOS</h3>
+                    <div class="container margin_60_35" style="padding-top:30px">
+                        <div class="grid">
+                            <ul class="magnific-gallery">
+                                @foreach (var image in ViewBag.allimages)
+                                {
+                                    <li>
+                                        <figure style="background-color:white">
+                                            <img src="~/vendorimages/@image.ImageName" alt="@image.ImageName" style="height:150px;margin-left:10px">
+                                            <figcaption>
+                                                <div class="caption-content">
+                                                    <a href="~/vendorimages/@image.ImageName" title="Photo title" data-effect="mfp-zoom-in">
+                                                        <i class="pe-7s-albums"></i>
+                                                        <p>@image.Imagedescription</p>
+                                                    </a>
+                                                </div>
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                        <!-- /grid gallery -->
+                    </div>
+                    <hr />
+                }
+                <h3 class="uk-h3">DESCRIPTION</h3>
+                <p id="address">
+                    @if (@ViewBag.Productinfo.Description != "" && @ViewBag.Productinfo.Description != null)
+                    {
+                        @ViewBag.Productinfo.Description
+                    }
+                    else
+                    {
+                        <text>No Description</text>
+                    }
+                </p>
+                <hr />
+                <h3 class="uk-h3">ADDRESS</h3>
+                <p>
+                    @ViewBag.Productinfo.Address,@ViewBag.Productinfo.Landmark,@ViewBag.Productinfo.City,@ViewBag.Productinfo.State,@ViewBag.Productinfo.ZipCode
+                </p>
+                <div id="map"></div>
+                <!-- End Map -->
+            </div>
+            <!-- /col -->
+            <aside class="col-lg-4" id="sidebar">
+                <div class="uk-section uk-section-large uk-section-muted" style="border: 1px lightgray solid;">
+                    <div class="uk-container" style="margin-top:-25px;">
+                        @foreach (var item in ViewBag.particularVenue)
+                        {
+                            if (item.name != null && item.name != "")
+                            {
+                                <h2 class="uk-h2" style="font-size:20px;text-transform: uppercase;width:100%;font-weight:700">@item.name</h2>
+                            }
+                            else
+                            {
+                                <h2 class="uk-h2" style="font-size:20px;text-transform: uppercase;width:100%;font-weight:700">@item.VenueType</h2>
+                            }
+                        }
+
+                        <input type="hidden" id="vendoravailabledates" value="" />
+                        <div>
+                            <div id="calendar"></div>
+                            <input type="hidden" id="selecteddate" />
+                            <div>
+                                <form class="uk-form-stacked" style="margin-top:-10px">
+                                    <br>
+                                    <div class="uk-margin">
+                                        <div class="uk-form-controls " align="center">
+                                            <input type="checkbox" class="icheck" id="ch1" value="Morning" name="timeslot" style="float:left">Morning
+                                            <input type="checkbox" class="icheck" id="ch2" value="Evening" name="timeslot" style="float:right">Evening
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin">
+                                        <input type="hidden" class="Packageselected" value="" name="Packageselected" id="Packageselected">
+
+                                        <label class="uk-form-label" for="form-stacked-text"><h1 class="uk-h1">Guests</h1></label>
+                                        <div class="uk-form-controls">
+                                            <input class="uk-input guests1" name="guests1" id="guests1" type="text" placeholder="Enter Number Of Guests">
+                                        </div>
+                                    </div>
+                                    <div class="uk-margin total">
+                                        <label class="uk-form-label" for="form-stacked-text"><h1 class="uk-h1">Food Packages</h1></label>
+                                        <div class="uk-form-controls">
+                                            <input class="uk-input price" name="price" id="price" type="text" placeholder="Select Food Package">
+                                        </div><br>
+                                        <h4 align="middle" style="font-size: 16px;">&#8377;<b id="tp" style="font-size: 16px;">000</b></h4> @*color: #573791;font-size: 24px;*@
+                                        <div>
+                                        </div>
+                                        <div>
+                                        </div>
+                                    </div>
+                                </form>
+                                @if (user != null)
+                                {
+                                    <button type="button" class="btn_1" style="width:85%" value="booknow" onclick="booknow(this.value)">BOOK NOW&nbsp;<img src="http://design.maa-aahwanam.com/panagea/images/icons/arrow1.png" /></button>
+                                    @*<button type="button" class="btn_1" value="cart" onclick="booknow(this.value)">CART&nbsp;<img src="http://design.maa-aahwanam.com/panagea/images/icons/cart2.png" /></button>*@
+                                }
+                                else
+                                {
+                                    <button type="submit" value="email" style="width:85%" name="command" class="btn_1" uk-toggle="target: #modal-example">Book Now&nbsp;&nbsp;<img src="http://design.maa-aahwanam.com/panagea/images/icons/arrow1.png" /></button>
+                                    @*<button type="submit" value="email" name="command" class="btn_1" uk-toggle="target: #modal-example">CART&nbsp;<img src="http://design.maa-aahwanam.com/panagea/images/icons/cart2.png" /></button>*@
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+    <!-- /bg_color_1 -->
+    
+</div>
+@*</main>*@
+
+@*<div id="pkgselect" uk-modal>
+    <div class="uk-modal-dialog">
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+            <h3 class="uk-modal-title" style="font-size:22px"></h3>
+        </div>
+        <div class="uk-modal-body">
+            <div class="mitems"></div>
+        </div>
+    </div>
+</div>*@
+
+<div id="pkgselect" uk-modal>
+    <div class="uk-modal-dialog-large">
+
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+
+        <div class="uk-modal-header" style="border-bottom:1px solid black;">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="uk-modal-title" style="text-transform:uppercase"></h2>
+                </div>
+                <div class="col-md-6">
+                    <button id="selpkg" style="float:right" class="btn btn-success">Select Package</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="uk-modal-body" style="background-color:white"> 
+            <div class="row" uk-overflow-auto>
+                <div class="col-md-9 mitems"></div>
+                <div class="col-md-3" style="border-left: 1px solid black;">
+                    <strong style="text-transform:uppercase">Selected Items</strong>
+                    <hr style="margin:0;border-bottom:1px solid"/>
+                    <div class="spkgitems">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--/main-->
+<!-- COMMON SCRIPTS -->
+@section scripts{
+    <script src="~/newdesign/js/alertify.js"></script>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+            var uluru = {lat: @ViewBag.latitude, lng: @ViewBag.longitude};
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), {zoom: 14, center: uluru});
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({position: uluru, map: map});
+        }
+    </script>
+    @*<script src="~/newdesign/js/jquery.datetimepicker.full.js"></script>*@
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZsjFiM-zkPLiIYHwvsY5HqWqeEuZshpY&callback=initMap"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.10/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.10/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+    <script>
+        var subid='@Request.QueryString["vid"]';
+        $(function(){
+            FetchEventAndRenderCalendar(subid);
+        });
+
+        function FetchEventAndRenderCalendar(subid) {
+            events = [];
+            var date = new Date(),
+                d = date.getDate(),
+                m = date.getMonth() + 1,
+                y = date.getFullYear()
+            $.ajax({
+                type: "GET",
+                url: '/viewservice/GetDates?id=' + @ViewBag.masterid + '&&vid=' + subid,
+                success: function (data) {
+                    for (var i = 0; i < data.split(',').length; i++) {
+                        events.push({
+                            title: ''+data.split(',')[i].split('!')[1]+': N/A',
+                            start: moment(data.split(',')[i].split('!')[0]),
+                            description:'N/A',
+                        });
+                    }
+                    GenerateCalender(events);
+                },
+                error: function (error) {
+                    alert('failed');
+                }
+            })
+        }
+
+        function GenerateCalender(events) {
+            //full calendar
+            $('#calendar').fullCalendar({
+                defaultDate: new Date(),
+                events:events,
+                dayClick: function (date, jsEvent, view) {
+                    $(".fc-state-highlight").removeClass("fc-state-highlight");
+                    $(this).addClass("fc-state-highlight");
+                    $('#selecteddate').val(moment(date).format('DD/MM/YYYY'));
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+                    var type = '';
+                    if (type == 'Rental') {
+                        $(".fc-state-highlight").removeClass("fc-state-highlight");
+                        $(this).addClass("fc-state-highlight");
+                        $('#selecteddate').val(moment(calEvent.start).format('DD/MM/YYYY'));
+                    }
+                    else {
+                        alert('Not Available');
+                    }
+                },
+                validRange: function(nowDate){
+                    return {start: nowDate} //to prevent anterior dates
+                }, // Disabled everything even date
+                //viewRender: function(currentView) {
+                //    var minDate = moment();
+                //    var navigationContainer = currentView.el.parent().prev()
+                //    var cantGoBefore = currentView.start <= minDate;
+                //    $(".fc-prev-button", navigationContainer).prop('disabled', cantGoBefore);
+                //    $(".fc-prev-button", navigationContainer).toggleClass('fc-state-disabled', cantGoBefore);
+                //}, // Disables previous month but we can current month past dates
+                displayEventTime: false
+            });
+        }
+
+
+
+
+    </script>
+
+    <script>
+        $(document).on('click','.choosemenu',function(){
+            var pkgid = $(this).parent('div.row').find('.packageid').text();
+            $.get( "/viewservice/GetPackage?pkgid="+pkgid, function( data ) {
+                $('#pkgselect .uk-modal-title').text(data.PackageName);
+                var div = '<div class="row">'; var count=data.menuitems.split(',').length;
+                var seldiv = '<div>'
+                for (var i = 0; i < count; i++) {
+                    var citem = data.menuitems.split(',')[i];
+                    var course = data.menu.split(',')[i];
+                    var heading = citem.split('(')[0];
+                    var mitems = citem.split('(')[1].split(')')[0];
+                    var menuitems = '<div class="col-md-3">';
+                    menuitems+= '<strong>'+course+'</strong>';
+                    for (var j = 0; j < mitems.split('!').length; j++) {
+                        menuitems+= '<div><input class="selitem" type="checkbox" id='+mitems.split('!')[j].replace(' ','_')+' value='+heading+' /> <label for='+mitems.split('!')[j].replace(' ','_')+'>'+mitems.split('!')[j]+'</label></div>';
+                    }
+                    div+= menuitems+'</div>';
+                    seldiv+= '<div style="margin:0" id='+heading+'><strong>'+course+'</strong><div class= '+heading+'></div></div>';
+                }
+                div+='</div>';
+                $('#pkgselect .uk-modal-body div.mitems').html(div);
+                $('#pkgselect .uk-modal-body div.spkgitems').html(seldiv);
+                UIkit.modal("#pkgselect").show();    
+            });
+            
+        });
+
+        $(document).on('change','.selitem',function(){
+            var menu = $(this).val();
+            var selected = $(this).next('label').text();
+            var course = $(this).parents('.col-md-3').find('strong').text();
+            var seldiv = $('#pkgselect .uk-modal-body div.spkgitems');
+            var div = seldiv.find('div#'+menu+'').find('div.'+menu+'').find('div').length;
+            var maxcount = course.split('(')[1].split(')')[0];
+            if ($(this).is(':checked')) {
+                seldiv.find('div#'+menu+'').find('div.'+menu+'').append('<div id='+selected.replace(' ','_')+'>-'+selected+'</div>');
+                if (div == maxcount) {
+                    //alert('Extra charges for '+course.split('(')[0]+'');
+                    var cdiv = $(this).parents('.col-md-3');//.find('input').append('(₹50)');
+                    var lcount = cdiv.find('label').length;
+                    for (var i = 0; i < lcount; i++) {
+                        var checked = cdiv.find('input')[i].checked;
+                        if(checked == false) cdiv.find('label')[i].append('₹50 extra');//('<text style="color:red">₹50 extra</text>');
+                    }
+                    $(this).next('label').append('<text style="color:red">₹50 extra</text>');
+                }
+            }
+            else {
+                seldiv.find('div#'+menu+' div#'+selected.replace(' ','_')+'').remove();
+                $(this).parents('.col-md-3').find('text').remove();
+                $(this).parents('.col-md-3').find('label').replace('--₹50 extra','');
+            }
+        });
+
+        $('#selpkg').on('click',function(){
+            $('.btnpkg').trigger('click');
+            UIkit.modal("#pkgselect").hide();
+        });
+    </script>
+
+    <script>
+        //map
+        function openCity(cityName, elmnt, color) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+            }
+            document.getElementById(cityName).style.display = "block";
+            elmnt.style.backgroundColor = color;
+
+        }
+        // Get the element with id="defaultOpen" and click on it
+        // document.getElementById("defaultOpen").click();
+    </script>
+
+    <script>
+        function ks(val) {
+            var guest = '';
+            var gu1 = window.localStorage.getItem("guests");
+            //alert(gu1);
+            if (gu1 == null) {
+                guest = $('.guests1').val();
+            } else { guest = gu1; }
+            var s = val.split(',');
+            var pprice = s[2];
+            var pname = s[1];
+            var pid = s[0];
+            //var pid1 =   $('#packageid').val();
+            var expid = window.localStorage.getItem("cartid");
+            //alert('expid'+expid);
+            if (expid != null) {
+                var newpid = expid + ',' + pid;
+                window.localStorage.removeItem("cartid")
+                window.localStorage.setItem("cartid", newpid)
+                //alert('new'+newpid);
+                var cpid = window.localStorage.getItem("cartid");
+                //alert('created'+cpid);
+            } else {
+                window.localStorage.setItem("cartid", pid)
+
+            }
+            var SelectedPackage1 = ''
+            //alert(pid + pname + pprice);
+            $('.price').val('');
+            $('.guests1').val('');
+            if (pname != '' && pname != 'undefined' && pprice != '' && pprice != 'undefined') { SelectedPackage1 = '' + pname + '(₹' + pprice + '/per plate)'; }
+            else { SelectedPackage1 = 'N/A' }
+            //alert(SelectedPackage1);
+            $('.price').val(SelectedPackage1);
+            $('.guests1').val(guest);
+            $('.Packageselected').val(s);
+
+            var total = guest * pprice;
+            //alert(total);
+            $('.tp').val(total);
+            $(".total b").empty().append(total);
+        };
+        function booknow(val) {
+            var timeslot = '';
+            var cpid = window.localStorage.getItem("cartid");
+            var pid = $('#packageid').val();
+            if (cpid == null || cpid == pid) { window.localStorage.setItem("cartid", pid) }
+            var gu1 = window.localStorage.getItem("guests");
+            var eventtype = window.localStorage.getItem("eventtype");
+            var seldate = $('#selecteddate').val();//$('input[name=radioname]:checked').val();
+            if (seldate == null || seldate == '') { alert('Please select date'); }
+            else {
+                var guest = '';
+                if (gu1 == null)
+                    guest = $('.guests1').val();
+                else
+                    guest = gu1;
+                var cart = $('#Packageselected').val();
+                var carts = cart.split(',');
+                var cpprice = carts[2];
+                var cpname = carts[1];
+                var cpid = carts[0];
+                var total = guest * cpprice;
+                url1 = '/viewservice/addcnow?pid=' + cpid + '&&guest=' + guest + '&&dcval=' + val + '&&total=' + total + '&&pprice=' + cpprice + '&&eventtype=' + eventtype + '&&bookdate=' + seldate;
+                $.ajax({
+                    url: url1,
+                    success: function (data) {
+                        if (data == "Success") {
+                            location.href = '/cart/Index';
+                        }
+                        else if (data == "failed") {
+                            alertify.alert("Failed To add item to the cart");
+                        }
+                        else if (data == "Exists") {
+                            alertify.alert("This Service Already Exists in Cart");
+                        }
+                    },
+                    error: function (data) {
+                        alertify.alert("Something Went Wrong!!! Try Again Later");
+                    }
+                });
+            }
+        };
+
+        $(document).ready(function () {
+            var package = $('#packageid').val();
+            var pid = $('#packageid').val();
+            var price = $('#PackagePrice').val();
+            if (price == '') { price = $('#PackagePrice1').val(); }
+            var PackagePrice = price;
+            var PackageName = $('#PackageName').val();
+            var SelectedPackage = '';
+            if (PackageName != '' && price != '' && PackageName != undefined && price != undefined) { SelectedPackage = '' + PackageName + '(₹' + PackagePrice + '/per plate)'; }
+            else { SelectedPackage = 'N/A'; }
+            var guest = window.localStorage.getItem("guests");
+            $('.price').val(SelectedPackage);
+            $('.guests1').val(guest);
+            var total = guest * PackagePrice;
+            $(".total b").empty().append(total);
+            if (PackagePrice != '' && PackagePrice != undefined) { $(".packesss b").empty().append(PackagePrice); }
+            else { $(".packesss b").empty().append('N/A'); }
+            $('.Packageselected').val(pid + ',' + PackageName + ',' + PackagePrice);
+        })
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+
+        $('.btnpkg').on('click', function () {
+            var check = $(this).text();
+            if (check == 'Add') {
+                $('.btnpkg').text('Add').css('background-color','yellow').css('color','black');
+                $(this).text('Added').css('background-color','#543791').css('color','white');
+            }
+            else {
+                $(this).css('background-color','yellow').css('color','black');
+                $(this).text('Add');
+            }
+        });
+    </script>
+}

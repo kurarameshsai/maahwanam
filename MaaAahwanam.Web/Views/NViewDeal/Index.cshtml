@@ -1,0 +1,1104 @@
+﻿@using MaaAahwanam.Web.Custom
+@using System.Globalization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/NMasterPage.cshtml";
+    CustomPrincipal user = null;
+    if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        user = (CustomPrincipal)HttpContext.Current.User;
+    }
+    var i = 0;
+}
+
+
+<div class="container-fluid dealProfile">
+    <div class="row innerPagesBg py-2">
+        <input type="hidden" id="dealevent" value="@ViewBag.dealLastRecordeve" />
+
+        <div class="col-12 col-sm-12 col-md-8 col-lg-8 mb-2 mb-sm-0 mb-md-0">
+            <div class="row mx-0 bgWhite p-2">
+                <div class="w-100 bannerImg">
+                    @if (ViewBag.singledeal.image == null || ViewBag.singledeal.image == "")
+                    {
+
+                        <img src="~/noimages.png" class="img-fluid" alt="Default Image">
+                    }
+                    else
+                    {
+                        <img src="~/vendorimages/@ViewBag.singledeal.image" class="img-fluid" alt="Default Image">
+                    }
+
+                </div>
+                <div class="row w-100 mx-0 my-15 dealProfileTotalDescrption">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 dealProfileName">
+                        <div class="w-100 title">@ViewBag.singledeal.businessname</div>
+                        <div class="w-100 tags my-15">
+                            @if (@ViewBag.singledeal.Cocktail != null && @ViewBag.singledeal.Cocktail == "Yes" && @ViewBag.singledeal.Cocktail != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>CockTails</span></p>
+                                </div>
+                            }
+                            @if (@ViewBag.singledeal.Rooms != null && @ViewBag.singledeal.Rooms == "Yes" && @ViewBag.singledeal.Rooms != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>Rooms</span></p>
+                                </div>
+                            }
+
+                            @if (@ViewBag.singledeal.Decoration != null && @ViewBag.singledeal.Decoration == "Yes" && @ViewBag.singledeal.Decoration != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span> DecorationAllowed</span></p>
+                                </div>
+                            }
+                            @*@if (@ViewBag.singledeal.Halltype != null && @ViewBag.singledeal.Halltype != "")
+                                {
+                                    <div class="d-inline-block p-2 mr-4 greyBg">
+                                        <p class="mb-0"><span>@ViewBag.singledeal.Halltype</span></p>
+                                    </div>
+                                }*@
+                            @if (@ViewBag.singledeal.Wifi != null && @ViewBag.singledeal.Wifi == "Yes" && @ViewBag.singledeal.Wifi != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>Wifi</span></p>
+                                </div>
+                            }
+                            @if (@ViewBag.singledeal.Livecooking != null && @ViewBag.singledeal.Livecooking == "Yes" && @ViewBag.singledeal.Livecooking != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>LiveCookingStation</span></p>
+                                </div>
+                            }
+
+                            @if (@ViewBag.singledeal.Mineralwater != null && @ViewBag.singledeal.Mineralwater == "Yes" && @ViewBag.singledeal.Mineralwater != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>MineralWaterIncluded</span></p>
+                                </div>
+                            }
+
+                            @if (@ViewBag.singledeal.Transport != null && @ViewBag.singledeal.Transport == "Yes" && @ViewBag.singledeal.Transport != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>TransportIncluded</span></p>
+                                </div>
+                            }
+
+                            @if (@ViewBag.singledeal.Preweddingshoot != null && @ViewBag.singledeal.Preweddingshoot == "Yes" && @ViewBag.singledeal.Preweddingshoot != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>PreWeddingShoot</span></p>
+                                </div>
+                            }
+                            @if (@ViewBag.singledeal.DestinationPhotography != null && @ViewBag.singledeal.DestinationPhotography == "Yes" && @ViewBag.singledeal.DestinationPhotography != "")
+                            {
+                                <div class="d-inline-block p-2 mr-4 greyBg">
+                                    <p class="mb-0"><span>DestinationPhotography</span></p>
+                                </div>
+                            }
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row w-100 mx-0 my-15 dealProfileTotalDescrption ">
+
+
+
+                    <div class="block px-2 w-100">
+                        <h6 class="themeColor d-inline-block">
+                            <a href="#dealDescrption" class="themeColor secondaryFont">Available Deals</a>
+                            <div class="blackBorder"></div>
+                        </h6>
+
+                        @*<div class="row mx-0 packages">
+                                <div class="col-12 colmd-12 packageDetails">
+                                    <div class="w-100 float-left">
+                                        <div class="float-left"><p class="mb-0 packageName">@item.Category ( @item.FoodType )</p></div>
+                                        <div class="float-right packageCheckbox">
+                                            <label>
+                                                <input type="checkbox" name="">
+                                                <p>Select</p>
+                                            </label>
+                                        </div>
+                                        <div class="float-right">
+                                            <p class="productMaxPrice mb-0 d-block"> ( <span>@item.OriginalPrice</span> <small></small> ) </p>
+                                        </div>
+                                        <div class="float-right">
+                                            <p class="mb-0 mr-2">INR/Person : <span>@item.DealPrice</span> </p>
+                                        </div>
+
+
+                                    </div>
+                                    <br />
+                                    <hr />
+                                    <div class="w-100">
+                                        <p class="packageContent">
+                                            @item.DealDescription
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="row mx-0 packages">
+                            @if (ViewBag.singledeal1 != null)
+                            {
+                                foreach (var item in ViewBag.singledeal1)
+                                {
+
+                                    <div class="col-12 colmd-12 packageDetails">
+                                        <div class="w-100 float-left">
+
+                                            @if (@item.FoodType != null && @item.FoodType != "")
+                                            {
+                                                <div class="float-left"><p class="mb-0 packageName">@item.Category ( @item.FoodType )</p></div>
+                                            }
+                                            else
+                                            {
+                                                <div class="float-left"><p class="mb-0 packageName">@item.Category </p></div>
+
+                                            }
+                                            <input type="hidden" value="@item.DealID" name="did" id="did">
+                                            <div class="float-right packageCheckbox">
+                                                <label>
+                                                    <input type="checkbox" name="">
+                                                    <p>Select</p>
+                                                </label>
+                                            </div>
+                                            <div class="float-right">
+                                                <p class="productMaxPrice mb-0 d-block"> ( <span>@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.OriginalPrice)).Replace(".00", "") </span> <small></small> ) </p>
+                                            </div>
+
+
+                                            @if (Request.QueryString["type"] == "Photography" || Request.QueryString["type"] == "Decorator" || Request.QueryString["type"] == "Other")
+                                            {
+
+                                                <div class="float-right">
+                                                    <p class="mb-0 mr-2 dprice" value="@item.DealPrice">INR : <span>@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.DealPrice)).Replace(".00", "") </span> </p>
+                                                </div>
+                                            }
+                                            else
+                                            { <div class="float-right">
+                                                <p class="mb-0 mr-2 dprice" value="@item.DealPrice">INR/Person : <span>@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.DealPrice)).Replace(".00", "") </span> </p>
+                                            </div> }
+                                        </div>
+                                        <br />
+                                        <hr />
+                                        <div class="w-100">
+                                            <p class="packageContent">
+                                                @item.DealDescription
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                    </div>
+                    <div class="block px-2 w-100">
+                        <h6 class="themeColor d-inline-block">
+                            <a href="#termsCondition" class="themeColor">Terms &amp; Conditions</a>
+                            <div class="blackBorder"></div>
+                        </h6>
+                        <div class="row mx-0 content" id="termsCondition">
+                            <p>
+                                @*  @item.TermsConditions*@
+                                @ViewBag.singledeal.TermsConditions
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="block px-2 w-100">
+                        <h6 class="themeColor d-inline-block">
+                            <a href="#location" class="themeColor">Location</a>
+                            <div class="blackBorder"></div>
+                        </h6>
+
+                        <div class="row mx-0 content" id="location">
+                            <p>
+
+                                @* @ViewBag.singledeal.Address,@ViewBag.singledeal.Landmark,@ViewBag.singledeal.City,@ViewBag.singledeal.State*@
+                                @ViewBag.singledeal.address,@ViewBag.singledeal.landmark,@ViewBag.singledeal.city,@ViewBag.singledeal.state
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-4 pl-md-0 topVenus">
+            <div class="px-15">
+                <div class="row bgWhite mb-3 p-relative" id="filldetails">
+                    <div class="fillDetailsBg p-absolute text-white text-center">
+                        <div class="p-absolute">
+                            <span class="mouseIcn">
+                                <span class="mouseScrollIcn"></span>
+                            </span>
+                            <p>Scroll down for deals</p>
+                        </div>
+                    </div>
+                    <div class="w-100 px-4 py-3" id="filldetails1">
+                        <div class="row mx-0">
+                            <h3 class="noteWorthybold">
+                                Fill the Details
+                                <div class="blackBorder"></div>
+                            </h3>
+                        </div>
+                        <input type="hidden" id="vid" name="vid" value="@ViewBag.singledeal.VendorSubId">
+                        <div class="row mx-0 mt-4 dealProfileForm">
+                            @*    <div class="w-100">@ViewBag.singledeal.dtype
+                                                           <select class="w-100 p-2 ml-auto">
+                                    <option id="etype1">Type</option>
+                                    @foreach (var item in ViewBag.singledeal.dtype)
+                                    {
+                                        <option>@ViewBag.singledeal.dtype @(++i)</option>
+                                    }
+
+                                </select>
+
+
+                                                            </div>*@
+
+                            <div class="w-100">
+                                <input type="text" class="form-control nexaBold" placeholder="Select Deal" id="eventtype" name="eventtype" disabled>
+                                @*<select class="w-100 p-2 ml-auto" id="selectbox1">
+                                        @if (ViewBag.events != null)
+                                        {
+                                        <option>Select Event</option>
+                                            foreach (var item in ViewBag.events)
+                                            {
+                                        <option value="@item">@item</option>
+                                            }
+                                        }
+                                    </select>*@
+
+                            </div>
+                            <input type="hidden" id="did1" name="did1" />
+
+                            <div class="w-100 mt-3">
+                                <input type="text" class="form-control nexaBold" placeholder="Select Deal" id="pricePerPlate" name="pricePerPlate" disabled>
+
+                                @*<select class="w-100 p-2 ml-auto pricePerPlate" id="selectbox2">
+                                    <option id="price"> Select Prices</option>
+                                     @*   <option value="@ViewBag.singledeal.cost">Non veg (<span>@ViewBag.singledeal.cost</span>/p)</option>*@
+                                @*// <option value="1100">Veg (<span>1100</span>/p)</option>*
+                                    </select>*@
+                            </div>
+                            @*<div class="w-100 mt-3 eventDate">
+                                    <div class="date-picker">
+                                        <div class="input">
+                                            <div class="result nexaBold">Occasion Date: <span id="date"></span></div>
+                                            <button class="themeBgColorSecondary"><i class="fa fa-calendar"></i></button>
+                                        </div>
+                                        <div class="calendar"></div>
+                                    </div>
+                                </div>*@
+
+                            <div class="w-100 mt-3 eventDate">
+                                <div class="datentime w-100">
+                                    <input type="text" value="" id="datetimepicker" class="form-control" placeholder="Date Here" />
+                                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="w-100 mt-3 noOfPeoples" id="people">
+                                <div class="form-group">
+                                    <input type="number" class="form-control nexaBold" id="nop" name="nop" placeholder="Members"  onkeyup="this.value = minmax(this.value, 0, 70)"/>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3 slotTime" id="timeslot">
+                                <div class="w-50 float-left">
+                                    <label class="w-100 mb-0">
+                                        <input type="checkbox" id="ch1" value="Morning" name="timeslot" />
+                                        <span></span>
+                                        <p class="mb-0 d-inline">Morning</p>
+                                    </label>
+                                </div>
+                                <div class="w-50 float-left">
+                                    <label class="w-100 mb-0">
+                                        <input type="checkbox" id="ch2" value="Evening" name="timeslot" />
+                                        <span></span>
+                                        <p class="mb-0 d-inline">Evening</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3 text-center totalAmount" id="totamount">
+                                <div class="themeColor">
+                                    <p class="mb-0"><span id="tp">000</span> INR</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mx-0">
+                            <div class="w-100 d-flex my-2">
+
+                                @*@if (user != null)
+                                    {
+                                    <span class="themeBgColorPrimary btnSecondary text-white text-center w-100 bookNow">Book Now</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="themeBgColorPrimary btnSecondary text-white text-center w-100 bookNow1">
+                                        Book Now
+                                    </span>
+
+                                    }*@
+                                @if (user != null)
+                                {
+                                    <span class="themeBgColorPrimary btnSecondary text-white text-center w-100 " onclick="Sethdnvalue('addtocartbtn')">Book Now</span>
+                                }
+                                else
+                                {
+                                    <span class="themeBgColorPrimary btnSecondary text-white text-center w-100 " onclick="Sethdnvalue1('addtocartbtn1')">
+                                        Book Now
+                                    </span>
+
+                                }
+                            </div>
+                            <div class="w-100 d-flex my-2">
+                                <span class="themeBgColorPrimary needHelpBtn btnSecondary text-white text-center w-100">
+                                    Need any help ?
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="w-100 mt-3 totalAmount d-inline-block fontSize-16">
+                            <div class="float-left">
+                                <div class="float-left">
+                                    @if (user != null)
+                                    {
+                                        <p class="mb-0 " onclick="Sethdnvalue('addtocartbtn')">Add To Cart</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="mb-0" onclick="Sethdnvalue1('addtocartbtn1')">Add To Cart</p>
+
+                                    }
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="row bgWhite mb-3" id="dealssection">
+                    @{Html.RenderAction("Loadmoredeals", "NViewDeal");}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="margin-top-50">
+        <div class="row mx-0">
+            <h3 class="noteWorthybold">
+                What's Trending
+                <div class="blackBorder"></div>
+            </h3>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-12">
+                <div class="owl-carousel owl-theme mt-3">
+                    <a href="#" class="item">
+                        <img src="~/newdesign/images/hotels-bg.png" alt="Hotels" />
+                        <span class="d-block mt-2 text-center themeFontColor">Hotels</span>
+                    </a>
+                    <a href="#" class="item">
+                        <img src="~/newdesign/images/functionhalls-bg.png" alt="Function Halls" />
+                        <span class="d-block mt-2 text-center themeFontColor">Function Halls</span>
+                    </a>
+                    <a href="#" class="item">
+                        <img src="~/newdesign/images/banquet-bg.png" alt="Banquet Halls" />
+                        <span class="d-block mt-2 text-center themeFontColor">Banquet Halls</span>
+                    </a>
+                    <a href="#" class="item">
+                        <img src="~/newdesign/images/convention-bg.png" alt="Convention Halls" />
+                        <span class="d-block mt-2 text-center themeFontColor">Convention Halls</span>
+                    </a>
+                    <a href="#" class="item">
+                        <img src="~/newdesign/images/resort-bg.png" alt="Resort" />
+                        <span class="d-block mt-2 text-center themeFontColor">Resort</span>
+                    </a>
+                    <a href="#" class="item">
+                        <img src="~/newdesign/images/banquet-bg.png" alt="Banquet Halls" />
+                        <span class="d-block mt-2 text-center themeFontColor">Banquet Halls</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        @*<h3>Vamsi</h3>*@
+    </div>
+
+    @*<div class="margin-top-50">
+            <div class="row mx-0">
+                <h3 class="noteWorthybold">
+                    Choose an other Service
+                    <div class="blackBorder"></div>
+                </h3>
+            </div>
+            <div class="row my-3">
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+                <div class="col-6 col-sm-4 col-md-2 block">
+                    <a href="#" class="d-block text-center">
+                        <img src="~/newdesign/images/functionhalls-bg.png" class="img-fluid" alt="Other Service">
+                        <p class="themeColor mt-2">Venues</p>
+                    </a>
+                </div>
+            </div>
+        </div>*@
+</div>
+<div class="container-fluid needHelpBlock">
+    <div class="row">
+        <div class="block bgWhite">
+            <div class="text-center">
+                <a class="col-md-12" href="mailto:info@ahwanam.com"><i class="fa fa-envelope fa-lg mr-3" aria-hidden="true"></i> info@ahwanam.com</a>
+                <p class="col-md-12"><i class="fa fa-phone fa-lg mr-3 themeColor" aria-hidden="true"></i> +91 - 9000090000</p>
+            </div>
+            <i class="fa fa-times closeBlock"></i>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        /*--- Date and Time ----*/
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en',
+            timepicker: false,
+            format: 'd/m/Y',
+            minDate: '-1970/01/01',//yesterday is minimum date(for today use 0 or -1970/01/01)
+            maxDate: '+1970/03/02'//tomorrow is maximum date calendar
+        });
+        /*------------ Date and Time --------------*/
+    </script>
+    <script>
+        function load(typ) {
+            var lastrecord;
+            if (typ == 'deals') {
+                lastrecord = document.getElementById("dealLastRecord").value;
+                dealcount = document.getElementById("dealcount").value;
+                dealevent = document.getElementById("dealevent").value;
+                dealevent1 = dealevent.replace(/ /g, '');
+                // alert(dealevent);
+            }
+            var url = '/NViewDeal/Loadmoredeals?lastrecord=' + lastrecord + '&eve=' + dealevent1;
+            $("#dealssection").empty().load(url);
+        }
+    </script>
+    <script type="text/javascript">
+        //$(document).ready(function () {
+        //    $('body').attr("id", "userAuthentication");
+        //});
+        $('.container').hide();
+        $('.search').hide();
+    </script>
+    <script>
+        function alertmsg(msg) {
+            alertify.alert("" + msg + "", function () {
+                //alertify.message('OK');
+            });
+        }
+    </script>
+<script type="text/javascript">
+    function minmax(value, min, max)
+    {
+        if(parseInt(value) < 0 || isNaN(value))
+            return 0;
+        else if(parseInt(value) > 10000)
+            return 10000;
+        else return value;
+    }
+</script>
+    <script>
+        //<!-- hr Responsive Tabs -->
+        $(document).ready(function () {
+            //$("#filldetails").hide();
+            // Function releated to Package select
+            var vtype = '@Request.QueryString["type"]';
+            //alert(vtype);
+            if (vtype == 'Photography' || vtype == 'Decorator' || vtype == 'Other') {
+                //  alert(value1);
+                $("#people").hide();
+                $("#timeslot").hide();
+                $("#totamount").hide();
+            }
+            if (vtype == 'Venue' || vtype == 'Catering') {
+                //      alert(value1);
+                $("#people").show();
+                $("#timeslot").show();
+                $("#totamount").show();
+            }
+            var type = localStorage.getItem("etype1");
+            var date = localStorage.getItem("date");
+            var price = localStorage.getItem("PRICE");
+            var nop = localStorage.getItem("nop");
+            var did1 = localStorage.getItem("did1");
+            var totp = localStorage.getItem("totp");
+            var time = localStorage.getItem("timeslot");
+
+            if (type != null) {
+                // alert(time);
+                $(".fillDetailsBg").css("display", "none");
+                $('#eventtype').val(type);
+                $('#pricePerPlate').val(price);
+                $('#did1').val(did1);
+                $('#nop').val(nop);
+                $(".totalAmount span").text(totp);
+                function checekWithValue(val) {
+                    var str2 = ",";
+                    if (val.indexOf(str2) != -1) {
+
+                        var val1 = val.split(', ');
+                        for (var i = 0, len = val1.length; i < len; i++) {
+                            {
+                                $(":checkbox").filter(function () {
+                                    return this.value == val1[i];
+                                }).prop("checked", "true");
+                            }
+                        }
+                    }
+                    else {
+                        $(":checkbox").filter(function () {
+                            return this.value == val;
+                        }).prop("checked", "true");
+                    }
+                }
+                checekWithValue(time);
+                checekWithValue(time);
+                $('#datetimepicker').val(date);
+            }
+
+            $(function checkSelect() {
+
+                $(".packageCheckbox label").click(function () {
+
+                    if ($(this).find("input[type='checkbox']").is(':checked')) {
+                        var packagename = $(this).parents('div.float-left').find('p.packageName').text();
+                        var did = $(this).parents('div.float-left').find('input#did').val(); //$('#did').val();
+                        // alert(did);
+                        //var packageprice = $(this).parents('div.packageCheckbox').next('div.float-right').find('span').html();
+                        var packageprice = $(this).parents('div.float-left').find('p.dprice').text();
+                        $('#eventtype').val(packagename);
+                        $('#pricePerPlate').val(packageprice);
+                        $('#nop').val('');
+                        $('#did1').val(did);
+                        $(this).css('background', '#2e3192').find('p').css({ "color": "#fff" }).empty().append('Unselect');
+                        $(this).parents(".packageDetails").prevAll(".packageDetails").find("label").css("display", "none");
+                        $(this).parents(".packageDetails").nextAll(".packageDetails").find("label").css("display", "none");
+                        $(this).parents(".packageDetails").prevAll(".packageDetails").find(".packageCheckbox").append("<span>Select</span>");
+                        $(this).parents(".packageDetails").nextAll(".packageDetails").find(".packageCheckbox").append("<span>Select</span>");
+                        $(".fillDetailsBg").css("display", "none");
+                    }
+                    else {
+                        $('#eventtype').val('');
+                        $('#pricePerPlate').val('');
+                        $('#did1').val('');
+                        $('#nop').val('');
+                        $('#timeslot').val('');
+                        $('#tp').val('');
+                        $('#datetimepicker').val('');
+                        $("#totamount").val('');
+                        $(".totalAmount span").text('000');
+                        $('input[type="checkbox"]:checked').prop('checked', false);
+                        $(this).css({ "background": "#cecece" }).find('p').css({ "color": "#000" }).empty().append('Select');
+                        $(this).parents(".packageDetails").prevAll(".packageDetails").find("label").css("display", "block");
+                        $(this).parents(".packageDetails").nextAll(".packageDetails").find("label").css("display", "block");
+                        $(this).parents(".packageDetails").prevAll(".packageDetails").find(".packageCheckbox").find("span").remove();
+                        $(this).parents(".packageDetails").nextAll(".packageDetails").find(".packageCheckbox").find("span").remove();
+                        $(".fillDetailsBg").css("display", "block");
+                    }
+                });
+            })
+            $(document).on('click', ".packages .packageCheckbox > span", function () {
+                alertify.alert("You cannot select more than one package");
+            });
+            $.fn.responseTabs = function () {
+                var el = $(this), tabs = el.find('dt'), content = el.find('dd'),
+                placeholder = $('<div class="responsive-tabs-placeholder bgWhite"></div>').insertAfter(el);
+                tabs.on('click', function () {
+                    var tab = $(this);
+                    tabs.not(tab).removeClass('active');
+                    tab.addClass(' active');
+                    placeholder.html(tab.next().html());
+                    checkSelect();  // Function releated to Package select
+                });
+                tabs.filter(':first').trigger('click');
+            }
+            $(".responsiveTabs").responseTabs();
+        });
+        //<!-- hr Responsive Tabs -->
+
+        $(document).ready(function () {
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                margin: 10,
+                nav: true,
+                loop: true,
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 3
+                    },
+                    1000: {
+                        items: 5
+                    }
+                }
+            })
+
+            //    localStorage.removeItem("nop");
+            //  <!------------- dealProfile Accoding ----------->
+            $(".dealProfileTotalDescrption > .block:first-child .content").css("display", "block");
+            var link = $(".dealProfileTotalDescrption > .block > h6 > a");
+
+            link.on('click', function (event) {
+                event.preventDefault();
+                var anchorVal = $(this).attr("href");
+                $(anchorVal).slideDown('fast');
+                $(".dealProfileTotalDescrption > .block .content").not(anchorVal).slideUp('fast');
+            })
+        })
+        // <!------------- dealProfile Accoding ----------->
+        function checkedBox() {
+            var checkLen = $(".slotTime input[type='checkbox']:checked").length, totalVal = parseInt($(".totalVal").text()),
+           total = checkLen * totalVal;
+            $(".totalAmount span").empty().append(total);
+        }
+        $(".dealProfileForm select.pricePerPlate").on('change', function () {
+            var val = $(this).find('option:selected').val(), el = $(this), placeholder = $("<div class='selectAppended'></div>").insertAfter(el);
+            $('.selectAppended:not(:eq(0))').remove();
+            $(placeholder).append(val).css('display', 'none');
+            $(".slotTime input[type='checkbox']").prop("checked", false);
+            $(".totalAmount span").text("000");
+            $(".noOfPeoples input[type='number']").val('');
+        });
+
+        $(".noOfPeoples input[type='number']").on('change', function () {
+            var price = $('#pricePerPlate').val();
+            var price1 = price.split(':')[1].replace(/,/g, ""); el = $(this), members = parseInt($(this).val());
+            total = price1 * members, placeholder = $("<div class='totalVal'></div>").insertAfter(el);
+            $(".totalVal:not(:eq(0))").remove();
+            $(placeholder).append(total).css('display', 'none');
+            $(".slotTime input[type='checkbox']").prop("checked", false);
+            $(".totalAmount span").text("000");
+        });
+
+        /*-- Check box Funcationality --*/
+
+        $(".noOfPeoples input[type='number']").focusout(function () {
+            if ($(this).val().length >= 1) {
+                $(".slotTime input[type='checkbox']").attr("disabled", false);
+            } else {
+                alert("Enter No of Guests");
+                $(".slotTime input[type='checkbox']").prop("checked", false);
+            }
+        });
+
+        /*-- Check box Funcationality --*/
+
+        $(".slotTime input[type='checkbox']").each(function () {
+            $(this).on('change', function () {
+
+                /*-- Check box Funcationality --*/
+
+                if ($(".noOfPeoples input[type='number']").val().length >= 1) {
+                    $(this).attr("disabled", false);
+                } else {
+                    alert("Enter No of Guests");
+                    $(this).prop("checked", false);
+                    return false;
+                }
+
+                /*-- Check box Funcationality --*/
+
+                if ($(this).is(':checked')) {
+                    checkedBox();
+                } else {
+                    checkedBox();
+                }
+            });
+        });
+
+
+
+
+
+        //$(".noOfPeoples input[type='number']").on('change', function () {
+        //    el = $(this),
+        //    members = parseInt($(this).val());
+        //  //  var price = $("select.pricePerPlate").find("option:selected").text();
+        //    var price = $('#pricePerPlate').val();
+        //    var price1 = price.split(':')[1].replace(/,/g, "");
+        //    total = price1 * members,
+        //    placeholder = $("<div class='totalVal'></div>").insertAfter(el);
+        //    $(".totalVal:not(:eq(0))").remove();
+        //    $(placeholder).append(total).css('display', 'none');
+        //    $(".slotTime input[type='checkbox']").prop("checked", false);
+        //    $(".totalAmount span").empty();
+        //});
+
+
+        function Sethdnvalue(btn) {
+            //if ($("select.eventType").find("option:selected").val() == '') {
+            // alert("Please select Event type");
+            var timeslot = '';
+            var type = '@Request.QueryString["type"]';
+            if (type == 'Venue' || type == 'Catering' || type == 'venue') {
+                if ($(".slotTime input[type='checkbox']").is(':checked')) {
+
+                    var favorite = [];
+                    $.each($("input[name='timeslot']:checked"), function () {
+                        favorite.push($(this).val());
+                        timeslot = favorite.join(", ");
+                    })
+                }
+                else {
+                    alertmsg("Please select time slot");
+                }
+            }
+            else if (type == 'Photography' || type == 'Decorator' || type == 'Other') {
+                timeslot = "n/a";
+                //  alert('ks');
+            }
+
+            if ($("#eventtype").val() == '') {
+                alertmsg("Please select Deal");
+            } else if ($("#datetimepicker").val() == '') {
+                // alert("Please select event date");
+                alertmsg("Please select event date");
+            } else if ($("select.pricePerPlate").find("option:selected").val() == '') {
+                //   alert("Please select Menu type");
+                alertmsg("Please select Deal");
+            }
+                //else if ($(".slotTime input[type='checkbox']").is(':checked')) {
+                //    // var timeslot = ($('input[type=checkbox]').val());
+                //    //var timeslot = $(".slotTime input[type='checkbox']").val();
+                //    var favorite = [];
+                //    $.each($("input[name='timeslot']:checked"), function () {
+                //        favorite.push($(this).val());
+                //    });
+                //  var timeslot = favorite.join(", ");
+                // var etype1 = $('#selectbox1').val();
+            else {
+                var evetype1 = $("#eventtype").val();
+                var etype1 = evetype1.split('(')[0];
+               var etype2 = evetype1.split('(')[1]
+               if (etype2 != undefined) {
+                    var etype2 = evetype1.split('(')[1].slice(')', -1);
+                }
+                var type = '@Request.QueryString["type"]';
+                var vid = $('input#vid').val();
+                var id = '@Request.QueryString["id"]';
+                var date = $("#datetimepicker").val();
+                //  var price = $("select.pricePerPlate").find("option:selected").text();
+                var price = $('#pricePerPlate').val();
+                var price1 = price.split(':')[1].replace(/,/g, "");
+                var nop = $(".noOfPeoples input[type='number']").val();
+                // var totalprice = price1 * nop * a;
+                var totalprice = $('#tp').html();
+                // var did = $("select.pricePerPlate").find("option:selected").val();
+                var deid = $('#did1').val();
+                url1 = '/NViewDeal/addcnow?type=' + type + '&&etype1=' + etype1 + '&&date=' + date + '&&totalprice=' + totalprice + '&&id=' + id + '&&price=' + price1 + '&&guest=' + nop + '&&timeslot=' + timeslot + '&&vid=' + vid + '&&did=' + deid + '&&etype2=' + etype2;
+                $.ajax({
+                    url: url1,
+                    success: function (data) {
+                        if (data == "Success") {
+                            //  alert("Sucessfully Added to cart")
+                            alertmsg("Sucessfully Added to cart");
+                            //  window.location.reload;
+                            window.localStorage.removeItem("etype1");
+                            window.localStorage.removeItem("date");
+                            window.localStorage.removeItem("nop");
+                            window.localStorage.removeItem("tp");
+                            window.localStorage.removeItem("PRICE");
+                            window.localStorage.removeItem("did1");
+                            window.localStorage.removeItem("totp");
+                            window.localStorage.removeItem("timeslot");
+
+                            if (data != null) {
+                                // window.location.reload();
+                                location.href = '/NCartView/Index';
+                            }
+                        }
+                        else if (data == "failed") {
+                            //   alert("login to the cart");
+                            alertmsg("Login to the cart");
+                        }
+                    }
+                });
+            }
+        };
+
+        function Sethdnvalue1(btn1) {
+            //if ($("select.eventType").find("option:selected").val() == '') {
+            //    //alert("Please select Event type");
+            var timeslot = '';
+
+            var type = '@Request.QueryString["type"]';
+            if (type == 'Venue' || type == 'Catering' || type == 'venue') {
+                if ($(".slotTime input[type='checkbox']").is(':checked')) {
+
+                    var favorite = [];
+                    $.each($("input[name='timeslot']:checked"), function () {
+                        favorite.push($(this).val());
+                        timeslot = favorite.join(", ");
+                    })
+                }
+                else {
+                    alertmsg("Please select time slot");
+                }
+            }
+            else if (type == 'Photography' || type == 'Decorator' || type == 'Other') {
+                timeslot = "n/a";
+                //alert('ks');
+            }
+            if ($("#eventtype").val() == '') {
+                alertmsg("Please select Deal");
+            }
+            else if ($("#datetimepicker").val() == '') {
+                //alert("Please select event date");
+                alertmsg("Please select event date");
+            }
+            else if ($("select.pricePerPlate").find("option:selected").val() == '') {
+                //alert("Please select Menu type");
+                alertmsg("Please select Menu type");
+            }
+                //else if ($(".noOfPeoples input[type='number']").val() == '') {
+                //    // alert("Please Mention No Of Guests");
+                //    alertmsg("Please Mention No Of Guests");
+                //}
+            else {
+                var evetype1 = $("#eventtype").val();
+                var etype1 = evetype1.split('(')[0];
+                var vid = $('input#vid').val();
+                var id = '@Request.QueryString["id"]';
+                var date = $("#datetimepicker").val();
+                //  var price = $("select.pricePerPlate").find("option:selected").text();
+                var price = $('#pricePerPlate').val();
+                var price1 = price.split(':')[1].replace(/,/g, "");
+                var nop = $(".noOfPeoples input[type='number']").val();
+                // var totalprice = price1 * nop;
+                var totalprice = $('#tp').html();
+                // var did = $("select.pricePerPlate").find("option:selected").val();
+                var deid = $('#did1').val();
+                //alert(deid);
+                window.localStorage.setItem("etype1", etype1);
+                window.localStorage.setItem("date", date);
+                window.localStorage.setItem("PRICE", price);
+                window.localStorage.setItem("nop", nop);
+                window.localStorage.setItem("did1", deid);
+                window.localStorage.setItem("timeslot", timeslot);
+
+                window.localStorage.setItem("totp", totalprice);
+                var timeslot = ($('input[type=checkbox]').val());
+                location.href = '/NUserRegistration/Index';
+            }
+        };
+
+        @*$(".bookNow").click(function () {
+            var timeslot = '';
+            var type = '@Request.QueryString["type"]';
+            if (type == 'Venue' || type == 'Catering' || type == 'venue') {
+                if ($(".slotTime input[type='checkbox']").is(':checked')) {
+
+                    var favorite = [];
+                    $.each($("input[name='timeslot']:checked"), function () {
+                        favorite.push($(this).val());
+                        timeslot = favorite.join(", ");
+                    })
+                }
+                else {
+                    alertmsg("Please select time slot");
+                }
+            }
+            else if (type == 'Photography' || type == 'Decorator' || type == 'Other') {
+                timeslot = "n/a";
+                // alert('ks');
+            }
+           if ($("select.eventType").find("option:selected").val() == '') {
+                // alert("Please select Event type");
+                alertmsg("Please select Deal");
+            }
+
+            else if ($("#datetimepicker").val() == '') {
+                //alert("Please select event date");
+                alertmsg("Please select event date");
+            }
+            else if ($("select.pricePerPlate").find("option:selected").val() == '') {
+                // alert("Please select Menu type");
+                alertmsg("Please select Deal");
+            }
+
+            else {
+                var evetype1 = $("#eventtype").val();
+                var etype1 = evetype1.split('(')[0];
+
+                var vid = $('input#vid').val();
+                var id = '@Request.QueryString["id"]';
+                var date = $("#datetimepicker").val();
+                //  var price = $("select.pricePerPlate").find("option:selected").text();
+                var price = $('#pricePerPlate').val();
+                var price1 = price.split(':')[1].replace(/,/g, "");
+                var nop = $(".noOfPeoples input[type='number']").val();
+                // var totalprice = price1 * nop;
+                var totalprice = $('#tp').html();
+                // var did = $("select.pricePerPlate").find("option:selected").val();
+                var deid = $('#did1').val();
+                //alert(deid);
+                url1 = '/NViewDeal/booknow?type=' + type + '&&etype1=' + etype1 + '&&date=' + date + '&&totalprice=' + totalprice + '&&id=' + id + '&&price=' + price1 + '&&guest=' + nop + '&&timeslot=' + timeslot + '&&vid=' + vid + '&&did=' + deid;
+                $.ajax({
+                    url: url1,
+                    success: function (data) {
+                        if (data == "Success") {
+                            //  alert("Sucessfully Added to booklist")
+                            alertmsg("Sucessfully Added to booklist")
+                            localStorage.removeItem("etype1");
+                            localStorage.removeItem("date");
+                            localStorage.removeItem("nop");
+                            localStorage.removeItem("tp");
+                            location.href = '/NUserProfile/Index';
+                        }
+                        else if (data == "failed") {
+                            alertmsg("Login to the cart");
+
+                            // alert("login to the cart");
+                        }
+                    }
+                });
+            }
+        }
+            //else {
+            //    //alert("Please select time slot");
+            //    alertmsg("Please select time slot");
+            //}
+        );
+
+        $(".bookNow1").click(function () {
+            var timeslot = '';
+            var type = '@Request.QueryString["type"]';
+            if (type == 'Venue' || type == 'Catering' || type == 'venue') {
+                if ($(".slotTime input[type='checkbox']").is(':checked')) {
+
+                    var favorite = [];
+                    $.each($("input[name='timeslot']:checked"), function () {
+                        favorite.push($(this).val());
+                         timeslot = favorite.join(", ");
+                    })
+                }
+                else {
+                    alertmsg("Please select time slot");
+                }
+            }
+            else if (type == 'Photography' || type == 'Decorator' || type == 'Other') {
+                timeslot = "n/a";
+                // alert('ks');
+            }
+
+         if ($("select.eventType").find("option:selected").val() == '') {
+              //  alert("Please select Event type");
+                alertmsg("Please select Deal");
+            } else if ($("#datetimepicker").val() == '') {
+                //alert("Please select event date");
+                alertmsg("Please select event date");
+            } else if ($("select.pricePerPlate").find("option:selected").val() == '') {
+                //alert("Please select Menu type");
+                alertmsg("Please select Deal");
+            } else {
+                var evetype1 = $("#eventtype").val();
+                var etype1 = evetype1.split('(')[0];
+                var type = '@Request.QueryString["type"]';
+                var vid = $('input#vid').val();
+                var id = '@Request.QueryString["id"]';
+                var date = $("#datetimepicker").val();
+                //  var price = $("select.pricePerPlate").find("option:selected").text();
+                var price = $('#pricePerPlate').val();
+                var price1 = price.split(':')[1].replace(/,/g, "");
+                var nop = $(".noOfPeoples input[type='number']").val();
+                var totalprice = $('#tp').html();
+                // var totalprice = price1 * nop;
+                // var did = $("select.pricePerPlate").find("option:selected").val();
+                var deid = $('#did1').val();
+                //alert(deid);
+                window.localStorage.setItem("etype1", etype1);
+                window.localStorage.setItem("date", date);
+                window.localStorage.setItem("PRICE", price1);
+                window.localStorage.setItem("nop", nop);
+               // var timeslot = ($('input[type=checkbox]').val());
+                location.href = '/NUserRegistration/Index';
+            }
+        });*@
+        /*-- Need Help Block --*/
+        $('.needHelpBtn').click(function () {
+            $('.needHelpBlock').css('display', 'block');
+        });
+        $('.closeBlock').click(function () {
+            $('.needHelpBlock').css('display', 'none');
+        });
+        /*-- Need Help Block --*/
+
+        function DealsPartial() {
+            var lastrecord = parseInt($('#L1').val()) + parseInt(2);
+            var type = document.URL.split('type=')[1].split('&&')[0];
+            var url = '/NParticularVendor/DealsSection?type=' + type + '&&L1=' + lastrecord;
+            $("#dealspartial").empty().load(url);
+            $('#L1').val(lastrecord);
+        }
+
+    </script>
+}

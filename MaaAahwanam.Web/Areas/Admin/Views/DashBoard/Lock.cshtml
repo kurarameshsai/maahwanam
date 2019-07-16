@@ -1,0 +1,101 @@
+﻿@model MaaAahwanam.Web.Areas.Admin.Models.UserLoginDetailsModel
+@{
+    ViewBag.Title = "LockScreen";
+    Layout = null;
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="UTF-8" />
+    <title>Maa-Aahwanam | Lock Screen</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!--[if IE]>
+       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+       <![endif]-->
+    <!-- GLOBAL STYLES -->
+    <!-- GLOBAL STYLES -->
+    <link rel="stylesheet" href="~/Assets/plugins/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/Assets/plugins/Font-Awesome/css/font-awesome.css" />
+    <!--END GLOBAL STYLES -->
+    <!-- PAGE LEVEL STYLES -->
+    <link rel="stylesheet" href="~/Assets/css/Offline.css" />
+    <link rel="stylesheet" href="~/Assets/plugins/magic/magic.css" />
+    <!--END PAGE LEVEL STYLES -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="padTop53 ">
+    <!-- PAGE CONTENT -->
+    <div class="container">
+        <div class="col-lg-8 col-lg-offset-2 text-center">
+            <div class="text-center">
+                <img src="~/Assets/img/logo.png" id="logoimg" alt=" Logo" /></br>
+                </br>
+                <table align="center">
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @*<a class="user-link" href="#">
+                                <img class="media-object img-thumbnail user-img" alt="User Picture" src="~/Assets/img/user1.png" /><br />
+                            </a>*@
+                            @using (Html.BeginForm("Lock", "DashBoard", FormMethod.Post, new { @class = "form-signin", @id = "LoginForm", @autocomplete = "off" }))
+                            {
+                            <a class="user-link" href="#">
+                                <img class="media-object img-thumbnail user-img" alt="User Picture" src="/Content/AdminUserfiles/@Model.UserImgId" style="width:80px; height:85px" /><br />
+                            </a>
+                             <h5 class="media-heading"> @Html.Label(Model.FirstName)  @Html.Label(Model.LastName)</h5>
+                            
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-lg-6 col-lg-offset-3">
+                @*<form action="/Login/dashboard">*@
+                <div class="input-group">
+                    @using (Html.BeginForm("Lock", "DashBoard", FormMethod.Post, new { @class = "form-signin", @id = "LoginForm", @autocomplete = "off" }))
+                    {
+                        <table>
+                            <tr>
+                                <td width="300px">  
+                                    @Html.HiddenFor(Model => Model.UserLoginId) @Html.HiddenFor(Model => Model.FirstName) @Html.HiddenFor(Model => Model.LastName)                       
+                                    @Html.PasswordFor(Model => Model.Password, new { @class = "form-control", placeholder = "Password", required = "required", @id = "PasswordValue_Login" })                                                                       
+                                </td>
+                                <td>
+                                    <button class="btn btn-primary" type="button">
+                                        <img alt="User Picture" src="~/Assets/img/lock.png" />
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>                       
+                        <br />
+                        <button class="btn text-muted text-center btn-success" style="width:335px;" name="Command" value="Lock" type="submit" >Sign in</button>
+                    }
+                </div>
+                @*</form>*@
+            </div>
+            <div class="clearfix"></div>
+            <br />
+
+        </div>
+    </div>
+    <!--END PAGE CONTENT -->
+
+</body>
+<!-- END BODY -->
+</html>

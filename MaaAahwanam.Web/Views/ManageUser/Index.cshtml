@@ -1,0 +1,419 @@
+﻿@model MaaAahwanam.Models.ManageUser
+@{
+    ViewBag.Title = ":: Users ::";
+    Layout = "~/Views/SharedWeb/vmp.cshtml";
+}
+
+@section css{
+    <link rel="stylesheet" type="text/css" href="https://tympanus.net/Development/TextInputEffects/css/set1.css" />
+    <style>
+        #addcustomermodel input[type=text], #addcustomermodel input[type="email"], #addcustomermodel input[type="tel"], #addcustomermodel input[type="number"] {
+            width: 101%;
+            padding: 13px 0px 2px 10px;
+            margin: 15px 5px 15px 0px;
+            box-sizing: border-box;
+            background-color: #fff;
+            color: black;
+        }
+
+        table.dataTable thead th, table.dataTable tfoot th {
+            white-space: nowrap;
+        }
+
+        table.dataTable, table.dataTable th, table.dataTable td {
+            white-space: nowrap;
+            border: none;
+        }
+
+        table td {
+            border: none;
+        }
+
+        .input__field {
+            position: relative;
+            display: block;
+            float: right;
+            padding: 0.8em;
+            width: 60%;
+            border: none;
+            border-radius: 0;
+            background: #f0f0f0;
+            color: #aaa;
+            font-weight: normal;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            -webkit-appearance: none;
+        }
+
+        .input__label--hoshi {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            padding: 5.7em 0.25em;
+            width: 100%;
+            height: calc(100% - 1em);
+            text-align: left;
+            pointer-events: none;
+        }
+
+        .kscfont {
+            font-size: 15px;
+            font-weight: 900;
+        }
+
+        .addcutomerpopup, .cutomtblpopup {
+            position: relative;
+        }
+
+        .txtd {
+            margin-top: -5%;
+        }
+    </style>
+}
+
+<div class="col-md-10">
+    <div class="container-fluid">
+        <div class="ksc">
+            @{Html.RenderAction("orderdetails", "ManageUser"); }
+
+        </div><div class="content1" id="userslist1" style="padding:10px;">
+            @{Html.RenderAction("customerdetails", "ManageUser"); }
+        </div>
+        <div class="content" id="userslist" style="padding:10px;">
+            @{Html.RenderAction("mnguserdetails", "ManageUser"); }
+        </div>
+
+        <div class="ui addcutomerpopup coupled modal" id="addcustomermodel">
+            <div align="center" class="header" style="text-transform:uppercase">Add/Edit Customer</div>
+            <input type="hidden" id="usedid" name="usedid" value="" />
+            <input type="hidden" id="vpbookdetails" name="vpbookdetails" value="" />
+            <input type="hidden" id="vendorId" name="vendorId" value="@ViewBag.masterid" />
+            <div class="col-12 col-sm-12 col-md-12">
+                <div class="row">
+                    <input type="hidden" id="id" name="id" value="" />
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <label class="input input--hoshi" style="font-weight:bold">Customer Type</label>
+                        <span class="form-check" style="display:inline">
+                            <input class="form-check-input" name="type" type="radio" id="radio1" value="Individual" required>
+                            <label class="form-check-label" for="radio1">Individual</label>
+                        </span>
+                        <span class="form-check" style="display:inline">
+                            <input class="form-check-input" name="type" type="radio" id="radio2" value="Corporate" checked required>
+                            <label class="form-check-label" for="radio2">Corporate</label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4" id="company" style="display:block;">
+                        <span class="input input--hoshi">
+                            <input class="input__field input__field--hoshi" type="text" pattern="^[a-zA-Z]+$+" title="Please enter on alphabets only" id="Businessname" name="Businessname" value="" />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="Businessname">
+                                <span class="input__label-content input__label-content--hoshi">Company Name</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi">
+                            <input class="input__field input__field--hoshi" type="text" pattern="[a-zA-Z]+" title="Please enter on alphabets only" id="firstname" name="firstname" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="firstname">
+                                <span class="input__label-content input__label-content--hoshi">First Name</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" pattern="[a-zA-Z]+" title="Please enter on alphabets only" id="lastname" name="lastname" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="lastname">
+                                <span class="input__label-content input__label-content--hoshi">Last Name</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4 ">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="email" id="email" name="email" value="" onchange="checkEmail(this.value)" pattern="^[a-zA-Z0-9._+-]+@(" @")[a-zA-Z0-9.-]+\.[a-zA-Z]{2,9}$+" title="Please enter valid email" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="email">
+                                <span class="input__label-content input__label-content--hoshi">Email</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="number" id="phoneno" name="phoneno" minlength="10+" maxlength="10" pattern="[0-9]+" title="Enter Numbers and 10 digits only" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="phoneno">
+                                <span class="input__label-content input__label-content--hoshi">Phone Number</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="adress1" name="adress1" pattern="[a-zA-Z0-9\s]+" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="adress1">
+                                <span class="input__label-content input__label-content--hoshi"> Flat No/Street</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="adress2" name="adress2" pattern="[a-zA-Z0-9\s]+" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="adress2">
+                                <span class="input__label-content input__label-content--hoshi">Locality</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="pincode" minlength="6+(!000000)+" title="Enter Numbers and 6 digits only" maxlength="6" name="pincode" value="" pattern="[0-9]+" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="pincode">
+                                <span class="input__label-content input__label-content--hoshi">PinCode</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="city" name="city" pattern="[a-zA-Z]+" title="Please enter on alphabets only" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="city">
+                                <span class="input__label-content input__label-content--hoshi">City</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="state" name="state" pattern="[a-zA-Z]+" title="Please enter on alphabets only" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="state">
+                                <span class="input__label-content input__label-content--hoshi">State</span>
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="country" name="country" pattern="[a-zA-Z]+" title="Please enter on alphabets only" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="country">
+                                <span class="input__label-content input__label-content--hoshi">Country</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <label class="input input--hoshi txtd" style="font-weight:bold">Status</label>
+                        <span class="form-check" style="display:inline">
+                            <input class="form-check-input" name="Status" type="radio" id="Status1" value="Active" checked required>
+                            <label class="form-check-label" for="Status1">Active</label>
+                        </span>
+                        <span class="form-check" style="display:inline">
+                            <input class="form-check-input" name="Status" type="radio" id="Status2" value="InActive" required>
+                            <label class="form-check-label" for="Status2">InActive</label>
+                        </span>
+                    </div>
+                    <div class="col-12 col-sm-4 col-md-4">
+                        <span class="input input--hoshi txtd">
+                            <input class="input__field input__field--hoshi" type="text" id="MemberNumber" name="MemberNumber" value="" required />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="MemberNumber">
+                                <span class="input__label-content input__label-content--hoshi">Member Number</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="row" align="center">
+                    <div class="col-md-4">
+                        @*<button id="booknow" type="submit" name="command" value="Save" class="btn btn-success" style="float:right"> Book Now</button>
+                            @*<button id="booknowss" type="submit" name="command" value="Save" class="btn btn-success" style="float:right">Save and Book Now</button>
+                            <button id="booknowss" type="submit" name="command" value="Save" class="btn btn-success" style="float:right">save and Book Now</button>*@
+                        <button id="select" type="submit" name="command" value="select" class="btn btn-success" style="float:right">select</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button id="SaveUser" type="submit" name="command" value="Save" class="btn btn-success" style="display:block">Save</button>
+                        <button id="EditUser" type="submit" name="command" value="Update" class="btn btn-success" style="display:none">Update</button>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="ui negative button" style="float:left;height:35px;">Cancel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/mnguser.js"></script>
+    <script>
+        //$('.discamount').on('input', function () {
+        //                alert("ks")
+        //});
+        //$(document).ready(function () {
+        window.onload = function () {
+            var tot = $('.ftotal').text();
+            var gf1 = parseFloat(tot) + (parseFloat(tot) * 0.18)
+            $('.grandtotal').empty().text(parseInt(gf1));
+
+        }
+
+        $(document).on('input', '.discamount', function () {
+            var disc = $(this).val();
+            var total = $(this).parents("div#pack").find('.total').text();
+            var total1 = total.split('₹')[1];
+            var gf1 = parseFloat(total1) + (parseFloat(total1) * 0.18)
+            $('.grandtotal').empty().text(parseInt(gf1));
+            var disctype = $(this).parents("div#pack").find('select[name = disctype]').val();
+            if (disc == "" || disc == undefined) {
+                $(this).parents("div#pack").find('.finaltotal').empty().append(total1);
+
+            }
+            else if (disctype == 'percent') {
+                if (disc > 100) {
+                    alert('Percentage should not be greater than 100');
+                }
+                else {
+
+                    var final;
+                    final = (parseInt(total1) - (parseInt(total1) * (parseInt(disc) / 100)));
+                }
+            }
+            else if (disctype == 'flat') { final = (parseInt(total1) - parseInt(disc)); }
+            else if (disctype == 'Select option') { alert('select discount type'); }
+            $(this).parents("div#pack").find('.finaltotal').empty().append(parseInt(final));
+
+            //var str = $('.total').text();
+            var str = [];
+            $('label.total').each(function () {
+                str.push($(this).text().split('₹')[1]);
+                //str = parseInt(str) + parseInt($(this).text().split('₹')[1]);
+                // alert(str);
+            })
+            var str1 = [];
+            $('label.finaltotal').each(function () {
+                str1.push($(this).text());
+                //str = parseInt(str1) + parseInt($(this).text().split('₹')[1]);
+                // alert(str);
+            })
+            var grandtotal = 0;
+            for (var i = 0; i < str.length; i++) {
+                if (str1[i] != '') grandtotal = parseFloat(grandtotal) + parseFloat(str1[i]);
+                else grandtotal = parseFloat(grandtotal) + parseFloat(str[i]);
+                //  alert(grandtotal);
+            }
+            $('.ftotal').empty().text(grandtotal);
+            //alert(grandtotal);
+            var gf = parseFloat(grandtotal) + (parseFloat(grandtotal) * 0.18)
+            $('.grandtotal').empty().text(parseInt(gf));
+        }
+        );
+
+        $("#select").click(function () {
+            //  alert('customer Selected');
+            var userid = $("#usedid").val();
+            $.ajax({
+                url: '/ManageUser/customerdetails?id=' + userid,
+                type: 'POST',
+                contentType: 'application/json',
+                success: function (result) {
+                    $('.content1').html(result);
+                    $('#addcustomermodel').modal('hide');
+                },
+                error: function (result) {
+                    alert("Something Went Wrong!!! Try Again After SomeTime");
+                }
+            })
+        });
+
+        $(document).on('click', '.booknow', function () {
+            //$('.booknow').click(function () {
+            var vid = $("#vendorId").val();
+            var userid = $("#usedid").val();
+            var packageid = window.localStorage.getItem("vpbookpid");
+            var vpbook = window.localStorage.getItem("vpbook");
+            var date = window.localStorage.getItem("vpbookdate");
+            var timeslot = window.localStorage.getItem("vpbooktimeslot");
+            var packid = packageid;
+            //$('form input, form select').each(
+            //    function (index) {
+            //        var input = $(this);
+            //        alert('Type: ' + input.attr('type') + 'Name: ' + input.attr('name') + 'Value: ' + input.val());
+            //    }
+            //);
+            var alltprice = ""; var alldiscounttype = ""; var alldiscountprice = ""; var allfpkgprice = ""; var alltprice = "";
+            var chkArray = [];
+            $('.col-md-3').each(function () {
+                var cardbody = $(this).find('div.card-body');
+                var pkgid = cardbody.find('input#packageid').val();
+                var tprice = cardbody.find('label.total').text() + "~" + pkgid;
+                var discount = cardbody.find('select.disctype').val() + "~" + pkgid;
+                var discountprice = cardbody.find('input.discamount').val() + "~" + pkgid;
+                var fpkgprice = cardbody.find('label.finaltotal').text() + "~" + pkgid;
+                var selected = tprice;
+                var selected1 = discount;
+                var selected2 = discountprice;
+                var selected3 = fpkgprice;
+                //alert(selected);
+                //var selected1;
+                //selected = chkArray.join(',');
+                if (selected != undefined) {
+                    //  alert("You have selected " + selected);
+                    alltprice = alltprice + ',' + selected;
+                    alldiscounttype = alldiscounttype + ',' + selected1;
+                    alldiscountprice = alldiscountprice + ',' + selected2;
+                    allfpkgprice = allfpkgprice + ',' + selected3;
+                } else {
+                    alert("Please at least check one of the checkbox");
+                }
+                //alert('Package ID:' + pkgid + 'Total Price:' + tprice + 'Discount Type:' + discount + 'Discount Price:' + discountprice + 'Final Price:' + fpkgprice);
+            });
+           // alert(alltprice + alldiscounttype + discountprice + fpkgprice);
+    //  alert(vpbook);
+    var vpbook1 = vpbook.split(',');
+    var loc = vpbook1[0];
+    var eventtype = vpbook1[2];
+    var guests = vpbook1[1];
+    var date = date;
+    var timeslot = timeslot;
+    var booktype = $(this).val();
+    if (packid == '') {
+        var selectedp = window.localStorage.getItem("vpbook");
+    }
+    // alert(eventtype);
+    $('.overlay').show();
+    $('#loadermsg').text('Booking in process....');
+    var type = $("input[name='type']:checked").val();
+    if (type == 'Corporate') {
+        var Businessname = $('#Businessname').val();
+        if (Businessname == '') { alert('Enter Customer Business Name'); $('#Businessname').focus(); }
+    }
+    
+    else {
+        var booknow = {
+            uid: userid, loc: loc, eventtype: eventtype, guest: guests, date: date, pid: packid, vid: vid, timeslot: timeslot, booktype: booktype, alltprice: alltprice, alldiscounttype: alldiscounttype, discountprice: alldiscountprice, fpkgprice: allfpkgprice
+        };
+
+        $.ajax({
+            url: '/ManageUser/booknow',
+            type: 'POST',
+            data: JSON.stringify({ booknowinfo: booknow }),
+            contentType: 'application/json',
+            success: function (result) {
+                if (result == "please active the user") {
+                    alert(result);
+                }
+                else if (result != "") {
+                    alert("Order placed Successfully");
+                    window.localStorage.removeItem("vpbook");
+                    window.localStorage.removeItem("vpbookdate");
+                    window.localStorage.removeItem("vpbooktimeslot");
+                    window.localStorage.removeItem("vpbookpid");
+                    window.location.href = "/vinvoice/Index?oid=" + result;
+                } else {
+                    alert("Error Occurred in placing order");
+                }
+            }
+        });
+    }
+});
+
+          
+    
+    </script>
+}

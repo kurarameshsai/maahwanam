@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/DashBoardMaster.cshtml";
+}
+<script src="/Assets/plugins/jquery-2.0.3.min.js"></script>
+
+
+@section Navigation
+{
+<div class="breads">
+    <div class="breads_inner">
+        <div class="pageWidth">
+            <div class="title">
+                <h3>Notifications</h3>
+            </div>
+            <div class="breadcrumbs">
+                <ul>
+                    @if (ViewBag.Type == "User")
+                    {
+                        <li><a href="~/index/Index">Home</a></li>
+                    }
+                    <li><i class="breads_arrow"></i></li>
+                    <li>Notifications</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<form id="form1">
+        <div class="notifications">
+            <div class="mail-content">
+                <ul class="mail-toolbar" id="mail">
+                    @*<li>
+                            <input type="checkbox" id="selectall">
+                        </li>*@
+                    <li class="refresh"><a href="javascript:$('form').submit();"><i class="ti-reload"></i>Refresh</a></li>
+                    
+                    <li></li>
+                    @*<li class="delete"><a href="#"><i class="ti-trash"></i>Delete</a></li>*@
+                    <li class="mail-pagination" id="page_navigation"> 
+                    @*<span>1-15 from 169</span> 
+                    <a href="#" id="previous" class="btn btn-green"><i class="ti-angle-left"></i></a> 
+                    <a href="#" id="next" class="btn btn-green"><i class="ti-angle-right"></i></a>*@ 
+                    </li>
+                </ul>
+                <!-- popup -->
+                <div id="notify" class="zoom-anim-dialog mfp-hide small-dialog">
+                    <div class="popup-box pop-content">
+                        <div class="popup-head">
+                            <h3 id="sub" style="font-size:large"></h3>
+                        </div>
+                        <!-- /popup-head -->
+                        <div class="popup-space popup-desc-space">
+                            <p id="desc"></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /popup -->
+
+                @if (ViewBag.AllNotifications != null)
+                {
+                    <input type='hidden' id='current_page' />
+                    <input type='hidden' id='show_per_page' />
+                    <input type="hidden" id="pagecount" />
+                    <input type="hidden" id="recordscount" />
+                    <div class="notificationlist">
+                        <ul class="mail-list" id="maillist">
+                            @foreach (var item in ViewBag.AllNotifications)
+                            {
+                                <li>
+                                    <span class="ml-left">
+                                        <a href="~/Notifications/Index?id=@item.id&&type=delete"><img src="~/Assets/img/trashcan.png" style="width: 17px;height: 17px;" /></a>
+                                    </span> 
+                                    <a id="openpopup" class="ml-center popup-with-move-anim" href="#notify"  onclick="displaypopup('@item.description', '@item.Subject')"> 
+                                    <span class="mail-sender" style="width:350px;white-space:nowrap;overflow: hidden;text-overflow: ellipsis;">@item.description</span> 
+                                    <span class="mail-subject">@item.Subject</span> </a> 
+                                    <span class="ml-right">@item.DateandTime.ToShortDateString()</span>
+                                </li>
+                            }
+
+                        </ul>
+                    
+                        @*<div id='page_navigation'></div>*@  
+                    </div>
+                }
+
+                        @if (ViewBag.AllNotifications == null)
+                {
+                            <h2>No Notifications Yet!!!!</h2>
+                        }
+
+                    </div>
+        </div>
+    </form>
+
+<script>
+    $(document).ready(function () {
+        //how much items per page to show
+        var show_per_page = 10;
+        //getting the amount of elements inside content div
+        var number_of_items = $('#maillist').children().size();
+        //calculate the number of pages we are going to have
+        var number_of_pages = Math.ceil(number_of_items / show_per_page);
+
+        //set the value of our hidden input fields
+        $('#current_page').val(0);
+        $('#show_per_page').val(show_per_page);
+        $('#pagecount').val(number_of_pages);
+        $('#recordscount').val(number_of_items);
+        
+        //now when we got all we need for the navigation let's make it '
+        var navigation_html = '<text id="present"></text>' + '-' + '<text id="next"></text>' + ' from ' + number_of_items;
+        navigation_html += '<a class="previous_link btn btn-green" id="previous_link"  href="javascript:previous();"><i class="ti-angle-left"></i></a>';
+        navigation_html += '<a class="next_link btn btn-green" id="next_link" href="javascript:next();"><i class="ti-angle-right"></i></a>';
+
+        $('#page_navigation').html(navigation_html);
+
+        //add active_page class to the first page link
+        $('#page_navigation .previous_link:first').addClass('active_page');
+
+        //hide all the elements inside content div
+        $('#maillist').children().css('display', 'none');
+
+        //and show the first n (show_per_page) elements
+        $('#maillist').children().slice(0, show_per_page).css('display', 'block');
+
+        $('#present').html(1);
+        $('#next').html(show_per_page);
+    });
+
+    function previous() {
+        new_page = parseInt($('#current_page').val()) - 1;
+        if (new_page >= 0) {
+            go_to_page(new_page);
+        }
+        
+    }
+
+    function next() {
+        new_page = parseInt($('#current_page').val()) + 1;
+        if (new_page < $("#pagecount").val()) {
+            go_to_page(new_page);
+        }        
+    }
+    function go_to_page(page_num) {
+        //get the number of items shown per page
+        var show_per_page = parseInt($('#show_per_page').val());
+
+        //get the element number where to start the slice from
+        start_from = page_num * show_per_page;
+        var lastrecord = start_from + show_per_page;
+        //get the element number where to end the slice
+
+        if ($("#recordscount").val() < lastrecord) {
+            end_on = $("#recordscount").val();
+        }
+        else {
+            end_on = lastrecord;
+        }
+        var present = (page_num - 1) * show_per_page + 1;
+
+        //hide all children elements of content div, get specific items and show them
+        $('#maillist').children().css('display', 'none').slice(start_from, end_on).css('display', 'block');
+
+        /*get the page link that has longdesc attribute of the current page and add active_page class to it
+        and remove that class from previously active page link*/
+        $('.page_link[longdesc=' + page_num + ']').addClass('active_page').siblings('.active_page').removeClass('active_page');
+
+        //update the current page input field
+        $('#current_page').val(page_num);
+        $('#present').html(start_from+1);
+        $('#next').html(end_on);
+    }
+
+</script>
+
+<script type="text/javascript">
+        function displaypopup(description, preference) {
+            var desc = $("#desc");
+            var pref = $("#sub");
+            desc.html(description);
+            pref.html(preference);
+        }
+    </script>
+
+
+@*<ul class="mail-list">
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Lorem ipsum dolor sit amet</span> <span class="mail-subject">Nam lobortis est in iaculis suscipit, erat purus tempus orci</span> </a> <span class="ml-right">06:28 PM</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Aliquam rhoncus ac est</span> <span class="mail-subject">Donec ut ex quam. Mauris facilisis orci sapien</span> </a> <span class="ml-right">11:16 AM</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Etiam in odio sed</span> <span class="mail-subject"> Maecenas ornare urna eget mauris mattis placerat. </span> </a> <span class="ml-right">Oct 15</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Cras et lectus ornare</span> <span class="mail-subject"> Pellentesque porta finibus facilisis</span> </a> <span class="ml-right">Oct 13</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Cras vitae </span> <span class="mail-subject">Ut eget felis et enim euismod posuere quis id tortor</span> </a> <span class="ml-right">Oct 13</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Vestibulum congue erat dui</span> <span class="mail-subject">Nam blandit at dui ac venenatis</span> </a> <span class="ml-right">Oct 12</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Lorem ipsum dolor sit amet</span> <span class="mail-subject">Nam lobortis est in iaculis suscipit, erat purus tempus orci</span> </a> <span class="ml-right">Oct 12</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Aliquam rhoncus ac est</span> <span class="mail-subject">Donec ut ex quam. Mauris facilisis orci sapien</span> </a> <span class="ml-right">Oct 12</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Etiam in odio sed</span> <span class="mail-subject"> Maecenas ornare urna eget mauris mattis placerat. </span> </a> <span class="ml-right">Oct 11</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Cras et lectus ornare</span> <span class="mail-subject"> Pellentesque porta finibus facilisis</span> </a> <span class="ml-right">Oct 11</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Sodales enim tempus</span> <span class="mail-subject">Ut eget felis et enim euismod posuere quis id tortor</span> </a> <span class="ml-right">Oct 10</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span> <span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span><a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Vestibulum congue erat dui</span> <span class="mail-subject">Nam blandit at dui ac venenatis</span> </a> <span class="ml-right">Oct 10</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Etiam in odio sed</span> <span class="mail-subject"> Maecenas ornare urna eget mauris mattis placerat. </span> </a> <span class="ml-right">Oct 10</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Aliquam rhoncus ac est</span> <span class="mail-subject">Donec ut ex quam. Mauris facilisis orci sapien</span> </a> <span class="ml-right">Oct 09</span>
+    </li>
+    <li>
+        <span class="ml-left">
+            <input type="checkbox" class="case" name="case" />
+        </span><span class="ml-reply"><a href="~/Comments/Index"><i class="ti-share-alt"></i></a></span> <a class="ml-center popup-with-move-anim" href="#notify"> <span class="mail-sender">Cras et lectus ornare</span> <span class="mail-subject"> Pellentesque porta finibus facilisis</span> </a> <span class="ml-right">Oct 08</span>
+    </li>
+</ul>*@

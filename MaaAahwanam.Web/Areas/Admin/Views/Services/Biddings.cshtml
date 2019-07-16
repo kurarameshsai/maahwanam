@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Biddings";
+    Layout = "~/Areas/Admin/Views/Shared/MainMaster.cshtml";
+}
+
+@section header{
+    <!-- PAGE LEVEL STYLES -->
+    <link href="~/Assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <!-- END PAGE LEVEL  STYLES -->
+}
+
+<!--PAGE CONTENT -->
+<div id="content">
+    <div class="inner">
+        <div class="row">
+            <div class="col-lg-12" align="center">
+                <h2> Biddings</h2>
+            </div>
+        </div>
+        <hr />
+        
+            <div class="row">
+            <div class="col-lg-12">
+                <h4>Bid Request Id: @ViewBag.bidid</h4>
+                <div class="panel panel-default" >
+
+                    <div class="panel-heading" style="display:none">
+                        <button type="button" data-toggle="tooltip" data-placement="top" title="Export to PDF" class="btn btn-default btn-circle">
+                            <i class="icon-check"></i>
+                        </button>
+                        <button type="button" data-toggle="tooltip" data-placement="top" title="Export to Exccel" class="btn btn-primary btn-circle">
+                            <i class="icon-list"></i>
+                        </button>
+                        <button type="button" data-toggle="tooltip" data-placement="top" title="Print" class="btn btn-success btn-circle">
+                            <i class="icon-link"></i>
+                        </button>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>Vendor Id</th>
+                                        <th>Vendor Name</th>
+                                        <th>Service Type</th>
+                                        <th>Description</th>
+                                        <th>Bid Amount</th>
+                                        <th>Bid Received Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in ViewBag.ServiceResponseRecordsList)    //(List<dynamic>)ViewBag.ServiceResponseRecordsList
+                                {
+                                    <tr class="even gradeX">
+                                        <td>@item.UserLoginId</td>
+                                        <td>@item.FirstName,<br /> @item.Address</td>
+                                        <td>@item.VendorType</td>
+                                        <td>@item.Description</td>
+                                        <td>@item.Amount</td>
+                                        <td>@item.UpdatedDate.ToShortDateString()</td>
+                                    </tr>
+                                }
+                                    @*<tr class="even gradeX">
+        <td>11</td>
+        <td>Taj Krishna,<br/> RoadNo.1 <br/> BanjaraHills,<br/> Hyderabad</td>
+        <td>Banquet Hall</td>
+        <td>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum </td>
+        <td>950/pax</td>
+        <td>06/24/2016</td>
+    </tr>*@
+                                 </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+      
+    </div>
+</div>
+<!--END PAGE CONTENT -->
+@section Bottom{
+    <script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+    <script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+    <script src="~/Assets/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="~/Assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+    </script>
+}

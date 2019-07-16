@@ -1,0 +1,325 @@
+﻿@using MaaAahwanam.Web.Models
+@model Tuple<MaaAahwanam.Models.UserLogin, MaaAahwanam.Models.Vendormaster>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/NMasterPage.cshtml";
+}
+<style>
+    .overlay {
+        background: no-repeat scroll center center #FFF;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999;
+        background-color: rgba(0,0,0,0.8);
+        /* END EXTERNAL S */
+    }
+</style>
+
+<div class="overlay" style="display: none;">
+    <div style="left: 50%; top: 50%; position: fixed; transform: translate(-50%, -50%); text-align: center;">
+        <img src="~/CSSWeb/images/Loader2.gif" /><br>
+        <p style="color: white; font-style: italic; font-family:serif;">&nbsp; Registering in Process...</p>
+        <p style="color: white; font-family:serif;">&nbsp; If this is taking more time Click <a href="/NVendorSignUp">here</a>.</p>
+    </div>
+</div>
+<form method="post" id="vendorregister">
+    <div class="container-fluid questionery">
+        <div class="row py-2 justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-6 bgWhite boxShadow margin-top-50 margin-bottom-50">
+
+                <div class="row p-4">
+                    <div class="col-md-6 offset-md-2 offset-lg-2">
+                        <h3 class="question">Sign Up</h3>
+                    </div>
+                    <div class="col-md-2 col-lg-2 text-right d-inline questionsCount"> <span>1</span> / <span></span> </div>
+
+
+                    <div class="w-100 filteredQuestions">
+                        <div class="w-100 mb-3 questions">
+                            <div class="mb-2">
+                                <div class="options">
+                                    <div class="w-100 mx-0">
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                            <div class="form-group w-100">
+                                                <input type="text" class="form-control" name="Item2.ContactPerson" id="Item2_ContactPerson" placeholder="User Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                            <div class="form-group w-100">
+                                                <select class="form-control" name="Item2.ServicType" id="Item2_ServicType" required>
+                                                    <option value="" selected="selected">Select Service Type</option>
+                                                    <option>Venue</option>
+                                                    <option>Catering</option>
+                                                    <option>Photography</option>
+                                                    <option>Decorator</option>
+                                                    <option>Mehendi</option>
+                                                    <option>Pandit</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                            <div class="form-group w-100">
+                                                <input type="text" class="form-control" name="Item2.BusinessName" id="Item2_BusinessName" onchange="checkname()" maxlength="50" placeholder="Business Name" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2 prevNext">
+                                            <p class="d-inline">Already have an Account ? <a href="/NUserRegistration">Login</a></p>
+                                            <div class="ml-auto">
+                                                <div class="d-inline-flex"> <span class="themeBgColorPrimary btnSecondary text-white nextQues">Next</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-100 mb-3 questions">
+                            <div class="mb-2">
+                                <div class="options">
+                                    <div class="w-100 mx-0">
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                            <div class="form-group w-100">
+                                                <input type="text" class="form-control" name="Item2.EmailId" id="Item2_EmailId" onchange="check()" placeholder="E- Mail" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                            <div class="form-group w-100">
+                                                <input type="number" class="form-control" name="Item2.ContactNumber" id="Item2_ContactNumber" placeholder="Mobile" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                            <div class="form-group w-100">
+                                                <input type="password" class="form-control" name="Item1.Password" id="Item1_Password" minlength="5" placeholder="Password" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2 prevNext">
+                                            <div class="ml-auto">
+                                                <div class="d-inline-flex backQues"> <span class="btnSecondary">Back</span> </div>
+                                                <div class="d-inline-flex"> <span class="themeBgColorPrimary btnSecondary text-white continueBtn">Continue</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        function alertmsg(msg) {
+            alertify.alert("" + msg + "", function () {
+                //alertify.message('OK');
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('body').attr("id", "userAuthentication");
+        });
+        $('.container').hide();
+        $('.search').hide();
+
+        function ValidateEmail(email) {
+            var expr = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+            return expr.test(email);
+        };
+
+        function checkname() {
+            var name = $('#Item2_BusinessName').val();
+            $.get("/NVendorSignUp/checkBusinessName?name=" + name, function (data) {
+                if (data == "exists") {
+                    alertmsg("Business Name Already Registered");
+                    $("#Item2_BusinessName").val("").focus();
+                }
+            });
+        }
+
+        function check() {
+            var emailId = $("#Item2_EmailId").val();
+            //alert(emailId);
+            if (!ValidateEmail(emailId)) {
+                // alert("Invalid email address.");
+                alertmsg("Invalid email address.");
+
+            }
+            else {
+                $.ajax({
+                    url: '/NVendorSignUp/checkemail',
+                    type: 'POST',
+                    data: JSON.stringify({ emailid: emailId }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data == "exists") {
+                            //  alert("E-Mail ID Already Taken!!! Try Another");
+                            alertmsg("E-Mail ID Already Taken!!! Try Another");
+
+                            $("#Item2_EmailId").val("").focus();
+                            //$("#Item2_EmailId").focus();
+                        }
+                    },
+                    error: function (data) { //alert("Server is Not Responding at the Moment");
+                        alertmsg("Server is Not Responding at the Moment");
+
+                    }
+                });
+            }
+
+        }
+
+        //$('#Register').click(function () {
+        //    var username = $('#Item2_ContactPerson').val();
+        //    var stype = $('#Item2_ServicType').val();
+        //    var bname = $('#Item2_BusinessName').val();
+        //    var email = $('#Item2_EmailId').val();
+        //    var mobile = $('#Item2_ContactNumber').val();
+        //    var password = $('#Item1_Password').val();
+        //    if (username.trim() == '') {
+        //        alert("Enter Your Name");
+        //        $('#Item2_ContactPerson').focus();
+        //    }
+        //    else if(stype.trim() == ''){
+        //        alert("Select Service Type");
+        //    }
+        //    else if (bname.trim() == '') {
+        //        alert("Enter Business Name");
+        //        $('#Item2_BusinessName').focus();
+        //    }
+        //    else if (email.trim() == '') {
+        //        alert("Enter Email ID");
+        //        $('#Item2_EmailId').focus();
+        //    }
+        //    else if (mobile.trim() == '') {
+        //        alert("Enter Mobile Number");
+        //        $('#Item2_ContactNumber').focus();
+        //    }
+        //    else if (password.trim() == '') {
+        //        alert("Enter Password");
+        //        $('#Item1_Password').focus();
+        //    }
+        //    else {
+        //        this.form.submit();
+        //    }
+        //});
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
+            var questions = $(".filteredQuestions > .questions");
+            var questionsLen = $(".filteredQuestions > .questions").length;
+            var questionMin = $(".questionsCount > span:first-child");
+            var questionMinCount = parseInt($(".questionsCount > span:first-child").text());
+            var questionMax = $(".questionsCount > span:last-child");
+            $(questionMax).empty().append(questionsLen);
+            $(".filteredQuestions").children().eq(questionMinCount - 1).css("display", "block");
+
+
+            /*---- Click Continue button then append selected categories P Tag to --*/
+            var hiddenP = $("<p class='hiddenP'></p>");
+            $(hiddenP).insertAfter(".question + .options ul");
+            /*---- Click Continue button then append selected categories P Tag to --*/
+
+            $(".prevNext .backQues").click(function () {
+                $(this).parents(".questions").css("display", "none");
+                $(this).parents(".questions").prev(".questions").css("display", "block");
+                questionMinCount--;
+                if (questionMinCount > 1) {
+                    $(questionMin).empty().append(questionMinCount);
+                } else if (questionMinCount == 1) {
+                    $(questionMin).empty().append(questionMinCount);
+                }
+            });
+
+            $(".prevNext .nextQues").click(function () {
+                var username = $('#Item2_ContactPerson').val();
+                var stype = $('#Item2_ServicType').val();
+                var bname = $('#Item2_BusinessName').val();
+                //alert(stype);
+                //alert(bname);
+
+                if (username.trim() == '') {
+                    alertmsg("Please Enter Your Name");
+                    $('#Item2_ContactPerson').focus();
+                }
+                else if (stype == '') {
+                    alertmsg("Please Select Service Type");
+                }
+                else if (bname == '') {
+                    alertmsg("Please Enter Business Name");
+                    $('#Item2_BusinessName').focus();
+                }
+                else {
+                    $(this).parents(".questions").css("display", "none");
+                    $(this).parents(".questions").next(".questions").css("display", "block");
+                    questionMinCount++;
+                    if (questionMinCount < questionsLen) {
+                        $(questionMin).empty().append(questionMinCount);
+                    } else if (questionMinCount == questionsLen) {
+                        $(questionMin).empty().append(questionMinCount);
+                    }
+                }
+
+
+            });
+
+            $(".prevNext .continueBtn").click(function () {
+                var email = $('#Item2_EmailId').val();
+                var mobile = $('#Item2_ContactNumber').val();
+                var password = $('#Item1_Password').val();
+                if (email.trim() == '') {
+                    alertmsg("Please Enter Email ID");
+                    $('#Item2_EmailId').focus();
+                }
+                else if (mobile.trim() == '') {
+                    alertmsg("Please Enter Mobile Number");
+                    $('#Item2_ContactNumber').focus();
+                }
+                else if (password.trim() == '') {
+                    alertmsg("Please Enter Password");
+                    $('#Item1_Password').focus();
+                }
+                else {
+                    //$(this).attr('disabled', 'disabled');
+                    //this.form.submit();
+                    $(".overlay").show();
+                    $('#vendorregister').submit();
+                }
+                // alert("Redirect");
+                //alertmsg("Redirect");
+
+                ///*---- Click Continue button then append selected categories P Tag to --*/
+                //$(".filteredQuestions > .questions:last-of-type .options > ul").next('p').empty();
+                //$(".filteredQuestions > .questions:last-of-type .options > ul > li").each(function () {
+                //    if ($(this).find("input[type='checkbox']").is(':checked')) {
+                //        var checkText = $(this).find('p').text();
+                //        $(".filteredQuestions > .questions:last-of-type .options > ul").next('p').append(checkText + ", ");
+                //    }
+                //});
+                ///*---- Click Continue button then append selected categories P Tag to --*/
+
+            });
+
+
+        });
+
+        $(document).ready(function () {
+            $('body').attr("id", "userAuthentication");
+        });
+
+    </script>
+
+}

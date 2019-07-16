@@ -1,0 +1,69 @@
+﻿@*<style>
+        #pkgmodal, #Querymodel, #viewmenuitems {
+            position: relative;
+        }
+
+        #selected {
+            border: 1px solid;
+        }
+    </style>*@
+
+@if (ViewBag.package != null)
+{
+
+
+    <div class="row">
+        @foreach (var item in ViewBag.package)
+        {
+            <div class="col-md-3">
+                <div class="card" id="pack">
+                    <div class="card-header" style="background: #5829bb!important;font-weight: 700; color: white;text-transform: uppercase;border: 1px purple solid;">@item.PackageName</div>
+                    <div class="card-body" style="background-color:whitesmoke">
+                        <input type="hidden" name="">
+                        <input type="hidden" name="packageid" id="packageid" value="@item.PackageID" >
+                        Package Type: Veg <br />
+                        Location: @ViewBag.loc<br />
+                        Event Type : @ViewBag.eventtype <br />
+                        Event Date :  @item.UpdatedDate.ToString("dd/MM/yyyy") <br />
+                        Guest Count : @ViewBag.guests<br />
+                        Timeslot : @item.timeslot <br />
+
+                        Price : @if (item.PackagePrice == null || item.PackagePrice == "")
+                        {@item.price1}
+                    else
+                    { @item.PackagePrice}
+                        <br />
+                        <label class="total">Total Price : ₹@( (Convert.ToInt64(@item.price1) * Convert.ToInt64(@ViewBag.guests))) </label><br />
+                        <label>Discount: <select name="disctype" class="disctype"><option> Select option </option><option value="percent"> Percentage </option><option value="flat"> Flat Rate </option></select> </label><br />
+                        <label>Discount Price:<input type="number" name="discount" class="discamount" style="width:40%" min="0"></label><br />
+                        Final Package Total: ₹ <label class="finaltotal"></label>
+                    </div>
+
+
+
+
+                        </div >
+
+
+
+
+                        </div >
+                    }
+                    </div>
+    <p> Total Amount : <label class="ftotal"> @ViewBag.tprice</label></p>
+    <p>GST : 18%</p>
+    <p>Grand Total : <label class="grandtotal">@ViewBag.gtot</label></p>
+    <p>Referred By: 
+    <select>
+        <option value="Select option">Select option</option><option value="Ahwanam">Ahwanam</option>
+        
+        @foreach (var item in ViewBag.resellername) { <option value="@item.PartnerID">@item.PartnerName</option>}</select>
+    
+    </p>
+}
+
+
+
+
+
+

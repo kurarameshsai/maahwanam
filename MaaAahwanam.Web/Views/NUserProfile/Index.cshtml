@@ -1,0 +1,620 @@
+﻿@model MaaAahwanam.Models.UserLogin
+@using System.Globalization
+
+<style>
+    .modal-dialog {
+        max-width: 1000px;
+        margin: 1.75rem auto;
+    }
+</style>
+
+
+@{
+    ViewBag.Title = ":: Ahwanam ::";
+    Layout = "~/Views/SharedWeb/NMasterPage.cshtml";
+    var i = 0; var j = 0; var k = 0;
+}
+@if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+{
+    <div class="container-fluid userProfile">
+        <div class="row innerPagesBg">
+            <div class="col-12 col-sm-5 col-md-4 col-lg-3 sideBar">
+                <a class="navbar-brand noteWorthybold text-uppercase logoText" href="/NHomePage">
+                    Ahwanam
+                </a>                <ul>
+                    <li> <a href="#" onclick="userProfile('userTicketDetails')">Dashboard</a> </li>
+                    <li> <a href="#" onclick="userProfile('Quotations')">Quotations</a> </li>
+                    <li> <a href="#" onclick="userProfile('profileDetails')">Profile</a> </li>
+                    <li> <a href="#" onclick="userProfile('profileSettings')">Settings</a> </li>
+                    <li>
+                        <a href="/NUserRegistration/SignOut">Logout</a> @*onclick="location.href='@Url.Action("SignOut", "NUserRegistration")'"*@
+                        @*<a onclick="window.location.href = '/NUserRegistration/SignOut';">Logout</a>*@
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-sm-7 col-md-8 col-lg-9 offset-sm-5 offset-md-4 offset-lg-3">
+                <div class="row mx-2 my-4 bgWhite">
+                    <div class="userTotalInfo p-3 w-100">
+                        <div id="userTicketDetails">
+                            <div class="row mx-0">
+                                <h3 class="noteWorthybold">
+                                    Ticket Details
+                                    <div class="blackBorder"></div>
+                                </h3>
+                            </div>
+                            <div class="row my-2 ticketButtons">
+                                <div class="col-12 col-sm-4 col-md-4 d-flex mb-2">
+                                    <span class="themeBgColorPrimary btnSecondary text-white" id="currentTickets" onclick="ticketHistory('currentTickets')">
+                                        Current Tickets
+                                    </span>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4 d-flex mb-2">
+                                    <span class="themeBgColor btnSecondary text-white" id="bookingHistory" onclick="ticketHistory('bookingHistory')">
+                                        History
+                                    </span>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-4 d-flex mb-2">
+                                    <span class="themeBgColor btnSecondary text-white" id="wishList" onclick="ticketHistory('wishList')">
+                                        Wishlist
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row mx-0 mt-2 tableData" id="currentTickets">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>OrderID</th>
+                                            <th>Vendor Details</th>
+                                            <th>Order Date</th>
+                                            <th>Status</th>
+                                            <th>Price</th>
+                                            <th>Event Type</th>
+                                            <th>Booking date</th>
+                                            <th>Timeslot</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.order.Count != 0)
+                                        {
+                                            foreach (var item in ViewBag.order)
+                                            {
+                                                <tr>
+                                                    <td>@(++i)</td>
+                                                    <td>@item.OrderId</td>
+                                                    <td>
+                                                        <p class="productName mb-0">@item.BusinessName</p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="event-date-time">
+                                                            <div class="event-dates">
+                                                                @item.OrderDate.ToString("dd MMM yyyy")
+                                                            </div>
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>Rs.<span id="tprice" class="value">@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.TotalPrice)).Replace(".00", "") </span></p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>@item.EventType</p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>@item.BookedDate.ToString("dd MMM yyyy")</p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>@item.attribute</p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <a onclick="alert1(@item.OrderId)"><i class="fa fa-close"></i></a>&nbsp;&nbsp;<a onclick="alert11(@item.OrderId)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="10">
+                                                    <p>No Current Orders</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                           
+                            <div class="row mx-0 mt-2 tableData" id="bookingHistory">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>OrderID</th>
+                                            <th>Vendor Details</th>
+                                            <th>Order Date</th>
+                                            <th>Event Type</th>
+                                            <th>Booking date</th>
+                                            <th>Timeslot</th>
+                                            <th>Status</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.orderhistory.Count != 0)
+                                        {
+                                            foreach (var item in ViewBag.orderhistory)
+                                            {
+                                                <tr>
+                                                    <td>@(++j)</td>
+                                                    <td>@item.OrderId</td>
+                                                    <td>
+                                                        <p class="productName mb-0">@item.BusinessName</p>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="event-date-time">
+                                                            <div class="event-dates">
+                                                                @item.OrderDate.ToString("dd MMM yyyy")
+                                                            </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>@item.EventType</p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>@item.BookedDate.ToString("dd MMM yyyy")</p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>@item.attribute</p>
+                                                        </div>
+
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        <div class="item-price">
+                                                            <p>Rs.<span id="tprice" class="value">@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.TotalPrice)).Replace(".00", "")</span></p>
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="9">
+                                                    <p>No Past Orders</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                            <div class="row mx-0 mt-2 tableData" id="wishList">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Service Type</th>
+                                            <th>Business Name</th>
+                                            <th>Wishlisted Date</th>
+                                            <th>Status</th>
+                                            <th>Manage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.whishlists.Count != 0)
+                                        {
+
+                                            foreach (var item in ViewBag.whishlists)
+                                            {
+                                                <tr>
+                                                    <td>@(++k)</td>
+                                                    <td>@item.ServiceType</td>
+                                                    <td>
+                                                        <p class="productName mb-0">@item.BusinessName</p>
+                                                    </td>
+                                                    <td>
+                                                        <div class="event-date-time">
+                                                            <div class="event-dates">
+                                                                @item.WhishListedDate
+                                                            </div>
+                                                    </td>
+                                                    <td>@*@item.Status*@</td>
+                                                    <td>
+                                                        <a>Remove</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="6">
+                                                    <p>No Wishlists</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div id="Quotations" style="display:none">
+                            <div class="row mx-0">
+                                <h3 class="noteWorthybold">
+                                    All Quotations
+                                    <div class="blackBorder"></div>
+                                </h3>
+                            </div>
+                            <div class="row mx-0 mt-2 tableData">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Quotation ID</th>
+                                            <th>Requested Service</th>
+                                            <th>Requested Occasion Date</th>
+                                            <th>Requirements</th>
+                                            <th>Timeslot</th>
+                                            <th>Response History</th>
+                                            @*<th>Status</th>*@
+                                            @*<th>Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.quotations.Count != 0)
+                                        {
+                                            foreach (var item in ViewBag.quotations)
+                                            {
+                                                <tr>
+                                                    <td>@(++i)</td>
+                                                    <td>@item.Id</td>
+                                                    <td>@item.ServiceType</td>
+                                                    <td>@item.EventStartDate.ToString("dd-MMM-yyyy")</td>
+                                                    <td>@item.Description</td>
+                                                    <td>@item.TimeSlot</td>
+                                                    <td>
+                                                        @if (item.FirstTimeQuoteDate != null)
+                                                        {
+                                                            <p>Quotation Replied on @item.FirstTimeQuoteDate</p>
+                                                            <button type="button" class="btn btn-success" onclick="LoadLists('@item.Id')">View Quote List</button>  @* data-toggle="modal" data-target="#VendorsList"*@
+                                                        }
+                                                        @if (item.SecondTimeQuoteDate != null)
+                                                        {
+                                                            <p>Quotation Replied on @item.SecondTimeQuoteDate</p>
+                                                            <button type="button" class="btn btn-success" onclick="LoadLists('@item.Id')">View Quote List</button>
+                                                        }
+                                                        @if (item.ThirdTimeQuoteDate != null)
+                                                        {
+                                                            <p>Quotation Replied on @item.ThirdTimeQuoteDate</p>
+                                                            <button type="button" class="btn btn-success" onclick="LoadLists('@item.Id')">View Quote List</button>
+                                                        }
+                                                        @if (item.ThirdTimeQuoteDate == null && item.SecondTimeQuoteDate == null && item.FirstTimeQuoteDate == null)
+                                                        {
+                                                            <p>Quote is being prepared. Wait For the Response from Our Support Team</p>
+                                                            @*<button type="button" class="btn btn-primary">No Replies yet</button>*@
+                                                        }
+                                                    </td>
+                                                    <td></td>
+
+                                                </tr>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="10">
+                                                    <p>No Current Quotes</p>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <!-- Button trigger modal --> 
+                                
+                                <!-- Modal --> 
+                                @*<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+                                <div class="modal-dialog" role="document"> 
+                                <div class="modal-content"> 
+                                    <div class="modal-header"> 
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
+                                        <span aria-hidden="true">&times;</span> </button> </div> 
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Row</th>
+                                                        <th>First Name</th>
+                                                        <th>Last Name</th>
+                                                        <th>Email</th>
+                                                        <th>Biography</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>John</td>
+                                                        <td>Carter</td>
+                                                        <td>johncarter@mail.com</td>
+                                                        <td>Lorem ipsum dolor sit ametâ€¦</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Peter</td>
+                                                        <td>Parker</td>
+                                                        <td>peterparker@mail.com</td>
+                                                        <td>Vestibulum consectetur scelerisqueâ€¦</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>3</td>
+                                                        <td>John</td>
+                                                        <td>Rambo</td>
+                                                        <td>johnrambo@mail.com</td>
+                                                        <td>Integer pulvinar leo id risusâ€¦</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer"> 
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
+                                    <button type="button" class="btn btn-primary">Save changes</button> 
+                                    </div> 
+                                    </div> 
+                                </div> </div>*@
+
+
+                            </div>
+                        </div>
+                        <div id="profileDetails">
+                            <div class="row mx-0">
+                                <h3 class="noteWorthybold">
+                                    Profile Details
+                                    <div class="blackBorder"></div>
+                                </h3>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Name" id="username" value="@ViewBag.username" required>
+                                </div>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" placeholder="email" value="@ViewBag.emailid" disabled>
+                                </div>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <div class="form-group">
+                                    <input type="number" class="form-control" placeholder="Phone number" id="phoneno" value="@ViewBag.phoneno" required>
+                                </div>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <span class="themeBgColorPrimary btnSecondary text-white" onclick="load('userdetails')">Save Changes</span>
+
+                            </div>
+                        </div>
+                        <div id="profileSettings">
+                            <div class="row mx-0">
+                                <h3 class="noteWorthybold">
+                                    Settings
+                                    <div class="blackBorder"></div>
+                                </h3>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="New Password" id="Password" required>
+                                </div>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Confirm Password" id="Password1" required>
+                                </div>
+                            </div>
+                            <div class="row mx-0 mt-2">
+                                <span class="themeBgColorPrimary btnSecondary text-white" onclick="load1()">
+                                    Save Changes
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content" id="refreshdata">
+
+                @{Html.RenderAction("VendorsLists", "NUserProfile");}
+
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+
+
+
+
+
+    @section scripts{
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            //$(document).ready(function () {
+            //    $('body').attr("id", "userAuthentication");
+            //});
+            $('.container').hide();
+            $('.search').hide();
+        </script>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.userProfile').nextAll('.container, footer').css("display", "none");
+            });
+
+        </script>
+        <script type="text/javascript">
+            function userProfile(e) {
+                $(".userTotalInfo > div").each(function () {
+                    if ($(this).attr('id') == e) {
+                        $(this).css("display", "block");
+                    } else {
+                        $(this).css("display", "none");
+                    }
+                });
+            }
+
+            function ticketHistory(e) {
+                $(".ticketButtons span").each(function () {
+                    if ($(this).attr('id') == e) {
+                        $(this).removeClass(" themeBgColor").addClass(" themeBgColorPrimary");
+                    } else {
+                        $(this).removeClass(" themeBgColorPrimary").addClass(" themeBgColor");
+                    }
+                });
+
+                $("#userTicketDetails div.tableData").each(function () {
+                    if ($(this).attr('id') == e) {
+                        $(this).css("display", "block");
+                    } else {
+                        $(this).css("display", "none");
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            function load(userdetails) {
+                var user = document.getElementById("username").value;
+                var phoneno = document.getElementById("phoneno").value;
+                if (user == "") { alertify.alert("Enter username"); }
+                else if (phoneno == "") { alertify.alert("enter Phone no"); }
+                else {
+                    var userdet = {
+                        FirstName: document.getElementById("username").value,
+                        UserPhone: document.getElementById("phoneno").value,
+                    }
+
+                    $.ajax({
+                        url: '/NUserProfile/updatedetails',
+                        type: "POST",
+                        datatype: "json",
+                        data: { userdetail: userdet },
+                        success: function (response) {
+                            if (response == 'success') {
+                                //    alert('userdetails Updated Successfully');
+                                alertify.alert("Profile Details Updated Successfully")
+                            }
+                        }
+                    })
+                }
+            }
+
+
+            function load1() {
+                //alert("ggg");
+                var Password = document.getElementById("Password").value;
+                var Password1 = document.getElementById("Password1").value;
+                if (Password == "")
+
+                { alertify.alert("Enter Password"); }
+                else if (Password1 == "")
+
+                { alertify.alert("Enter confirm Password"); }
+
+                else if (Password != Password1) {
+                    alertify.alert("passwords  are not match");
+                }
+                else {
+                    var userLogin = {
+                        Password: document.getElementById("Password").value
+
+                    }
+                    $.ajax({
+                        url: '/NUserProfile/changepassword',
+                        type: "POST",
+                        datatype: "json",
+                        data: { userLogin: userLogin },
+                        success: function (response) {
+                            if (response == 'success') {
+                                //  alert('Password Updated Successfully');
+                                alertify.alert("Password Updated Successfully");
+                            }
+                        }
+                    })
+                }
+            }
+        </script>
+        <script>
+
+
+            function alert11(paid) {
+                //var paid = $(this).find('input#pid').val();
+                alertify.confirm("Are you sure You want to delete " + paid + " ?",
+                  function () {
+                      //     alertify.success('Deleted');
+                      location.href = '/NUserProfile/orderdelete?orderid=' + paid + '&vid= @ViewBag.id'
+                  },
+                  function () {
+                  });
+            }
+            function alert1(paid) {
+                //var paid = $(this).find('input#pid').val();
+                alertify.confirm("Are you sure You want to cancel orderid " + paid + " ?",
+                  function () {
+                      //     alertify.success('Deleted');
+
+                      location.href = '/NUserProfile/ordercancel?orderid=' + paid + '&vid= @ViewBag.id'
+                  },
+                  function () {
+                  });
+            }
+
+        </script>
+
+        <script>
+            function LoadLists(val) {
+                //alert(val);
+                var url = '/NUserProfile/VendorsLists?qid=' + val;
+                $('#refreshdata').empty().load(url);
+                $('#myModal').modal();
+            }
+        </script>
+
+
+    }
+}

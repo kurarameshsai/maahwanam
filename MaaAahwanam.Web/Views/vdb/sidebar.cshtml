@@ -1,0 +1,115 @@
+﻿@*<link href="~/newdesignstyles/MDB-Free_4.5.12/css/mdb.min.css" rel="stylesheet" />*@
+<style>
+    .services {
+        padding: 15px 15px 15px 20px;
+    }
+
+        .services div ,.services div >a {
+            cursor: pointer;
+            font-size: 14px;
+            font-family: lato;
+            color:black;
+        }
+</style>
+<div class="services">
+    <div onclick="location.href = '/vdb'">Dashboard</div>
+    <div>Quotes</div>
+    <div onclick="location.href = '/vdb?c=orders'">Orders</div>
+    <div onclick="location.href = '/ManageUser'">Customers/clients</div>
+    <div onclick="location.href = '/ManageVendor'">Suppliers</div>
+    
+    <div class="row" style="padding-top:2%">
+        <button class="accordion" id="sidebaracc1" style="background-color: #fff;padding: 0;"> Resellers/Partners</button>
+        <div class="panel" style="overflow-y:scroll">
+            <div onclick="location.href = '/ReSellerManagement'"> + Resellers/Partners</div>
+            @if (ViewBag.resellername != null)
+            {
+                foreach (var item in ViewBag.resellername)
+                {
+
+                    <div><a href="/ReSellerManagement/Index?partid=@item.PartnerID&&vid=@item.VendorId"> @item.PartnerName</a></div>
+                }
+            }
+        </div>
+
+        <button class="accordion" id="sidebaracc2" style="background-color: #fff;padding: 0;">Services</button>
+        <div class="panel" style="overflow-y:scroll">
+            @foreach (var item in ViewBag.venues)
+            {
+                if (item.VenueType == "" || item.VenueType == null)
+                {
+                    <div><a class="subcatclose" value="@item.Id,,Venue" style="color: red;font-size: 12px;">X</a> <a href="/vdb/Index?c=first&&vid=@item.Id">Venue</a></div>
+                }
+                else
+                {
+                    <div><a class="subcatclose" value="@item.Id,@item.name,Venue" style="color: red;font-size: 12px;">X</a><a href="/vdb/Index?c=first&&vid=@item.Id"> @item.name - @item.VenueType</a></div>
+                }
+            }
+            @*@foreach (var item in ViewBag.catering)
+            {
+                <div><a class="subcatclose" value="@item.Id,,@item.CuisineType,Catering" style="color: red;font-size: 12px;">X</a> <a href="/VDashboard/Index?c=first&&vsid=@item.Id">@item.CuisineType</a></div>
+            }
+            @foreach (var item in ViewBag.photography)
+            {
+                <div>  <a class="subcatclose" value="@item.Id,,@item.PhotographyType,Photography" style="color: red;font-size: 12px;">X</a> <a href="/VDashboard/Index?c=first&&vsid=@item.Id">@item.PhotographyType</a></div>
+            }
+            @foreach (var item in ViewBag.decorators)
+            {
+                <div><a class="subcatclose" value="@item.Id,,@item.DecorationType,Decorator" style="color: red;font-size: 12px;">X</a> <a href="/VDashboard/Index?c=first&&vsid=@item.Id">@item.DecorationType</a></div>
+            }
+            @foreach (var item in ViewBag.others)
+            {
+                <div>   <a class="subcatclose" value="@item.Id,,@item.type,Other" style="color: red;font-size: 12px;">X</a> <a href="/VDashboard/Index?c=first&&vsid=@item.Id">@item.type</a></div>
+            }*@
+        </div>
+    </div>
+
+   
+</div>
+
+@*<button type="button" onclick="addservice()" id="service">Add Service</button>*@
+<div id="addservices" style="height:150px">
+    <div id="addcategory" style="height:60px">
+        <select class="form-control" id="serviceselection1" name="serviceselection1" style="height:40px">
+            <option disabled selected>Select Service Type</option>
+            <option value="Venue">Venue</option>
+            <option value="Catering">Catering</option>
+            <option value="Photography">Photography</option>
+            <option value="Decorator">Decorator</option>
+            <option value="Other">Others</option>
+        </select>
+    </div>
+    <div>
+        <button type="button" onclick="addservicenow()" class="btn btn-1 addbutton" style="border-radius:1px;width:100%;color:#fff;background-color:red; font-size:14px;">
+            Submit
+        </button>
+    </div>
+</div>
+<div id="addservicesbutton" style="height:150px">
+    <button type="button" onclick="addservice()" class="btn btn-1 " style="border-radius:1px;width:100%;color:#fff;background-color:red; font-size:14px;">
+        Add Service
+    </button>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+@*<script>
+    $(function() {
+function toggleIcon(e) {
+$(e.target)
+.prev('.panel-heading')
+.find(".plus-minus")
+.toggleClass('glyphicon-plus glyphicon-minus');
+}
+$('.panel-group').on('hidden.bs.collapse', toggleIcon);
+$('.panel-group').on('shown.bs.collapse', toggleIcon);
+});
+</script>*@
+
+@*<script>
+    $(document).on('click',  '#sidebaracc1', function () {
+        $(this).next('.panel').css('display', 'block').css('max-height', '200px');
+    });
+    $(document).on('click', '#sidebaracc2', function () {
+        $(this).next('.panel').css('display', 'block').css('max-height', '200px');
+    });
+</script>*@

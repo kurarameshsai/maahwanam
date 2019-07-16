@@ -1,0 +1,3120 @@
+﻿@{
+    ViewBag.Title = ":: Dashboard ::";
+    Layout = "~/Views/SharedWeb/vendorloginmaster.cshtml";
+    var vcalcount = 0;
+}
+@section css{
+    <style type="text/css">
+        .button {
+            background-color: #fff;
+            border: none;
+            color: black;
+            padding: 6px 3px 15px 2px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 6px 0px 3px 6px;
+            cursor: pointer;
+            border-radius: 16px;
+        }
+
+        .button {
+            height: 25px;
+            /*width: 112px;*/
+        }
+
+        /*table, th, td {
+            border: 0px;
+            padding-left: 61px;
+            padding-top: 24px;
+            margin-top: -16px;
+            font-size: 16px;
+        }*/
+
+        input[type=text] {
+            width: 39%;
+            padding: 12px 26px;
+            margin: 5px 15px;
+            box-sizing: border-box;
+            border: none;
+            background-color: #fff;
+            /*color: white;*/
+        }
+
+        #policy input[type=text] {
+            width: 80%;
+            padding: 5px;
+            margin: 0;
+            box-sizing: border-box;
+            border: none;
+            background-color: lightgray;
+            /*color: white;*/
+        }
+
+        #policy label {
+            color: black;
+        }
+
+        p.caption {
+            margin: 0 30px 0px 0;
+            background-color: yellow;
+        }
+
+        .caption {
+            font-size: 10px;
+            font-family: lato;
+            color: #000;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            border-radius: 30px;
+            height: 60px;
+            width: 60px;
+            grid-gap: 30px 30px;
+        }
+
+        .grid-item {
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 15px 20px 15px 20px;
+            font-size: 30px;
+            text-align: center;
+            border-radius: 30px;
+            height: 60px;
+            width: 60px;
+        }
+
+        .saveamenities {
+            margin-left: 300px;
+            margin-top: -33px;
+            width: 75px;
+            background-color: #5829bb;
+            color: white;
+        }
+
+        .sliderdiv {
+            border: 4px grey solid;
+            border-style: dashed;
+            height: 100px;
+            width: 100px;
+            margin-top: 25px;
+        }
+
+            .sliderdiv img {
+                padding: 35px;
+            }
+
+        .sliderdiv1 {
+            border: 4px grey solid;
+            border-style: dashed;
+            height: 100px;
+            width: 100px;
+            margin-top: 25px;
+        }
+
+            .sliderdiv1 img {
+                padding: 35px;
+            }
+
+        table.tsliders, th, td {
+            padding-left: 50px;
+        }
+
+        .sliderdiv input[type=file] {
+            display: none;
+        }
+
+        tr.pricestr td input {
+            margin: 0px;
+            width: 100%;
+            padding: 4px 2px;
+        }
+
+        table.priceslist, th.priceslist, td.priceslist {
+            border: 0px;
+            padding-left: 0;
+            padding-top: 0;
+            margin-top: 0;
+            font-size: 16px;
+            color: black;
+            text-align: center;
+        }
+
+        .box_grid ul li {
+            margin-right: 0;
+            color: black;
+            float: none;
+            align-content: center;
+        }
+
+        .vendorimg {
+            max-width: 100%;
+            height: 140px;
+            overflow: hidden;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
+            background-position: center !important;
+        }
+
+        .nice-select {
+            width: 315px;
+        }
+
+            .nice-select .list {
+                height: 250px;
+                width: 315px;
+                overflow: visible;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+        .card-body {
+            color: black;
+        }
+
+        #pkgmodal, #Querymodel, #viewmenuitems {
+            position: relative;
+        }
+
+        .col-md-2-10 {
+            padding-left: 10px;
+        }
+
+            .col-md-2-10 > .pkgitem {
+                padding: 0px;
+                min-height: 2rem;
+                min-width: fit-content;
+                background-color: white;
+                border-radius: 16px;
+            }
+
+        table.menuitems, th.menuitems, td.menuitems {
+            padding-left: 0;
+        }
+
+        h2#venuetype1 {
+            color: black;
+            width: 100%;
+            font-size: 25px;
+            border: none;
+            margin: 0px;
+        }
+
+        label#typemsg {
+            color: black; /*float:left;margin-left:-45px;margin-top:5px;padding-left:10%;*/
+        }
+
+        select#selectedservice {
+            color: black;
+            padding: 0;
+            width: auto;
+            margin-left: 100px;
+            margin-top: -30px;
+        }
+
+        .col-md-6 {
+            box-shadow: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <style>
+        /*.ui-state-default, .ui-widget-content .ui-state-default {
+        border: 1px solid red;background: white;font-weight: 700;color: red;
+        }*/
+        /*.ui-datepicker-unselectable .ui-state-disabled .undefined {
+        background:red;
+        }*/
+        .ui-datepicker-inline {
+            width: 100%;
+        }
+        /*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+        }*/
+        /*.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+        background:red;
+        }*/
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+            background: white;
+        }
+
+        .ui-widget-header {
+            background: white;
+        }
+
+        #ui-datepicker-div {
+            width: 25%;
+        }
+
+        tags {
+            color: black;
+            width: 75%;
+            background: white;
+        }
+    </style>
+    @*<link href="https://www.jqueryscript.net/demo/Tiny-Text-Field-Based-Tags-Input-Plugin-For-jQuery-Tagify/tagify.css" rel="stylesheet">*@
+}
+
+<!-- /header -->
+<main>
+    <div id="error_page">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-2">
+
+                    <div class="card" id="profilepipccontent">
+                        @{Html.RenderAction("profilepic", "VDashboard");}
+                    </div>
+                    @{Html.RenderAction("sidebar", "VDashboard"); }
+                    @if (ViewBag.enable == "first")
+                    {
+                        <style>
+                            table, th, td {
+                                border: 0px;
+                                padding-left: 35px;
+                                padding-top: 12px;
+                                margin-top: -16px;
+                                font-size: 16px;
+                            }
+                        </style>
+                        <div id="addservice">
+                            @*@{ Html.RenderAction("Addservices", "VDashboard"); }*@
+                            <div class="col-md-2-3">
+                                <h6 class="h4-1">
+                                    ADD NEW BANQUETHALL <button type="button" class="btn btn-danger" style="border-radius:1px;float:right">Preview</button>
+                                </h6>
+                                @if (ViewBag.images.Count != 0)
+                                {
+                                    //foreach (var item in ViewBag.images)
+                                    //{
+                                    <img style="width: 645px;height:248px;" src="~/vendorimages/@ViewBag.images[0].ImageName" alt="@ViewBag.images[0].ImageName" />
+                                    //}
+                                }
+                                else
+                                {
+                                    <img src="http://design.maa-aahwanam.com/panagea/images/banner3.jpg" style="width: 645px;">
+                                }
+
+                                @if (ViewBag.ks == "ksc")
+                                {
+                                    @*<div align="center">
+                                                 @if (ViewBag.service.name != null && ViewBag.service.name != "")
+                                        { <div style="float:left"><input type="text" value="@ViewBag.service.name" id="venuetype1" name="venuetype1" style="height: 70px;width: 100%;font-size: 30px;border: none;margin: 0;" placeholder="YOUR HALL NAME" /></div>}
+                                           else
+                                                     {<div style="float:left"><input type="text" value="@ViewBag.service.VenueType" id="venuetype1" name="venuetype1" style="height: 70px;width: 100%;font-size: 30px;border: none;margin: 0;" placeholder="YOUR HALL NAME" /></div> }
+
+                                                     <div style="float:right;margin-top:17px">
+                                                         @if (ViewBag.vsid != null)
+                                                         {
+                                                         <button type="button" class="btn" style="margin-top: -47px;margin-left: 402px;" data-toggle="modal" onclick="window.location.href='/VendorCalendar/Index?id=@ViewBag.vendorid&&vid=@ViewBag.vsid'" data-target="#exampleModal">Plan Calendar</button>
+                                                         }
+                                                         else
+                                                         {
+                                                         <button type="button" class="btn" style="margin-top: -47px;margin-left: 402px;" id="pkgsubcat">Plan Calendar</button>
+                                                         }
+                                                         <input type="checkbox" class="icheck" /><span style="color:black">InActive</span>
+
+                                                     </div>
+                                                 </div>*@
+                                    <div class="row" style="padding-left:15px;height:30%;width:102%">
+                                        <div class="col-md-6" style="max-width:80%;padding-left:3%;padding-top:10px">
+                                            <div class="row">
+                                                <div class="col-md-6" style="padding: 0% 0% 0% 10%;">
+                                                    @if (ViewBag.service.name != null && ViewBag.service.name != "")
+                                                    {
+                                                        <input type="hidden" value="@ViewBag.service.name" id="venuetype1" name="venuetype1" style="height: 70px;width: 100%;font-size: 30px;border: none;margin: 0;" placeholder="YOUR HALL NAME" />
+                                                        <h2 id="venuetype1">@ViewBag.service.name</h2>
+                                                        @*<label id="typemsg">Change Service Type?</label>*@
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="hidden" value="@ViewBag.service.VenueType" id="venuetype1" name="venuetype1" style="height: 70px;width: 100%;font-size: 30px;border: none;margin: 0;" placeholder="YOUR HALL NAME" />
+                                                        <h2 id="venuetype1">@ViewBag.service.VenueType</h2>
+                                                        @*<label id="typemsg">Select Service Type</label>*@
+                                                    }
+                                                </div>
+                                                <div class="col-md-6" style="padding: 2% 0% 0% 10%;">
+                                                    <label id="typemsg">Service Type:</label>
+                                                    <select id="selectedservice" class="form-control">
+                                                        <option disabled selected>Select Category</option>
+                                                        <option value="Convention Hall">Convention Hall</option>
+                                                        <option value="Function Hall">Function Hall</option>
+                                                        <option value="Banquet Hall">Banquet Hall</option>
+                                                        <option value="Meeting Room">Meeting Room</option>
+                                                        <option value="Open Lawn">Open Lawn</option>
+                                                        <option value="Hotel">Hotel</option>
+                                                        <option value="Resort">Resort</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="max-width:20%;padding-left:25px;padding-top:15px">
+                                            <div class="row">
+                                                <div class="col-md-6" style="padding:0px">
+                                                    @if (ViewBag.vsid != null)
+                                                    {
+                                                        <button type="button" class="btn" data-toggle="modal" onclick="window.location.href='/VendorCalendar/Index?id=@ViewBag.vendorid&&vid=@ViewBag.vsid'" data-target="#exampleModal">Plan Calendar</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button type="button" class="btn" id="pkgsubcat">Plan Calendar</button>
+                                                    }
+                                                </div>
+                                                <div class="col-md-6" style="padding: 5% 0% 0% 0%;">
+                                                    <input type="checkbox" class="icheck" /><span style="color:black;">InActive</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="vsid" value="@ViewBag.service.Id" />
+                                }
+                                else if (ViewBag.ks == "ks")
+                                {
+                                    <div class="row" style="padding-left:15px;height:30%;width:102%">
+                                        <div class="col-md-6" style="max-width:50%;padding-left:10%;padding-top:10px">
+                                            <h2 id="venuetype1">Select Category</h2>
+
+                                        </div>
+                                        <div class="col-md-6" style="max-width:50%;padding-left:10%;padding-top:10px">
+                                            <div class="row">
+                                                <div class="col-md-6"><button type="button" class="btn" id="pkgsubcat">Plan Calendar</button></div>
+                                                <div class="col-md-6"><input type="checkbox" class="icheck" /><span style="color:black;">InActive</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div align="center">
+                                        <div style="float:left"><input type="text" style="width:100%" placeholder="YOUR HALL NAME" /></div>
+                                        <div style="float:right;margin-top:17px"><input type="checkbox" class="icheck" /><span style="color:black">InActive</span></div>
+                                        </div>*@
+                                }
+                            </div>
+                            <div class="col-md-2-8">
+                                <form>
+                                    <table class="tsliders">
+                                        <tr>
+                                            @{
+                                                if (ViewBag.sliderimages.Count > 0)
+                                                {
+                                                    int no = 0;
+                                                    foreach (var item in ViewBag.sliderimages)
+                                                    {
+                                                        <td>
+                                                            <div class="sliderdiv" style="border:none" align="center">
+                                                                <img src="~/vendorimages/@item.ImageName" alt="@item.ImageName" style="height:100px;width:100px;padding:0px" />
+                                                                <text style="color:black">Slider @(++no)</text>
+                                                            </div>
+                                                        </td>
+                                                    }
+
+                                                }
+                                                if (ViewBag.slidercount > 0)
+                                                {
+                                                    for (int i = 1; i < ViewBag.slidercount + 1; i++)
+                                                    {
+                                                        <td>
+                                                            <div class="sliderdiv">
+                                                                <img src="~/newdesignstyles/img/plus.png" href="s@(i)" />
+                                                                <input type="file" name="image" id="s@(i)">
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                }
+
+                                            }
+                                        </tr>
+                                    </table>
+                                </form>
+                            </div>
+                            <h5 class="h5-1-1" style="padding-top:0px">
+                                PACKAGES
+
+                                <button type="button" class="btn btn-danger" style="margin-top: -40px;margin-left: 520px;">Add Package</button>
+                            </h5>
+                            <div class="col-md-2-9">
+                                <div class="row" id="pkgsection" style="padding-left:15px;width:99%;box-shadow:none">
+                                    <div class="col-md-6" style="background-color:#543791;padding-left: 0px;padding-top: 0;max-width: 50%;">
+                                        <input type="text" id="pkgname" value="@ViewBag.package.PackageName" name="pkgname" placeholder="Package Name" style="width:100%;">
+
+                                    </div>
+                                    <div class="col-md-6" style="background-color:#543791;padding-left:20px;padding-top: 5px;max-width: 50%;">
+                                        <div class="row">
+                                            <input type="hidden" id="pkgslots" value="@ViewBag.package.timeslot" />
+                                            <div class="col-md-4" style="padding:0px">
+                                                @if (ViewBag.package.Category == "Veg")
+                                                {
+                                                    <input type="radio" name="checkradio" id="Veg" value="Veg" checked /><label for="Veg">Veg</label>
+                                                    <br />
+                                                    <input type="radio" name="checkradio" id="NonVeg" value="NonVeg" style="margin-left:0px" /><label for="NonVeg">Non-Veg</label>
+                                                }
+                                                else if (ViewBag.package.Category == "NonVeg")
+                                                { 
+                                                    <input type="radio" name="checkradio" id="Veg" value="Veg" /><label for="Veg">Veg</label>
+                                                    <br />
+                                                    <input type="radio" name="checkradio" id="NonVeg" value="NonVeg" style="margin-left:0px" checked /><label for="NonVeg">Non-Veg</label>
+                                                }
+                                                else
+                                                {
+                                                    <input type="radio" name="checkradio" id="Veg" value="Veg" checked /><label for="Veg">Veg</label>
+                                                    <br />
+                                                    <input type="radio" name="checkradio" id="NonVeg" value="NonVeg" style="margin-left:0px" /><label for="NonVeg">Non-Veg</label>
+                                                }
+
+                                            </div>
+                                            @{
+                                                if (ViewBag.package.timeslot != "" && ViewBag.package.timeslot != null)
+                                                {
+                                                    <div class="col-md-4" style="padding:0px">
+                                                        @if (ViewBag.package.timeslot.Contains("Break Fast"))
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="breakfast" value="Break Fast" checked /><label for="breakfast">Break Fast</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="breakfast" value="Break Fast" /><label for="breakfast">Break Fast</label>
+                                                        }
+                                                        <br />
+                                                        @if (ViewBag.package.timeslot.Contains("Lunch"))
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="lunch" value="Lunch" checked style="margin-left:0px" /><label for="lunch">Lunch</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="lunch" value="Lunch" style="margin-left:0px" /><label for="lunch">Lunch</label>
+                                                        }
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding:0px">
+                                                        @if (ViewBag.package.timeslot.Contains("Dinner"))
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="dinner" value="Dinner" checked /><label for="dinner">Dinner</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="dinner" value="Dinner" /><label for="dinner">Dinner</label>
+                                                        }
+                                                        <br />
+                                                        @if (ViewBag.package.timeslot.Contains("High Tea"))
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="hightea" value="High Tea" checked style="margin-left:0px" /><label for="hightea">High Tea</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" class="slotcheck" name="slot" id="hightea" value="High Tea" style="margin-left:0px" /><label for="hightea">High Tea</label>
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-4" style="padding:0px">
+                                                        <input type="checkbox" class="slotcheck" name="slot" id="breakfast" value="Break Fast" /><label for="breakfast">Break Fast</label>
+                                                        <br />
+                                                        <input type="checkbox" class="slotcheck" name="slot" id="lunch" value="Lunch" style="margin-left:0px" /><label for="lunch">Lunch</label>
+                                                    </div>
+
+                                                    <div class="col-md-4" style="padding:0px">
+                                                        <input type="checkbox" class="slotcheck" name="slot" id="dinner" value="Dinner" /><label for="dinner">Dinner</label>
+                                                        <br />
+                                                        <input type="checkbox" class="slotcheck" name="slot" id="hightea" value="High Tea" style="margin-left:0px" /><label for="hightea">High Tea</label>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" align="center" id="pkgpricesection">
+                                    <div class="col-md-3">
+                                        <span>Normal Days ₹</span>
+                                        <span><input type="number" id="ndays" name="ndays" placeholder="₹100" style="width:75%" value="@ViewBag.package.normaldays" /></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Peak Days ₹</span>
+                                        <span><input type="number" id="pdays" name="pdays" placeholder="₹100" style="width:75%" value="@ViewBag.package.peakdays" /></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Holidays ₹</span>
+                                        <span><input type="number" id="holidays" name="holidays" placeholder="₹100" style="width:75%" value="@ViewBag.package.holidays" /></span>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span>Choice Days ₹</span>
+                                        <span><input type="number" id="cdays" name="cdays" placeholder="₹100" style="width:75%" value="@ViewBag.package.choicedays" /></span>
+                                    </div>
+                                </div>
+                                <div class="row" align="center" style="padding-top:10px;padding-left:20px">
+                                    <textarea id="pkgdesc" class="form-control" name="pkgdesc" placeholder="Enter Package Description" style="width:97%" cols="3">@ViewBag.package.PackageDescription</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-2-10">
+                                @*<br>*@
+                                <div id="coursesection" style="overflow-y: scroll;min-height: 140px;height: 20%;overflow-x: hidden;">
+                                    @if (ViewBag.pkgitems != null)
+                                    {
+                                        @*foreach (var item in ViewBag.pkgitems)
+                                        {
+                                            <button class="button pkgitem" value="@item.Split('(')[0]">@item.Split('(')[0] (@item.Split('(')[1].Split(')')[0])</button>
+                                        }*@
+                                        for (int i = 0; i < ViewBag.pkgitems.Length; i++)
+                                        {
+                                            <button class="button pkgitem" value="@ViewBag.selecteditems.Split(',')[i]">@ViewBag.pkgitems[i].Split('(')[0] (@ViewBag.pkgitems[i].Split('(')[1].Split(')')[0])</button>
+                                        }
+                                        <div id="extracourse"></div>
+                                    }
+                                    else
+                                    {
+                                        <button class="button pkgitem" value="Welcome_Drinks">Welcome Drinks(0)</button>
+                                        <button class="button pkgitem" value="Starters">Starters(0)</button>
+                                        <button class="button pkgitem" value="Rice">Rice(0)</button>
+                                        <button class="button pkgitem" value="Bread">Bread(0)</button>
+                                        <button class="button pkgitem" value="Curries">Curries(0)</button>
+                                        <button class="button pkgitem" value="Fry_Dry">Fry/Dry(0)</button>
+                                        <button class="button pkgitem" value="Salads">Salads(0)</button>
+                                        <button class="button pkgitem" value="Soups">Soups(0)</button>
+                                        <button class="button pkgitem" value="Deserts">Deserts(0)</button>
+                                        <button class="button pkgitem" value="Beverages">Beverages(0)</button>
+                                        <button class="button pkgitem" value="Fruits">Fruits(0)</button>
+                                        <div id="extracourse">
+                                            @foreach (var item in ViewBag.extramenuitems.Split(','))
+                                            {
+                                                if (item != null && item != "")
+                                                {
+                                                    <button class="button extraitem" value="@item">@item (0)</button>
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                @*<input name="tags" placeholder="Add New Course...." value="@ViewBag.extramenuitems">*@ 
+                                @*<br><br>*@
+                                @*<input type="hidden" class="pkgmenuitems" value="@ViewBag.package.menuitems" />*@
+                                <div align="right" class="pkgsave">
+                                    @if (ViewBag.package.menuitems == null)
+                                    {
+                                    <input type="hidden" class="pkgmenuitems" value="@ViewBag.package.menuitems" />
+                                    }
+                                    else
+                                    {
+                                        <input type="hidden" class="pkgmenuitems" value="@ViewBag.package.menuitems.Trim()" />
+                                    }
+                                    <input type="hidden" class="selpkgitems" />
+                                    <input type="hidden" class="availablepkgitems" value="@ViewBag.selecteditems"/>
+                                    <a class="addcourse" style="padding: 17px;margin-top: 3px; color:#dc3545;cursor:pointer">Add Course</a>
+                                    <a class="viewmenu" style="padding: 17px;margin-top: 3px; color:#dc3545;cursor:pointer">View Menu</a>
+                                    <a href="#" style="padding: 17px;margin-top: 3px; color:#dc3545;cursor:pointer">Duplicate</a>
+                                    @if (ViewBag.package.PackageID != 0)
+                                    {
+                                        <input type="hidden" class="packageid" value="@ViewBag.package.PackageID" />
+                                        <a class="updatepkg" style="padding: 17px;margin-top: 3px; color:#dc3545;cursor:pointer">Update</a>
+                                    }
+                                    else
+                                    {
+                                        <a class="addpkg" style="padding: 17px;margin-top: 3px; color:#dc3545; cursor: pointer;">Publish</a>
+                                    }
+                                    <a href="#" style="padding: 17px;margin-top: 3px; color:#dc3545;cursor:pointer">Remove</a>
+                                </div>
+                                <br><br>
+                                <div class="row-gallery" style="padding-top: 13px;">
+                                    <strong style="color:black">GALLERY/VIDEOS</strong>
+                                    <table class="tsliders">
+                                        <tr>
+                                            @{
+                                                if (ViewBag.images.Count > 0)
+                                                {
+                                                    foreach (var item in ViewBag.images)
+                                                    {
+                                                        <td>
+                                                            <div class="sliderdiv" style="border:none" align="center">
+                                                                <img src="~/vendorimages/@item.ImageName" alt="@item.ImageName" style="height:100px;width:100px;padding:0px" />
+                                                            </div>
+                                                        </td>
+                                                    }
+
+                                                }
+                                                if (ViewBag.imagescount > 0)
+                                                {
+                                                    for (int i = 1; i < ViewBag.imagescount + 1; i++)
+                                                    {
+                                                        <td>
+                                                            <div class="sliderdiv">
+                                                                <img src="~/newdesignstyles/img/plus.png" href="g@(i)" />                                        <input type="file" name="image" id="g@(i)">
+                                                            </div>
+                                                        </td>
+                                                    }
+                                                }
+
+                                            }
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2-14" style="margin-top:-880px;" id="policy">
+                                <h5 class="h5-amenties" style="padding-left: 15px;">POLICIES</h5>
+                                <button type="submit" class="btn btn-block saveamenities" id="buttonClass">
+                                    Save
+                                </button>
+                                @*<div style="overflow:scroll;overflow-x:visible">
+                                *@
+                                @if (ViewBag.policy != null)
+                                {
+
+                                    <div>
+                                        <table style="color:#222;">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Outside_decorators_allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Outside_decorators_allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Outside_decorators_allowed" class="kscpolicy">
+                                                        }
+
+                                                    </td>
+                                                    <td>Outside Decorators Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Decor_provided == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Decor_provided" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Decor_provided" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Decorations provided</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Decorators_allowed_with_royalty == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Decorators_allowed_with_royalty" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Decorators_allowed_with_royalty" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Decorators allowed with royalty</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Food_provided == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Food_provided" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Food_provided" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Food provided</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Outside_food_or_caterer_allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Outside_food_or_caterer_allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Outside_food_or_caterer_allowed" class="kscpolicy">                                   }
+                                                    </td>
+                                                    <td>Outside  food or caterer allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.NonVeg_allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="NonVeg_allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="NonVeg_allowed" class="kscpolicy">             }
+                                                    </td>
+                                                    <td>NonVeg allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Alcohol_allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Alcohol_allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Alcohol_allowed" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Alcohol allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+
+                                                        @if (ViewBag.policy.Outside_Alcohol_allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Outside_Alcohol_allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Outside_Alcohol_allowed" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Outside Alcohol allowed</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Valet_Parking == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Valet_Parking" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Valet_Parking" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Valet Parking</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Valet_Parking == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Parking_Space" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Parking_Space" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Parking Space</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Cancellation == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Cancellation" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Cancellation" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Booking Cancellation  accepted</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Available_Rooms == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Available_Rooms" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Available_Rooms" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Available Rooms</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Changing_Rooms_AC == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Changing_Rooms_AC" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Changing_Rooms_AC" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Changing Rooms with AC</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Complimentary_Changing_Room == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Complimentary_Changing_Room" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Complimentary_Changing_Room" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Complimentary Changing Room</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Music_Allowed_Late == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Music_Allowed_Late" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Music_Allowed_Late" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Music Allowed Late</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Halls_AC == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Halls_AC" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Halls_AC" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Halls AC</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Ample_Parking == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Ample_Parking" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Ample_Parking" class="kscpolicy">
+                                                        }
+
+                                                    </td>
+                                                    <td>Ample_Parking</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Baarat_Allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Baarat_Allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Baarat_Allowed" class="kscpolicy">
+                                                        }
+
+                                                    </td>
+                                                    <td>Baarat Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Fire_Crackers_Allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Fire_Crackers_Allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Fire_Crackers_Allowed" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Fire Crackers Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Fire_Crackers_Allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Hawan_Allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Hawan_Allowed" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Hawan Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @if (ViewBag.policy.Overnight_wedding_Allowed == "Yes")
+                                                        {
+                                                            <input type="checkbox" value="Overnight_wedding_Allowed" class="kscpolicy" checked />
+                                                        }
+                                                        else
+                                                        { <input type="checkbox" value="Overnight_wedding_Allowed" class="kscpolicy">
+                                                        }
+                                                    </td>
+                                                    <td>Overnight wedding Allowed</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div>
+                                        <table style="color:#222;">
+
+
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Outside_decorators_allowed" class="kscpolicy">
+                                                    </td>
+                                                    <td>Outside Decorators Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Decor_provided" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Decorations provided</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Decorators_allowed_with_royalty" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Decorators allowed with royalty</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Food_provided" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Food provided</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Outside_food_or_caterer_allowed" class="kscpolicy" />
+                                                    </td>
+                                                    <td>Outside  food or caterer allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="NonVeg_allowed" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>NonVeg allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Alcohol_allowed" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Alcohol allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Outside_Alcohol_allowed" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Outside Alcohol allowed</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Valet_Parking" class="kscpolicy" />
+
+
+                                                    </td>
+                                                    <td>Valet Parking</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Parking_Space" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Parking Space</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Cancellation" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Booking Cancellation  accepted</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Available_Rooms" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Available Rooms</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Changing_Rooms_AC" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Changing Rooms with AC</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Complimentary_Changing_Room" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Complimentary Changing Room</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Music_Allowed_Late" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Music Allowed Late</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Halls_AC" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Halls AC</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Ample_Parking" class="kscpolicy" />
+
+
+                                                    </td>
+                                                    <td>Ample_Parking</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Baarat_Allowed" class="kscpolicy" />
+
+
+                                                    </td>
+                                                    <td>Baarat Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Fire_Crackers_Allowed" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Fire Crackers Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Hawan_Allowed" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Hawan Allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox" value="Overnight_wedding_Allowed" class="kscpolicy" />
+
+                                                    </td>
+                                                    <td>Overnight wedding Allowed</td>
+                                                </tr>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                }
+                            </div>
+                            <div class="col-md-2-4 row" id="exampleTabsLeftTwo" style="overflow-y: auto;padding:20px;margin-top:5px;">
+                                <form name="TestForm" method="post" onsubmit="return validateForm()">
+
+                                    <input type="hidden" id="selectedamenities" />
+
+                                    <div>
+                                        <h6 class="h4-11" style="font-weight:700">AMENITIES </h6>
+                                        <button type="submit" class="btn btn-block saveamenities">SAVE</button>
+
+                                        @*<button type="button" class="btn btn-block saveamenities" onclick="updatedetails('two')">SAVE</button>*@
+                                        <div class="box-row" style="padding-top:20px;">
+                                            <table>
+                                                @if (ViewBag.vsid != "" && ViewBag.vsid != null)
+                                                {
+                                                    var first = 0; var next = 0;
+                                                    for (int i = 0; i < ViewBag.amenities.Length; i++)
+                                                    {
+                                                        var count = ViewBag.amenities.Length;
+                                                        first = i;
+                                                        if (next < count)
+                                                        {
+                                                            next = ++i;
+                                                        }
+                                                        <tr>
+                                                            <td style="padding-left:0px">
+
+                                                                @if (ViewBag.amenities[first].Split('=')[1].Trim() == "Yes")
+                                                                {<input type="checkbox" value="@(ViewBag.amenities[first].Split('=')[0].Replace(" ", ""))" checked />}
+                                                                else
+                                                                { <input type="checkbox" value="@(ViewBag.amenities[first].Split('=')[0].Replace(" ", ""))" />}
+                                                            </td>
+                                                            <td style="padding-left:5px"><img src="~/newdesignstyles/VenueIcons/@(ViewBag.amenities[first].Split('=')[0].Trim()).png" /></td>
+                                                            <td style="color:black;padding-left:5px">@(ViewBag.amenities[first].Split('=')[0].Trim().Replace('_', ' '))</td>
+                                                            @if (next < count)
+                                                            {
+                                                                <td style="padding-left:0px">
+                                                                    @if (ViewBag.amenities[next].Split('=')[1].Trim() == "Yes")
+                                                                    {<input type="checkbox" value="@(ViewBag.amenities[next].Split('=')[0].Trim().Replace(" ", ""))" checked />}
+                                                                    else
+                                                                    { <input type="checkbox" value="@(ViewBag.amenities[next].Split('=')[0].Trim().Replace(" ", ""))" />}
+                                                                </td>
+                                                                <td style="padding-left:5px"> <img src="~/newdesignstyles/VenueIcons/@(ViewBag.amenities[next].Split('=')[0].Trim()).png" /></td>
+                                                                <td style="color:black;padding-left:5px">@(ViewBag.amenities[next].Split('=')[0].Trim().Replace('_', ' '))</td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    var first = 0; var next = 0;
+                                                    for (int i = 0; i < ViewBag.amenities.Length; i++)
+                                                    {
+                                                        var count = ViewBag.amenities.Length;
+                                                        first = i;
+                                                        if (next < count)
+                                                        {
+                                                            next = ++i;
+                                                        }
+                                                        <tr>
+                                                            <td style="padding-left:0px">
+                                                                <input type="checkbox" value="@(ViewBag.amenities[first].Split('=')[0].Trim().Replace('_', ' '))" />
+                                                            </td>
+                                                            <td style="padding-left:5px"><img src="~/newdesignstyles/VenueIcons/@(ViewBag.amenities[first].Split('=')[0].Trim()).png" /></td>
+                                                            <td style="color:black;padding-left:5px">@(ViewBag.amenities[first].Split('=')[0].Trim().Replace('_', ' '))</td>
+                                                            @if (next < count)
+                                                            {
+                                                                <td style="padding-left:0px">
+                                                                    <input type="checkbox" value="@(ViewBag.amenities[next].Split('=')[0].Trim().Replace('_', ' '))" />
+                                                                </td>
+                                                                <td style="padding-left:5px"> <img src="~/newdesignstyles/VenueIcons/@(ViewBag.amenities[next].Split('=')[0].Trim()).png" /></td>
+                                                                <td style="color:black;padding-left:5px">@(ViewBag.amenities[next].Split('=')[0].Trim().Replace('_', ' '))</td>
+                                                            }
+                                                        </tr>
+                                                    }
+                                                }
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2-5">
+                                <h5 class="h5-1">HALL DETAILS</h5><button type="button" class="btn btn-block saveamenities" onclick="updatedetails('three')">SAVE</button>
+                                <div class="ui equal width form" style="margin-left: 49px;">
+                                    @if (ViewBag.ks == "ks")
+                                    {
+                                        <div class="fields">
+                                            <div class="four-field">
+                                                <label></label>
+                                                <input type="text" id="hdname" name="hdname" placeholder="Enter Hall Name" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="fields">
+                                            <div class="four-field">
+                                                <label></label>
+                                                <input type="number" id="Dimentions" name="Dimentions" placeholder="Enter Hall Dimensions(in sft)">
+                                            </div>
+                                        </div>
+                                        <div class="fields">
+                                            <div class="field-1">
+                                                <label></label>
+                                                <input type="number" id="Minimumseatingcapacity" name="Minimumseatingcapacity" placeholder="Min Capacity">
+                                            </div>
+                                            <div class="field-1">
+                                                <label></label>
+                                                <input type="number" id="Maximumcapacity" name="Maximumcapacity" placeholder="Max Capacity">
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (ViewBag.ks == "ksc")
+                                    {
+                                        <div class="fields">
+                                            <div class="four-field">
+                                                <label></label>
+                                                <input type="text" id="hdname" name="hdname" placeholder="Enter Hall Name" autocomplete="off" value="@ViewBag.service.name">
+                                            </div>
+                                        </div>
+                                        <div class="fields">
+                                            <div class="four-field">
+                                                <label></label>
+                                                <input type="number" id="Dimentions" name="Dimentions" placeholder="Enter Hall Dimensions(in sft)" value="@ViewBag.service.Dimentions">
+                                            </div>
+                                        </div>
+                                        <div class="fields">
+                                            <div class="field-1">
+                                                <label></label>
+                                                <input type="number" placeholder="Min Capacity" id="Minimumseatingcapacity" name="Minimumseatingcapacity" value="@ViewBag.service.Minimumseatingcapacity">
+                                            </div>
+
+                                            <div class="field-1">
+                                                <label></label>
+                                                <input type="number" placeholder="Max Capacity" id="Maximumcapacity" name="Maximumcapacity" value="@ViewBag.service.Maximumcapacity">
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <br>
+                            </div>
+                            <div class="col-md-2-11">
+                                <h5 class="h5-1">DESCRIBE YOUR SERVICE</h5><button type="button" class="btn btn-block saveamenities" onclick="updatedetails('four')">SAVE</button>
+                                @if (@ViewBag.ks == "ksc")
+                                {
+                                    <div class="ui equal width form">
+                                        <div class="fields">
+                                            <div class="four-field">
+                                                <label></label>
+                                                <input type="text" id="mainDescription" name="mainDescription" placeholder="Start typing your service info..." style="height: 109px;" value="@ViewBag.service.Description">
+                                            </div>
+                                        </div>
+
+                                        <h5 class="h5-1">ADDRESS</h5><br>
+                                        <div class="ui equal width form">
+                                            <div class="fields">
+                                                <label></label>
+                                                <input id="Address" name="Address" type="text" placeholder="Give your Address" value="@ViewBag.service.Address">
+                                            </div>
+
+                                            <div class="fields">
+                                                <div class="field">
+                                                    <label></label>
+                                                    <input type="text" id="Landmark" name="Landmark" placeholder="What's the Landmark" value="@ViewBag.service.Landmark" style="width:100%">
+                                                </div>
+
+                                                <div class="field">
+                                                    <label></label>
+                                                    <input type="text" id="City" name="City" placeholder="What's your City" value="@ViewBag.service.City" style="width:100%">
+                                                </div>
+                                            </div>
+                                            <div class="eight field">
+                                                <label></label>
+                                                <input type="text" id="ZipCode" name="ZipCode" placeholder="Type ZipCode" value="@ViewBag.service.ZipCode">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                                else if (@ViewBag.ks == "ks")
+                                {
+                                    <div class="ui equal width form">
+                                        <div class="fields">
+                                            <div class="four-field">
+                                                <label></label>
+                                                <input type="text" id="mainDescription" name="mainDescription" placeholder="Description" style="height: 109px;">
+                                            </div>
+                                        </div>
+
+                                        <h5 class="h5-1">Address</h5><br>
+                                        <div class="ui equal width form">
+                                            <div class="fields">
+                                                <div class="eight field">
+                                                    <label></label>
+                                                    <input id="Address" name="Address" type="text" placeholder="Address">
+                                                </div>
+
+                                            </div>
+                                            <div class="fields" style="width:250px">
+                                                <div class="field">
+                                                    <label></label>
+                                                    <input type="text" id="Landmark" name="Landmark" placeholder="Landmark" style="width:120px">
+                                                </div>
+
+                                                <div class="field">
+                                                    <label></label>
+                                                    <input type="text" id="City" name="City" placeholder="City" style="width:120px">
+                                                </div>
+                                            </div>
+                                            <div class="eight field">
+                                                <label></label>
+                                                <input type="text" id="ZipCode" name="ZipCode" placeholder="ZipCode">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                                                }
+                </div>
+
+                @if (ViewBag.enable == "second")
+                {
+                <div class="col-md-10">
+                    <div class="container margin_60_35" style="margin-left:auto;padding-bottom:0px">
+                        <form method="post">
+                            <div class="row no-gutters custom-search-input-2">
+                                <div class="col-lg-4">
+                                    @*<img src="http://design.maa-aahwanam.com/panagea/images/icons/checklist.png">*@
+                                    <div class="nice-select" tabindex="0" style="background-color:white">
+                                        <span class="current" style="padding-left:20px;font-weight:700;">Select Event</span>
+                                        <ul class="list">
+                                            <li data-value="" class="option disabled">Select Event</li>
+                                            <li data-value="Wedding" class="option selected">Wedding</li>
+                                            <li data-value="Party" class="option">Party</li>
+                                            <li data-value="Corporate" class="option">Corporate</li>
+                                            <li data-value="Baby Function" class="option">Baby Function</li>
+                                            <li data-value="Birthday" class="option">Birthday</li>
+                                            <li data-value="Engagement" class="option">Engagement</li>
+                                            <li data-value="Other" class="option">Other &emsp;<input type="text" id="other"></li>
+                                        </ul>
+                                    </div>
+                                    @*<div id="div1"></div>*@
+
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="form-group">
+                                        <input class="form-control" type="number" id="guests" name="guests" placeholder="Guests">
+                                        @*<img src="http://design.maa-aahwanam.com/panagea/images/icons/family.png">*@
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <input class="form-control" style="width:100%" id="datetimepicker1" type="text" name="datetimepicker1" placeholder="Date" required>
+                                        @*<img src="http://design.maa-aahwanam.com/panagea/images/icons/calendar.png">*@
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <input type="button" id="btnsearch" class="btn btn-danger btn_search" style="width:100%" value="Search">
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="isotope-wrapper" style="padding: 30px;margin-top: 30px;">
+                        <h3 style="color:black">HALL DETAILS</h3>
+                        <div class="row">
+                            <input type="hidden" id="vcalender1" name="vcalender1" value="">
+                            <input type="hidden" id="vcalender" name="vcalender" value="">
+                            @foreach (var item in ViewBag.venues)
+                            { 
+                                <div class="col-xl-4 isotope-item popular">
+                                    <div class="box_grid">
+                                        <figure style="margin:0;height:140px">
+                                            <div style="background-image:url(http://www.ansonika.com/panagea/img/tour_1.jpg)" class="vendorimg"></div>
+                                            @*}*@
+                                        </figure>
+                                        <div class="wrapper">
+                                            <h5 class="uk-h5">
+                                                @if (item.name != null && item.name != "")
+                                                {
+                                                    @item.name
+                                                }
+                                                else if (item.VenueType != null && item.VenueType != "")
+                                                {
+                                                    @item.VenueType
+                                                }
+                                                else
+                                                {
+                                                    <text>Venue</text>
+                                                }
+
+                                                @{
+                                                    if (item.Landmark != null && item.Landmark != "")
+                                                    {
+                                                        <p class="p_0"> @item.Landmark</p>
+                                                    }
+                                                    else if (item.City != null && item.City != "")
+                                                    {
+                                                        <p class="p_0"> @item.City </p>
+                                                    }
+                                                    else if (item.City != null && item.City != "" && item.Landamark != null && item.Landmark != "")
+                                                    {
+                                                        <p class="p_0"> @item.Landmark,  @item.City </p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="p_0">  </p>
+
+                                                    }
+                                                }
+
+                                            </h5>
+                                            <hr style="margin:0;border: 1px lightgray solid;" />
+                                            <div align="center">
+                                                <table class="priceslist">
+                                                    <tr class="priceslist">
+                                                        @if (item.name != null && item.name != "")
+                                                        {
+                                                            <td class="priceslist" align="center">@item.name</td>
+                                                        }
+                                                        else if (item.VenueType != null && item.VenueType != "")
+                                                        {
+                                                            <td class="priceslist" align="center">@item.VenueType</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="priceslist" align="center">Venue</td>
+                                                        }
+                                                    </tr>
+                                                    <tr class="priceslist">
+                                                        @if (item.Dimentions != null && item.Dimentions != "")
+                                                        {
+                                                            <td class="priceslist" align="center">@item.Dimentions</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="priceslist" align="center">Update Hall Dimentions</td>
+                                                        }
+                                                    </tr>
+                                                    <tr class="priceslist">
+                                                        @{
+                                                            if (item.Minimumseatingcapacity != 0)
+                                                            {
+                                                                <td class="priceslist" align="center"> @item.Minimumseatingcapacity</td>
+                                                            }
+                                                            else if (item.Maximumcapacity != 0)
+                                                            {
+                                                                <td class="priceslist" align="center">@item.Maximumcapacity </td>
+                                                            }
+                                                            else if (item.Maximumcapacity != 0 && item.Minimumseatingcapacity != 0)
+                                                            {
+                                                                <td class="priceslist" align="center"> @item.Minimumseatingcapacity -  @item.Maximumcapacity People</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td class="priceslist" align="center">Update Seating Capacity </td>
+
+                                                            }
+                                                        }
+                                                    </tr>
+                                                    <tr class="priceslist">
+                                                        <td class="priceslist" align="center">Seating Arrangement</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <hr style="margin:0;border: 1px lightgray solid;" />
+                                        <div>
+                                            <div style="color:black;font-weight:700" align="center">Availability Calendar</div>
+                                        </div>
+                                        <div style="border:1px black solid" id="vcal">
+                                            <input type="hidden" value="@item.Id" id="venusid" name="venusid" />
+                                            <input type="hidden" value="@item.VendorMasterId" id="venusmasterid" name="venusmasterid" />
+                                            <div class='vendorcalendar' id="vcal@(++vcalcount)"></div>
+                                        </div>
+                                        <div class="kscbook" style="display:none">
+
+                                            <input type="number" id="bookguest" name="bookguest" placeholder="no of guest">
+                                            <select name="eventtype" id="eventtype">
+                                                <option value="Select Event">Select Event</option>
+                                                <option value="Wedding">Wedding</option>
+                                                <option value="Party">Party</option>
+                                                <option value="Corporate">Corporate</option>
+                                                <option value="Baby Function">Baby Function</option>
+                                                <option value="Birthday">Birthday</option>
+                                                <option value="Engagement">Engagement</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+
+                                        </div>
+                                        <hr style="margin:0;border: 1px lightgray solid;" />
+                                        <div>
+                                            <div style="color:black;font-weight:700" align="center">Available Packages</div>
+                                        </div>
+
+                                        <div>
+                                            <input type="checkbox" value="Morning~@item.Id" name="kstimeslot" class="kstimeslot" /><label style="color:black">Morning</label>
+                                            <input type="checkbox" value="Evening~@item.Id" name="kstimeslot" class="kstimeslot" />     <label style="color:black">Evening</label>
+                                        </div>
+                                        <div>
+                                            <table class="priceslist" style="width:100%">
+                                                @foreach (var item1 in @ViewBag.availablepackages)
+                                                {
+                                                    if (item1.VendorSubId == item.Id)
+                                                    {
+                                                        <tr class="priceslist">
+                                                            <td class="priceslist" style="width:30%">@item1.PackageName</td>
+                                                            <td class="priceslist" style="width:40%">
+                                                                <span>
+                                                                    ₹
+                                                                    @if (@item1.PackagePrice != "" && @item1.PackagePrice != null)
+                                                                    {<b style="font-size:17px">@item1.PackagePrice</b>}
+                                                                else
+                                                                {
+                                                                    <b style="font-size:17px">@item1.price1</b>
+                                                                }
+                                                                    / Person
+                                                                </span>
+                                                            </td>
+                                                            <td class="priceslist" style="width:30%"><input type="hidden" class="pkgid" value="@item1.PackageID" /> <input type="checkbox" value="@item1.PackageID" name="kspackage" class="kspackage"></td> @*onclick="booknow(@item1.PackageID)"*@
+                                                        </tr>
+
+                                                    }
+
+                                                }
+                                            </table>
+                                            <input type="hidden" id="selectedcart" name="selectedcart" class="selectedcart" value="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                            <!-- /box_grid -->
+                        </div>
+                        <!-- /row -->
+                    </div>
+                    <input type="button" class="btnbook" value="Choose packages" />
+                    <div role="tablist" class="add_bottom_45 accordion_2" id="payment">
+                        <div class="card">
+                            <div class="card-header" role="tab">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseOne_payment" aria-expanded="false" style="text-transform:uppercase">
+                                        <i class="indicator ti-minus"></i>Todays Events
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne_payment" class="collapse show" role="tabpanel" data-parent="#payment">
+                                <div class="card-body">
+                                    <table id="today" class="display" style="width:100%;padding-left:0">
+                                        <thead>
+                                            <tr>
+                                                @*<th>S.No</th>*@
+                                                <th>Order ID</th>
+                                                <th>Event Type</th>
+                                                <th>Event Date</th>
+                                                <th>Package Name</th>
+                                                <th>Total Amount</th>
+                                                <th>Balance Due</th>
+                                                <th>Status</th>
+                                                @*<th>Actions</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                //var number1= 0;
+                                                foreach (var orders in ViewBag.todaysorder)
+
+                                                {
+
+                                                    <tr>
+                                                        @*<td>@(++number1)</td>*@
+                                                        <td>@orders.OrderId</td>
+                                                        <td>@orders.EventType</td>
+                                                        <td>@orders.BookedDate</td>
+                                                        <td>@orders.PackageName</td>
+                                                        <td>@orders.TotalPrice</td>
+                                                        <td>@orders.Due</td>
+                                                        <td>@orders.Status</td>
+                                                    </tr>
+
+                                                } }
+                                            @{
+                                                foreach (var orders in ViewBag.todaysorder1)
+                                                {
+
+                                                    <tr>
+                                                        @*<td>@(++number1)</td>*@
+                                                        <td>@orders.OrderId</td>
+                                                        <td>@orders.EventType</td>
+                                                        <td>@orders.BookedDate</td>
+                                                        <td>@orders.PackageName</td>
+                                                        <td>@orders.TotalPrice</td>
+                                                        <td>@orders.Due</td>
+                                                        <td>@orders.Status</td>
+                                                    </tr>
+
+                                                } }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /card -->
+                        <div class="card">
+                            <div class="card-header" role="tab">
+                                <h5 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" href="#collapseTwo_payment" aria-expanded="false" style="text-transform:uppercase">
+                                        <i class="indicator ti-plus"></i>Tomorrow Events
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo_payment" class="collapse" role="tabpanel" data-parent="#payment">
+                                <div class="card-body">
+                                    <table id="tomorrow" class="display" style="width:100%;padding-left:0">
+                                        <thead>
+                                            <tr>
+                                                @*<th>S.No</th>*@
+                                                <th>Order ID</th>
+                                                <th>Event Type</th>
+                                                <th>Event Date</th>
+                                                <th>Package Name</th>
+                                                <th>Total Amount</th>
+                                                <th>Balance Due</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @{
+                                                //var number2 = 0;
+                                                foreach (var orders in ViewBag.tommaroworder)
+                                                {
+
+                                                    <tr>
+                                                        @*<td>@(++number2)</td>*@
+                                                        <td>@orders.OrderId</td>
+                                                        <td>@orders.EventType</td>
+                                                        <td>@orders.BookedDate</td>
+                                                        <td>@orders.PackageName</td>
+                                                        <td>@orders.TotalPrice</td>
+                                                        <td>@orders.Due</td>
+                                                        <td>@orders.Status</td>
+
+                                                    </tr>
+                                                } }
+                                            @{
+                                                //var number2 = 0;
+                                                foreach (var orders in ViewBag.tommaroworder1)
+                                                {
+
+                                                    <tr>
+                                                        @*<td>@(++number2)</td>*@
+                                                        <td>@orders.OrderId</td>
+                                                        <td>@orders.EventType</td>
+                                                        <td>@orders.BookedDate</td>
+                                                        <td>@orders.PackageName</td>
+                                                        <td>@orders.TotalPrice</td>
+                                                        <td>@orders.Due</td>
+                                                        <td>@orders.Status</td>
+
+                                                    </tr>
+                                                } }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /card -->
+                        <div class="card">
+                            <div class="card-header" role="tab">
+                                <h5 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" href="#collapseThree_payment" aria-expanded="false" style="text-transform:uppercase">
+                                        <i class="indicator ti-plus"></i>Upcoming Events
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseThree_payment" class="collapse" role="tabpanel" data-parent="#payment">
+                                <div class="card-body">
+                                    <table id="upcoming" class="display" style="width:100%;padding-left:0">
+                                        <thead>
+                                            <tr>
+                                                @*<th>S.No</th>*@
+                                                <th>Order ID</th>
+                                                <th>Event Type</th>
+                                                <th>Event Date</th>
+                                                <th>Package Name</th>
+                                                <th>Total Amount</th>
+                                                <th>Balance Due</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                /*   var number3 = 0*/;
+           foreach (var orders in ViewBag.upcominforder)
+           {
+                <tr>
+                    @*<td>@(++number3)</td>*@
+                    <td>@orders.OrderId</td>
+                    <td>@orders.EventType</td>
+                    <td>@orders.BookedDate</td>
+                    <td>@orders.PackageName</td>
+                    <td>@orders.TotalPrice</td>
+                    <td>@orders.Due</td>
+                    <td>@orders.Status</td>
+                </tr>
+            }
+                                            }
+                                            @{
+                                                //var number3 = 0;
+                                                foreach (var orders in ViewBag.upcominforder1)
+                                                {
+                                                    <tr>
+                                                        @*<td>@(++number3)</td>*@
+                                                        <td>@orders.OrderId</td>
+                                                        <td>@orders.EventType</td>
+                                                        <td>@orders.BookedDate</td>
+                                                        <td>@orders.PackageName</td>
+                                                        <td>@orders.TotalPrice</td>
+                                                        <td>@orders.Due</td>
+                                                        <td>@orders.Status</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /card -->
+                    </div>
+                    <!-- /accordion payment -->
+                </div>
+                                                    }
+                @if (ViewBag.enable == "orders")
+                {
+
+                    <div class="col-md-10" style="color:black">
+                        <div class="container margin_60_35" style="margin-left:auto;padding-bottom:0px">
+                            <form method="post">
+                                <div class="row no-gutters custom-search-input-2">
+                                    <div class="col-lg-4">
+                                        <div class="nice-select" tabindex="0" style="background-color:white">
+                                            <span class="current" style="padding-left:20px;font-weight:700;">Select Event</span>
+                                            <ul class="list">
+                                                <li data-value="" class="option disabled">Select Event</li>
+                                                <li data-value="Wedding" class="option selected">Wedding</li>
+                                                <li data-value="Party" class="option">Party</li>
+                                                <li data-value="Corporate" class="option">Corporate</li>
+                                                <li data-value="Baby Function" class="option">Baby Function</li>
+                                                <li data-value="Birthday" class="option">Birthday</li>
+                                                <li data-value="Engagement" class="option">Engagement</li>
+                                                <li data-value="Other" class="option">Other &emsp;<input type="text" id="other"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <input class="form-control" type="number" id="guests" name="guests" placeholder="Guests">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <input class="form-control" style="width:100%" id="datetimepicker1" type="text" name="datetimepicker1" placeholder="Date" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input type="button" id="btnsearch" class="btn btn-danger btn_search" style="width:100%" value="Search">
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="isotope-wrapper" style="margin-top: 30px;">
+                            <div>
+                                <table style="width:100%">
+                                    <tr>
+                                        <td><h4 style="text-transform:uppercase">Orders</h4></td>
+                                        <td><button type="button" class="btn btn-primary" style="float:right">New Order</button></td>
+                                        <td style="float:right"><input class="form-control" style="width:100%" id="datetimepicker2" type="text" name="datetimepicker2" placeholder="Select Date Range" required></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <table id="allorders" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Order ID</th>
+                                        <th>Event Type</th>
+                                        <th>Event Date</th>
+                                        <th>Package Name</th>
+                                        <th>Total Amount</th>
+                                        <th>Balance Due</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        var number = 0;
+                                        foreach (var orders in ViewBag.order1)
+                                        {
+                                            <tr class="show_hide_row">
+                                                <td>@(++number)</td>
+                                                <td>@orders.OrderId</td>
+                                                <td>@orders.EventType</td>
+                                                <td>@orders.BookedDate</td>
+                                                <td>@orders.PackageName</td>
+                                                <td>@orders.TotalPrice</td>
+                                                <td>@orders.Due</td>
+                                                <td>@orders.Status</td>
+                                                <td>
+                                                    <div class="menu">
+                                                        <button class="btn btn-default browse item" style="font-weight:700">:</button>
+                                                        <div class="ui fluid popup top left transition hidden" style="top: auto; left: 1px; bottom: 69px; right: auto; width: 670px;">
+                                                            <div class="four column relaxed divided grid">
+                                                                <div class="column">
+                                                                    <div class="link list">
+                                                                        <a class="show_hide_row12 item" id="acc1" style="cursor:pointer">View Detail</a>
+                                                                        <hr style="margin:0;color:black;border:1px grey ridge" />
+                                                                        <a class="item" style="cursor:pointer" onclick="orderemail('@orders.username')">Send Message</a>
+                                                                        <hr style="margin:0;color:black;border:1px grey ridge" />
+                                                                        <a href="/vinvoice?oid=@orders.OrderId" class="item" style="cursor:pointer">View Invoice</a>
+                                                                        <hr style="margin:0;color:black;border:1px grey ridge" />
+                                                                        <a href="/Payments?Oid=@orders.OrderId" class="item" style="cursor:pointer">Receive Payments</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                @*<td><button class="btn btn-primary show_hide_row" id="acc1" value="number">View Details</button> <button type="button" class="writemsg button btn btn-success" onclick="orderemail('@orders.username')" value="Query">Send Message</button></td>*@
+                                            </tr>
+                                            <tr id="hidden_row1" class="hidden_row">
+                                                <td colspan=4>
+                                                    <ul>
+                                                        <li>Event Type:@orders.EventType</li>
+                                                        <li>contact number:@orders.phoneno</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+
+                                        }
+                                        foreach (var orders in ViewBag.order)
+                                        {
+
+                                            <tr class="show_hide_row">
+                                                <td>@(++number)</td>
+                                                <td>@orders.OrderId</td>
+                                                <td>@orders.EventType</td>
+                                                <td>@orders.BookedDate</td>
+                                                <td>@orders.PackageName</td>
+                                                <td>@orders.TotalPrice</td>
+                                                <td>@orders.Due</td>
+                                                <td>@orders.Status</td>
+                                                <td>
+                                                    <div class="menu">
+                                                        <button class="btn btn-default browse item" style="font-weight:700">:</button>
+                                                        <div class="ui fluid popup top left transition hidden" style="top: auto; left: 1px; bottom: 69px; right: auto; width: 670px;">
+                                                            <div class="four column relaxed divided grid">
+                                                                <div class="column">
+                                                                    <div class="link list">
+                                                                        <a class="show_hide_row12 item" id="acc1" style="cursor:pointer">View Detail</a>
+                                                                        <hr style="margin:0;color:black;border:1px grey ridge" />
+                                                                        <a class="item" style="cursor:pointer" onclick="orderemail('@orders.username')">Send Message</a>
+                                                                        <hr style="margin:0;color:black;border:1px grey ridge" />
+                                                                        <a href="/vinvoice?oid=@orders.OrderId" class="item" style="cursor:pointer">View Invoice</a>
+                                                                        <hr style="margin:0;color:black;border:1px grey ridge" />
+                                                                        <a href="/Payments?Oid=@orders.OrderId" class="item" style="cursor:pointer">Receive Payments</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                @*<td><button class="btn btn-primary show_hide_row" id="acc1" value="number">View Details</button> <button type="button" class="writemsg button btn btn-success" onclick="orderemail('@orders.username')" value="Query">Send Message</button></td>*@
+
+                                            </tr>
+
+                                            <tr id="hidden_row1" class="hidden_row">
+                                                <td colspan=4>
+                                                    <ul>
+                                                        <li>Event Type:@orders.EventType</li>
+                                                        <li>contact number:@orders.UserPhone</li>
+                                                    </ul>
+                                                </td>
+                                            </tr>
+
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                                        }
+                <!-- /container -->
+            </div>
+        </div>
+    </div>
+    <!-- /error_page -->
+</main>
+
+
+<!--/main-->
+<input type="hidden" id="Item1_EmailId" name="Item1.EmailId" class="form-control" value="@ViewBag.Vendor.EmailId">
+<input type="hidden" id="Item1Id" name="Item1.Id" class="form-control" value="@ViewBag.Vendor.Id">
+<input type="hidden" id="amenities" value="@ViewBag.amenities1" />
+<input type="hidden" id="amenities1" value="@ViewBag.amenities1" />
+
+<input type="hidden" id="vsid" value="@ViewBag.vsid" />
+
+
+<div id="pkgmodal" class="ui mini test modal" style="max-width:300px;width:100%">
+    <i class="close icon"></i>
+    <div class="header">
+        <input type="text" class="selectedpkg" style="max-width:300px;width:70%;padding:0;margin:0"/>Items
+        <text style="font-size:15px">Customer can choose</text> <input class="maxcount" type="number" value="0" style="width:15%;" min="0"/>
+    </div>
+    <div class="scrolling content pkgitemsection">
+        <p style="display:none" id="ctype" />
+        <table class="menuitems"></table>
+    </div>
+    <div class="actions">
+        <div class="ui negative button" style="height:40px;">
+            CANCEL
+        </div>
+        <div class="ui positive button add" style="height:40px;"> @*onclick="Addpkgitems()"*@
+            ADD
+        </div>
+    </div>
+</div>
+<div id="Querymodel" class="ui standard writemsg modal" style="max-width:500px;width:100%">
+    <div class="header">
+        Write Message To: <text class="custemail"></text>
+    </div>
+    <div class="scrolling content">
+        <textarea placeholder="Start typing your message here....." class="form-control" id="txtmsg" rows="5"></textarea>
+    </div>
+    <div class="actions">
+        <div class="ui negative button" style="height:40px;">
+            CANCEL
+        </div>
+        <div class="ui positive button" id="sendmsg" style="height:40px;">
+            SEND
+        </div>
+    </div>
+</div>
+
+<div id="viewmenuitems" class="ui long writemsg modal">
+    <div class="header" style="background-color:#573791;color:white">
+        <text class="pkgname"></text> - <text class="pkgtype"></text>
+        <button style="background-color:black;color:white;border:none;font-size:14px;height:30px;width:60px;float:right" onclick="$('#viewmenuitems').modal('hide')">Close</button>
+        <br />
+        <div class="row" align="center" id="pkgpricesection">
+            <div class="col-md-3">
+                <span>Normal Days Price</span>
+                <span>₹<label id="normaldays"></label></span>
+            </div>
+            <div class="col-md-3">
+                <span>Peak Days Price&emsp;</span>
+                <span>₹<label id="peakdays"></label></span>
+            </div>
+            <div class="col-md-3">
+                <span>Holidays Price&emsp;&emsp;</span>
+                <span>₹<label id="holidays"></label></span>
+            </div>
+            <div class="col-md-3">
+                <span>Choice Days Price</span>
+                <span>₹<label id="choicedays"></label></span>
+            </div>
+        </div>
+        @*<div class="row" align="center">
+            <span><label id="packagedescription"></label></span>
+            </div>*@
+    </div>
+    <div class="scrolling content" id="pkgitems">
+        @*<textarea placeholder="Selected Menu items" class="form-control" id="pkgitems" rows="5"></textarea>*@
+        @*<label id="pkgitems"></label>*@
+    </div>
+    <div class="actions">
+        <div class="ui negative button" style="height:40px;">
+            CANCEL
+
+        </div>
+        @*<div class="ui positive button" id="sendmsg" style="height:40px;">
+            SEND
+            </div>*@
+    </div>
+</div>
+
+<div id="scripttags"></div>
+
+@section scripts{
+    @*<script src="https://www.jqueryscript.net/demo/Tiny-Text-Field-Based-Tags-Input-Plugin-For-jQuery-Tagify/jQuery.tagify.js"></script>*@
+
+    @*<script>
+        $('[name=tags]').tagify();
+    </script>*@
+    <script>
+        $('.menu .browse').popup({
+            inline: true,
+            hoverable: true,
+            position: 'bottom left',
+            delay: {
+                show: 300,
+                hide: 800
+            }
+        });
+    </script>
+    <script>
+        $('.slotcheck').on('change',function(){
+            var thisdiv = $(this).parents("div.row");
+            if(thisdiv.find("input[type='checkbox']").is(':checked')){
+                var favorite = [];
+                $.each($("input[type='checkbox']:checked"), function () {
+                    favorite.push($(this).val());
+                    timeslot = favorite.join(", ");
+                })
+                $('#pkgslots').val(favorite);
+            }
+        });
+    </script>
+    <script>
+        $(".vendorcalendar").on("change", function () {
+            $(".kscbook").css('display', 'none');
+            var date = new Date($(this).val());
+            var yr = date.getFullYear();
+            var day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+            var month = date.getMonth() + 1;
+            var selected = yr + '-' + month + '-' + day;
+            var vsid = $(this).parents("div#vcal").children('#venusid').val();
+           // alert(selected + '~' + vsid);
+            vcal = $("#vcalender").val();
+            selected1 = selected + '~' + vsid;
+            var vcal1 = vcal +"," + selected1;
+          //   alert(vcal1);
+            $("#vcalender").val(vcal1);
+            // $(this).parents("div#vcal").next("div.kscbook").css('display', 'block');
+        });
+        $('#datetimepicker1,datetimepicker2').datepicker({
+            dateFormat: 'dd/mm/yy',
+            minDate: new Date()
+        });
+        $('.btnbook').on('click', function () {
+            window.localStorage.removeItem("vpbook", select);
+            window.localStorage.removeItem("vpbookdate", date);
+            window.localStorage.removeItem("vpbooktimeslot", timeslotlist);
+            window.localStorage.removeItem("vpbookpid", packageid);
+            //   getValueUsingClass();
+            /* declare an checkbox array */
+            var chkArray = [];
+
+            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
+            $(".kspackage:checked").each(function () {
+                chkArray.push($(this).val());
+            });
+
+            /* we join the array separated by the comma */
+            var selected;
+            selected = chkArray.join(',');
+
+            /* check if there is selected checkboxes, by default the length is 1 as it contains one single comma */
+            if (selected.length > 0) {
+                //  alert("You have selected " + selected);
+            } else {
+                alert("Please at least check one of the checkbox");
+            }
+            var chkArray1 = [];
+
+            /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
+            $(".kstimeslot:checked").each(function () {
+                chkArray1.push($(this).val());
+            });
+
+            /* we join the array separated by the comma */
+            var timeslot;
+            timeslot = chkArray1.join(',');
+
+            /* check if there is selected checkboxes, by default the length is 1 as it contains one single comma */
+            if (timeslot.length > 0) {
+                //  alert("You have selected " + selected);
+            } else {
+                alert("Please at least check timeslot of the checkbox");
+            }
+           // var calendar = $("#vcalender").val();
+            //var calendar = $("input[id='vcalender']")
+            //    .map(function () { return $(this).val(); }).get();
+            var packageid = selected;
+            window.localStorage.removeItem("vpbook");
+            var timeslotlist = timeslot;
+            var location = 'Hyderabad';//$('#loc').val();
+            var eventtype = $('.current').text().replace('1', '');
+            var guests = $('#guests').val();
+         var date = $('#vcalender').val();
+           // if (date == '') date = $('#datetimepicker1').val();
+
+            if (eventtype == '' || eventtype == null || eventtype == 'Select Event') {
+                alert('Select Event Type');
+            }
+            else if (guests == '') {
+                alert('Enter Guests');
+                $('#guests').focus();
+            }
+            else if (date == '') {
+                alert('Select date');
+                $('#datetimepicker1').focus();
+            }
+            else {
+             
+
+                var select = location + ',' + guests + "," + eventtype;
+                alert(select);
+                window.localStorage.setItem("vpbook", select);
+                window.localStorage.setItem("vpbookdate", date);
+                window.localStorage.setItem("vpbooktimeslot", timeslotlist);
+                window.localStorage.setItem("vpbookpid", packageid);
+              //  alert(select +","+ packageid +","+timeslotlist);
+                window.location.href = '/ManageUser/Index';
+                //alert('Location = '+location+',Event Type = '+eventtype+',Guests = '+guests+',Event Date = '+date+'');
+            }
+        });
+        $("#buttonClass").click(function () {
+            var policycheck;
+            var chkArray = [];
+            $(".kscpolicy:checked").each(function () {
+                chkArray.push($(this).val());
+                var selected;
+                selected = chkArray.join(',');
+                /* check if there is selected checkboxes, by default the length is 1 as it contains one single comma */
+                if (selected.length > 0) {
+                    //  alert("You have selected " + selected);
+                    policycheck = selected;
+                } else {
+                    alert("Please at least check one of the checkbox");
+                }
+            });
+            // alert(policycheck);
+            var vsid = $('#vsid').val();
+            var Tax = $("#Tax").val();
+            var Decoration_starting_costs = $("#Decoration_starting_costs").val();
+            var Rooms_Count = $("#Rooms_Count").val();
+            var Advance_Amount = $("#Advance_Amount").val();
+            var Room_Average_Price = $("#Room_Average_Price").val();
+            $.ajax({
+                url: '/VDashboard/updatepolicy?policycheck=' + policycheck + '&&vsid=' + vsid + '&&Tax=' + Tax + '&&Decoration_starting_costs=' + Decoration_starting_costs + '&&Rooms_Count=' + Rooms_Count + '&&Advance_Amount=' + Advance_Amount + '&&Room_Average_Price=' + Room_Average_Price,
+                type: 'post',
+                contentType: 'application-json',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (er) {
+                    alert("System Encountered Internal Error!!! Try Again After Some Time");
+                }
+            });
+
+        })
+
+
+        var validateForm = function () {
+            var checks = $('input[type="checkbox"]:checked').map(function () {
+                return $(this).val();
+            }).get()
+            // alert(checks);
+            var vsid = $('#vsid').val();
+            var hdname = $('#hdname').val();
+            var Dimentions = $('#Dimentions').val();
+            var Minimumseatingcapacity = $('#Minimumseatingcapacity').val();
+            var Maximumcapacity = $('#Maximumcapacity').val();
+            var selectedamenuities = checks;
+            var vsid = $('#vsid').val();
+            var Address = $('#Address').val();
+            var Landmark = $('#Landmark').val();
+            var City = $('#City').val();
+            var ZipCode = $('#ZipCode').val();
+            var Description = $('#mainDescription').val();
+            $.ajax({
+                url: '/VDashboard/UpdateAmenities?selectedamenities=' + selectedamenuities + '&&vsid=' + vsid + '&&hdname=' + hdname + '&&vsid=' + vsid + '&&Dimentions=' + Dimentions + '&&Minimumseatingcapacity=' + Minimumseatingcapacity + '&&Maximumcapacity=' + Maximumcapacity + '&&Description=' + Description + '&&vsid=' + vsid + '&&Address=' + Address + '&&Landmark=' + Landmark + '&&City=' + City + '&&ZipCode=' + ZipCode + '&&command=' + 'two',
+                type: 'post',
+                contentType: 'application-json',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (er) {
+                    alert("System Encountered Internal Error!!! Try Again After Some Time");
+                }
+            });
+            return false;
+        }
+
+        function orderemail(val) {
+            //  alert(val);
+            $('#Querymodel .custemail').text(val);
+            $('#Querymodel #txtmsg').val('');
+            $('#Querymodel').modal('show');
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+
+
+            //$("#kscbook").css('display', 'none');
+            $("#imageBrowes").change(function () {
+
+                var File = this.files;
+
+                if (File && File[0]) {
+                    ReadImage(File[0]);
+                }
+
+            })
+
+        })
+        var ReadImage = function (file) {
+
+            var reader = new FileReader;
+            var image = new Image;
+
+            reader.readAsDataURL(file);
+            reader.onload = function (_file) {
+
+                image.src = _file.target.result;
+                image.onload = function () {
+
+                    var height = this.height;
+                    var width = this.width;
+                    var type = file.type;
+                    var size = ~~(file.size / 1024) + "KB";
+
+                    $("#targetImg").attr('src', _file.target.result);
+                    $("#description").text("Size:" + size + ", " + height + "X " + width + ", " + type + "");
+                    $("#imgPreview").show();
+
+                }
+
+            }
+
+        }
+
+        //var ClearPreview = function () {
+        //    $("#imageBrowes").val('');
+        //    $("#description").text('');
+        //    $("#imgPreview").hide();
+
+        //}
+        var image;
+        $('.sliderdiv').on('click', function () {
+            var vsid = $('#vsid').val();
+            var thisimage = $(this);
+            var image = $(this).children('img').attr('href');
+            var file1 = $(this).find('input').attr('id');
+            image = document.getElementById("" + file1 + "");
+            image.click();
+            image.onchange = function () {
+                var file = $('#' + file1 + '').get(0).files;
+                var data = new FormData;
+                if (file.length > 0) {
+                    data.append("helpSectionImages", file[0]);
+                }
+                $.ajax({
+                    url: '/VDashboard/UploadImages?vsid=' + vsid,
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: data,
+                    success: function (result) {
+                        thisimage.children('img').remove();
+                        thisimage.append('<img src="/vendorimages/' + result + '" href="s2" style="width:100px;height:100px;padding:0px">')
+                        //thisimage.attr('border', 'none');
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            }
+        });
+
+        var thisdates="";
+        var array = [];
+        $(function () {
+            var listcount = parseInt('@ViewBag.availability.Count') +1;
+            var listarray = @Html.Raw(Json.Encode(@ViewBag.availability));
+            var scripttag = $('#scripttags');
+            for (var k = 0; k < listcount; k++) {
+                array.push(listarray[k]);
+            }
+            for (var i = 1; i < listcount; i++) {
+                thisdates = array[i-1];
+                $('<script>').attr('type', 'text/javascript')
+                    .text("$('#vcal"+i+"').datepicker({dayOfWeekStart: 1,lang: 'en',timepicker: false, format: 'dd/MM/yyyy',minDate: new Date(),beforeShowDay:function (date){ var string = jQuery.datepicker.formatDate('dd-mm-yy', date);  return [thisdates.indexOf(string) == -1] }});")
+                    .appendTo(scripttag);
+            }
+
+            function blockdates() {
+                setTimeout(function() {
+                    $(".ui-datepicker-calendar td").filter(function() {
+                        var date = $(this).text();
+                        return /\d/.test(date);
+                    }).find("a").attr('data-custom', 110);
+                }, 0);
+            }
+
+
+            //$(".vendorcalendar").datepicker({
+            //    dayOfWeekStart: 1,
+            //    lang: 'en',
+            //    timepicker: false,
+            //    format: 'dd/MM/yyyy',
+            //    minDate: '-1970/01/01',//yesterday is minimum date(for today use 0 or -1970/01/01)
+            //    maxDate: '+1970/03/02',//tomorrow is maximum date calendar
+            //    beforeShowDay: function (date) {
+            //        var array = '2018-09-10,2018-09-20,2018-09-15,2018-09-25,2018-09-18,2018-09-30';
+            //        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+            //        return [array.indexOf(string) == -1]
+            //    }
+            //});
+        });
+
+       
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#today,#tomorrow,#upcoming').DataTable();
+            $('#allorders').DataTable();
+        });
+
+        $('#spc').on('click', function () {
+            $('#profileimage').click();
+        });
+
+        $(function(){
+            $('#guests').val(window.localStorage.getItem("guests1"));
+            $('#datetimepicker1').val(window.localStorage.getItem("eventdate1"));
+            var e1 = window.localStorage.getItem("eventtype1");
+            if(e1 == null) e1= 'Select Event';
+            $('span.current').empty().html(e1);
+        });
+
+        $('#btnsearch').click(function () {
+            window.localStorage.removeItem("guests1");
+            window.localStorage.removeItem("location1");
+            window.localStorage.removeItem("eventtype1");
+            window.localStorage.removeItem("eventdate1");
+
+            var location = 'Hyderabad';//$('#loc').val();
+            var eventtype = $('span.current').text();
+            var guests = $('#guests').val();
+            var date = $('#datetimepicker1').val();
+            if (location == '') {
+                alert('Enter Location');
+                $('#loc').focus();
+            }
+            else if (eventtype == '' || eventtype == null || eventtype == 'Select Event') {
+                alert('Select Event Type');
+            }
+            else if (guests == '') {
+                alert('Enter Guests');
+                $('#guests').focus();
+            }
+            else if (date == '') {
+                alert('Select Event date');
+                $('#datetimepicker1').focus();
+            }
+            else {
+                window.localStorage.setItem("guests1", guests);
+                window.localStorage.setItem("location1", location);
+                window.localStorage.setItem("eventtype1", eventtype);
+                window.localStorage.setItem("eventdate1", date);
+                window.location.href = '/VDashboard/Index?eventtype='+eventtype+'&&count='+guests+'&&date='+date;
+            }
+        });
+
+        $('#profileimage').change(function () {
+            var ext = $('#profileimage').val().split('.').pop().toLowerCase();
+            if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                alert('Invalid File Type');
+            }
+            else {
+                var data = new FormData();
+                var files = $("#profileimage").get(0).files;
+                //alert(files);
+                if (files.length > 0) {
+                    data.append("helpSectionImages", files[0]);
+                }
+                $.ajax({
+                    url: '/VDashboard/UploadProfilePic?email=' + $('#Item1_EmailId').val(),
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: data,
+                    success: function (response) {
+                        $('#profilepic1').removeAttr('src');
+                        $('#profilepic1').attr('src', '/ProfilePictures/' + response + '');
+                        //var url = '/vdashboard/profilepic';
+                        //$('#profilepipccontent').empty().load(url);
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            if ('@ViewBag.service.VenueType' != null && '@ViewBag.service.VenueType' != "") {
+                $('#selectedservice').val('@ViewBag.service.VenueType'); //Assign value to service dropdown here
+            }
+        });
+
+        $('#selectedservice').on('change', function () {
+            //function addsubcategory(val) {
+            var subid = '@Request.QueryString["vsid"]';
+            var subcategory1 = $(this).val();
+            var category = '@ViewBag.Vendor.ServicType';
+            //alert(subcategory1);
+            //alert(subid);
+            $.ajax({
+                url: '/VDashboard/AddSubService?type=' + category + '&&subcategory=' + subcategory1 + '&&subid=' + subid,
+                type: 'post',
+                contentType: 'application-json',
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                },
+                error: function (er) {
+                    alert("System Encountered Internal Error!!! Try Again After Some Time");
+                }
+            });
+            //}
+        });
+
+        $('.grid-item').click(function () {
+            var arr = $('#amenities').val();
+            var arr1 = $('#amenities1').val();
+            var checkbox = $(this).find('input[type=checkbox]');
+            if (checkbox.is(':checked')) {
+                checkbox.removeAttr('checked');
+                if (arr != '')
+                    arr1 = arr + arr1.replace(',' + checkbox.attr('id'), '');
+                else
+                    arr1 = arr1.replace(',' + checkbox.attr('id'), '');
+                $(this).css('background-color', 'white');
+            }
+            else {
+                checkbox.prop('checked', 'checked');
+                if (arr != '')
+                    arr1 = arr + arr1 + ',' + checkbox.attr('id');
+                else
+                    arr1 = arr1 + ',' + checkbox.attr('id');
+                //alert(checkbox.attr('id'));
+                $(this).css('background-color', 'yellow');
+            }
+            $('#amenities1').val(arr1.substr(1));
+            $('#selectedamenities').val(arr.substr(1));
+        });
+    
+
+
+       
+
+        //function booknow(val) {
+        //    var packageid = val;
+        //    window.localStorage.removeItem("vpbook");
+
+        //    var location = 'Hyderabad';//$('#loc').val();
+        //    var eventtype = $("#eventtype").find("option:selected").text();
+        //    var guests = $('#bookguest').val();
+        //    var date = $('#vcalender').val();
+        //    if (location == '') {
+        //        alert('Enter Location');
+        //        $('#loc').focus();
+        //    }
+        //    else if (eventtype == '' || eventtype == null || eventtype == 'Select Event') {
+        //        alert('Select Event Type');
+        //    }
+        //    else if (guests == '') {
+        //        alert('Enter Guests');
+        //        $('#guests').focus();
+        //    }
+        //    else if (date == '') {
+        //        alert('Select date');
+        //        $('#datetimepicker1').focus();
+        //    }
+        //    else {
+        //        var select = location + ',' + guests + "," + date + "," + eventtype + "," + packageid;
+        //        window.localStorage.setItem("vpbook", select);
+        //        window.location.href = '/ManageUser/Index?select=' + select;
+
+        //    }
+        //}
+
+        function updatedetails(val) {
+            var hdname = $('#hdname').val();
+            var Dimentions = $('#Dimentions').val();
+            var Minimumseatingcapacity = $('#Minimumseatingcapacity').val();
+            var Maximumcapacity = $('#Maximumcapacity').val();
+            var selectedamenuities = $('#amenities').val();
+            var vsid = $('#vsid').val();
+            var Address = $('#Address').val();
+            var Landmark = $('#Landmark').val();
+            var City = $('#City').val();
+            var ZipCode = $('#ZipCode').val();
+            var Description = $('#mainDescription').val();
+            $.ajax({
+                url: '/VDashboard/UpdateAmenities?selectedamenities=' + selectedamenuities + '&&vsid=' + vsid + '&&hdname=' + hdname + '&&vsid=' + vsid + '&&Dimentions=' + Dimentions + '&&Minimumseatingcapacity=' + Minimumseatingcapacity + '&&Maximumcapacity=' + Maximumcapacity + '&&Description=' + Description + '&&vsid=' + vsid + '&&Address=' + Address + '&&Landmark=' + Landmark + '&&City=' + City + '&&ZipCode=' + ZipCode + '&&command=' + val,
+                type: 'post',
+                contentType: 'application-json',
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (er) {
+                    alert("System Encountered Internal Error!!! Try Again After Some Time");
+                }
+            });
+        }
+    </script>
+    <script>
+        $(document).on('click', '.subcatclose', function () {
+            //alert($(this).attr('value'));
+
+            var    val1 = $(this).attr('value').split(',');
+            var text = val1[1];
+            var vsid = val1[0];
+            var type = val1[3];
+            var r = confirm("Do you want to delete" + text);
+            if (r == true) {
+                $.ajax({
+                    url: '/VDashboard/deleteservice?vsid=' + vsid + '&&type=' + type,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    success: function (result) {
+                        if (result = 'success') {
+                            alert("service removed");
+                        } else { alert("error occured");}
+                        var url1 = document.referrer;
+                        window.location.href = url1;
+                    },
+                })
+            }
+
+
+        });
+
+
+        $('#pkgsubcat').click(function () {
+            alert('First Add Sub Service');
+        });
+    </script>
+    <link href="~/CSSWeb/css/dashboard.css" rel="stylesheet" />
+    <script type="text/javascript">
+        //function show_hide_row(row)
+        //{
+        // $("#"+row).toggle();
+        //}
+        $('.show_hide_row').click(function () {
+            //$('.hidden_row').toggle();
+            //alert($(this).parent('td').html());
+            // $(this).parents('td').parent('tr').next('tr#hidden_row1').toggle();
+            $(this).next('tr#hidden_row1').toggle();
+        });
+        $('#sendmsg').click(function () {
+            var msg = $('#txtmsg').val();
+            var Email = $('#Querymodel .custemail').text();
+            $.ajax({
+                url: '/VDashboard/Sendmsg',
+                type: 'POST',
+                data: JSON.stringify({ msg: msg, Email: Email }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    if (data == "success" || data == "unique") {
+                        alertify.alert("We will contact you soon");
+                    }
+                    else if (data == "Failed") {
+                        alertify.alert("Something Went Wrong!!! Try Again Later");
+                    }
+                    else {
+                        alertify.alertmsg("error");
+                    }
+                }
+            });
+        })
+
+    </script>
+
+    @*Package Section*@
+    <script>
+        //Loading Menu on Load
+        var pkgheadings = 'Welcome Drinks,Starters,Rice,Bread,Curries,Fry/Dry,Salads,Soups,Deserts,Beverages,Fruits';
+        var totallist = '';//$('.pkgmenuitems').val();
+
+        //Add Course Button
+        $('.addcourse').click(function(){
+            var btn = '<button class="button extraitem" value="">New Course(0)</button>';
+            $("#extracourse").append(btn);
+        });
+
+        //Adding Selected Lists to Course
+        function Addpkgitems(mtype) {
+            var type = $('#pkgmodal .selectedpkg').val();
+            var maxcount = $('#pkgmodal .maxcount').val();
+            var selecteditems = '';
+            var itemstable = $('#pkgmodal').find('table.menuitems');
+            var ctype = $('#pkgmodal .pkgitemsection p#ctype').text();
+            $(itemstable).find('tr').each(function () {
+                if ($(this).find("input[type='checkbox']").is(':checked')) {
+                    var checkText = $(this).find('label').text();
+                    if (selecteditems != '')
+                        selecteditems = selecteditems + '!' + checkText;
+                    else
+                        selecteditems = checkText;
+                }
+            });
+            var availableitems = $('.availablepkgitems').val();
+            if(availableitems == '' || availableitems == undefined) availableitems = $('.selpkgitems').val();
+            var finallist=totallist.split(',');
+            if ($('.pkgmenuitems').val() != '') {
+                if (availableitems.indexOf(ctype) != -1) {
+                    for (var i = 0; i < availableitems.split(',').length; i++) {
+                        if (availableitems.split(',')[i] == ctype) {
+                            finallist.push(ctype+'('+selecteditems+')');
+                        }
+                    }
+                    totallist = finallist.join(',');
+                }
+                else {
+                    finallist.push(ctype+'('+selecteditems+')');
+                    totallist= totallist = finallist.join(',');
+                }
+            }
+            else {
+                if (availableitems.indexOf(ctype) != -1) {
+                    for (var i = 0; i < availableitems.split(',').length; i++) {
+                        if (availableitems.split(',')[i] == ctype) {
+                            finallist.push(ctype+'('+selecteditems+')');
+                        }
+                    }
+                    totallist = finallist.join(',');
+                }
+                else {
+                    finallist.push(ctype+'('+selecteditems+')');
+                    totallist= totallist +','+ finallist.join(',');
+                }
+            }
+            $('.selpkgitems').val(totallist);
+            if(mtype == 'old')
+            {
+                if ($(".col-md-2-10 button[value = " + ctype.replace('/','_') + "]").replaceWith('<button class="button pkgitem" value='+ ctype +'>' + type + '(' + maxcount + ')</button>'));
+            }
+            else
+            {
+                if ($(".col-md-2-10 #extracourse button:contains(" + mtype + ")").replaceWith('<button class="button extraitem" value='+ type +'>' + type + '(' + maxcount + ')</button>'));
+            }
+        }
+
+        // Loading Package Menu
+        $(document).on('click', '.pkgitem', function () {
+            $('.overlay').show();
+            $('#loadermsg').text("Fetching Menu Items");
+            var checkbox = $("input[name='checkradio']:checked").val();
+            var pkgid = $(this).parent("div.col-md-2-10").find("div.pkgsave").find("input.packageid").val();
+            if (checkbox == undefined) {
+                alert("Select Menu Type")
+            }
+            else {
+                var val = $(this).val();
+                if(val == "Fry_Dry") val="Fry/Dry";
+                var pkgid = $(this).text().split('(')[0]; // Course name
+                $('#pkgmodal .pkgitemsection #ctype').text(val);
+                $('#pkgmodal .maxcount').val($(this).text().split('(')[1].split(')')[0]);
+                $('#pkgmodal .selectedpkg').val(pkgid);
+                $('#pkgmodal .add').attr('onclick','Addpkgitems("old")');
+                var exists = $(this).text().split('(')[1].split(')')[0];
+                filteritems(checkbox, val.replace('_',' '),pkgid);
+            }
+        });
+
+        // Loading Extra Menus
+        $(document).on('click', '.extraitem', function () {
+            $('.overlay').show();
+            $('#loadermsg').text("Fetching Menu Items");
+            var checkbox = $("input[name='checkradio']:checked").val();
+            var pkgid = $(this).parent("div.col-md-2-10").find("div.pkgsave").find("input.packageid").val();
+            if (checkbox == undefined) {
+                alert("Select Menu Type")
+            }
+            else {
+                var val = $(this).text().split('(')[0];
+                //var pkgid = $(this).text(); // Course name
+                $('#pkgmodal .pkgitemsection #ctype').text(val);
+                $('#pkgmodal .maxcount').val($(this).text().split('(')[1].split(')')[0]);
+                $('#pkgmodal .selectedpkg').val(val);
+                $('#pkgmodal .add').attr('onclick','Addpkgitems("'+val+'")');
+                var exists = $(this).text().split('(')[1].split(')')[0];
+                filteritems(checkbox, val,'New');
+            }
+        });
+        //$('.writemsg.modal').modal('attach events', '.writemsg.button', 'show');
+
+        //Filtering Menu and loading menu items
+        function filteritems(type, selectedpkg,pkgid) {
+            var selpkg = selectedpkg.replace(' ', '_').replace('/', '_').toLowerCase();
+            var welcome_drinks = ""; var starters = ""; var rice = ""; var bread = ""; var curries = "";
+            var fry_dry = ""; var salads = ""; var soups = ""; var tandoori_kababs = ""; var deserts = ""; var beverages = ""; var fruits = "";
+            var tabletr = $('#pkgmodal .pkgitemsection table.menuitems'); var commondiv = "";
+            var itemsdiv = $('#pkgmodal .pkgitemsection table.menuitems tr#pkgitemstr');
+            tabletr.empty();
+
+            $.get("/VDashboard/GetPackagemenuItem?menuitem=" + selectedpkg + "&&category=" + type + "&&vsid=" +@ViewBag.vsid+"",
+                function (data) {
+                    commondiv = data;
+                    var getlist =  $('.selpkgitems').val() + ',' + $('.pkgmenuitems').val();
+                    //if(getlist == '' || getlist == undefined) getlist =$('.pkgmenuitems').val();
+                    for (var i = 0; i < totallist.split(',').length; i++) {
+                        if(totallist.split(',')[i] == type)
+                            getlist = totallist.split(',')[i].split('(')[1].split(')')[0];
+                    }
+                    var newitem = '';
+                    if(pkgid == 'New')
+                        newitem='<tr class="newtr"><td><input type="textbox" class="form-control newitem" /><div align="center"><button class="btn btn-success sni">+ New Item</button>  <button class="btn btn-success saveall1">Save All</button></div></td></tr>';
+                    else
+                        newitem='<tr class="newtr"><td><input type="textbox" class="form-control newitem" /><div align="center"><button class="btn btn-success sni">+ New Item</button>  <button class="btn btn-success saveall">Save All</button></div></td></tr>';
+
+                    for (var i = 0; i < commondiv.split('!').length; i++) {
+                        var row = $("<tr/>");
+                        if (getlist != null && getlist!= ',') {
+                            if (getlist.includes(commondiv.split('!')[i])) {
+                                row.append('<td class="menuitems" style="padding-top:0"> <a title="Remove '+commondiv.split('!')[i]+'?" class="removemitem" style="color:red;cursor:pointer">X</a> <input type="checkbox" class="icheck" style="margin-left:5px;" checked id="'+commondiv.split('!')[i]+'"/>  <label for="'+commondiv.split('!')[i]+'">' + commondiv.split('!')[i] + '</label></td>');
+                            }
+                            else {
+                                row.append('<td class="menuitems" style="padding-top:0"> <a title="Remove '+commondiv.split('!')[i]+'?" class="removemitem" style="color:red;cursor:pointer">X</a> <input type="checkbox" class="icheck" style="margin-left:5px;" id="'+commondiv.split('!')[i]+'"/>  <label for="'+commondiv.split('!')[i]+'">' + commondiv.split('!')[i] + '</label></td>');
+                            }
+                        }
+                        else if(commondiv != ''){
+                            row.append('<td class="menuitems" style="padding-top:0"> <a title="Remove '+commondiv.split('!')[i]+'?" class="removemitem" style="color:red;cursor:pointer">X</a> <input type="checkbox" style="margin-left:5px;" id="'+commondiv.split('!')[i]+'"/>  <label for="'+commondiv.split('!')[i]+'">' + commondiv.split('!')[i] + '</label></td>');
+                        }
+                        tabletr.append(row);
+                    }
+                    tabletr.append(newitem);
+                    $('.overlay').hide();
+                    $('#pkgmodal').modal('show');
+                });
+
+        }
+
+        //Adding new item to List
+        $(document).on('click','.sni',function(){
+            var item = $(this).parents("td").find("input").val();
+            if (item != '') {
+                var nitem = '<tr><td class="menuitems" style="padding:0"><a title="'+item+'" class="removemitem" style="color:red;cursor:pointer">X</a> <input type="checkbox" style="margin-left:5px;"/>  <label>' + item + '</label></td></tr>';
+                $(this).parents("tr.newtr").before(nitem);
+                var totalitems = '';
+                var favorite = [];
+                $.each($('#pkgmodal .pkgitemsection table.menuitems input[type=checkbox]'), function () {
+                    favorite.push($(this).next("label").text());
+                    totalitems = favorite.join('!');
+                });
+                $(this).parents("td").find("input").val('').focus();
+            }
+            else {
+                alert("Item Name Cannot be Blank");
+                $(this).parents("td").find("input").focus();
+            }
+
+        });
+
+
+        //Save All for existing items
+        $(document).on('click','.saveall',function(){
+            $('.overlay').show();
+            $('#loadermsg').text("Updating items list...");
+            var type = $('#pkgmodal .selectedpkg').val();
+            var pkgcategory = $("input[name='checkradio']:checked").val();
+            var totalitems = '';var favorite = [];
+            $.each($('#pkgmodal .pkgitemsection table.menuitems input[type=checkbox]'), function () {
+                favorite.push($(this).next("label").text());
+                totalitems = favorite.join('!');
+            });
+            totalitems = totalitems;
+            //alert(totalitems);
+            var PackageMenu = {
+                VendorID :'@ViewBag.vsid',
+                VendorMasterID:'@ViewBag.vendorid',
+                Category: pkgcategory,
+                Welcome_Drinks:totalitems,
+                Starters:totalitems,
+                Rice:totalitems,
+                Bread:totalitems,
+                Curries:totalitems,
+                Fry_Dry:totalitems,
+                Salads:totalitems,
+                Soups:totalitems,
+                Deserts:totalitems,
+                Beverages:totalitems,
+                Fruits:totalitems,
+            }
+
+            $.ajax({
+                url:'/VDashboard/UpdateMenuItems',
+                type: 'POST',
+                data: JSON.stringify({ PackageMenu: PackageMenu, type: type }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success:function(data){
+                    $('.overlay').hide();
+                    alert(data + '!!!Select items and click Add');
+                    //$('#pkgmodal').modal('hide');
+                }
+            });
+        });
+
+        //Save All for Extra Items
+        $(document).on('click','.saveall1',function(){
+            $('.overlay').show();
+            $('#loadermsg').text("Updating items list...");
+            var type = $('#pkgmodal .selectedpkg').val();
+            var pkgcategory = $("input[name='checkradio']:checked").val();
+            var totalitems = '';var favorite = [];
+            $.each($('#pkgmodal .pkgitemsection table.menuitems input[type=checkbox]'), function () {
+                favorite.push($(this).next("label").text());
+                totalitems = favorite.join('!');
+            });
+            totalitems = type + '(' + totalitems + ')';
+            //alert(totalitems);
+            var PackageMenu = {
+                VendorID :'@ViewBag.vsid',
+                VendorMasterID:'@ViewBag.vendorid',
+                Category: pkgcategory,
+                Extra_Menu_Items:totalitems,
+            }
+
+            $.ajax({
+                url:'/VDashboard/NewCourse',
+                type: 'POST',
+                data: JSON.stringify({ PackageMenu: PackageMenu, type: type }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success:function(data){
+                    $('.overlay').hide();
+                    alert(data + '!!!Select items and click Add');
+                    //$('#pkgmodal').modal('hide');
+                }
+            });
+        });
+
+        //View Menu
+        $('.viewmenu').click(function () {
+            var packagename = $('#pkgname').val();
+            var pkgcategory = $("input[name='checkradio']:checked").val();
+            var peakdays = $('#pdays').val();
+            var normaldays = $('#ndays').val();
+            var holidays = $('#holidays').val();
+            var choicedays = $('#cdays').val();
+            var pkgdesc = $('#pkgdesc').val();
+            var maindiv = '';
+            var menuitems = $(this).prev('input.pkgmenuitems').val();
+            if (menuitems != '' && menuitems != null) {
+                var count = menuitems.split(',').length;
+                for (var i = 0; i < count; i++) {
+                    var totalitem = menuitems.split(',')[i];
+                    var heading = totalitem.split('(')[0];
+                    var items = totalitem.split('(')[1].split(')')[0].split('!');
+                    maindiv+= '<div class="heading">'+heading+'</div><div class="items">'+items+'</div><br/>';
+                }
+            }
+            else {
+                maindiv = "No Menu Items";
+            }
+            $('#viewmenuitems .pkgname').text(packagename);
+            $('#viewmenuitems .pkgtype').text(pkgcategory);
+            $('#viewmenuitems #peakdays').text(peakdays);
+            $('#viewmenuitems #normaldays').text(normaldays);
+            $('#viewmenuitems #holidays').text(holidays);
+            $('#viewmenuitems #choicedays').text(choicedays);
+            $('#viewmenuitems #pkgitems').empty().append(maindiv);
+            $('#viewmenuitems').modal('show');
+        });
+
+        //Saving Package
+        $('.addpkg').click(function () {
+            //validation('AddPackage');
+            $('.overlay').show();
+            $('#loadermsg').text("Saving Package...");
+            var allbuttons = $(".col-md-2-10 button").text();
+            var list=[];
+            for (var i = 0; i < allbuttons.split(')').length; i++) {
+                if(allbuttons.split(')')[i] != '' && allbuttons.split(')')[i].split('(')[1]!=0)
+                    list.push(allbuttons.split(')')[i]+')');
+            }
+            var packagename = $('#pkgname').val();
+            var pkgcategory = $("input[name='checkradio']:checked").val();
+            var peakdays = $('#pdays').val();
+            var normaldays = $('#ndays').val();
+            var holidays = $('#holidays').val();
+            var choicedays = $('#cdays').val();
+            var timeslot = $('#pkgslots').val();
+            var pkgdescription = $('#pkgdesc').val();
+            var menuitems = $(this).parent('div').find('input.selpkgitems').val();//pkgdesc;
+            var menu = list.join(','); //$(this).parent('div').find('input.selpkgitems').val();
+            //alert(pkgdesc);
+            if (packagename == '') {
+                $(packagename).focus();
+                alert("Enter Package Name");
+            }
+            else if (pkgcategory == undefined) {
+                alert("Select Package Category");
+            }
+            else if (timeslot == '') {
+                alert("Select TimeSlots");
+            }
+            else if (normaldays == '') {
+                $('#ndays').focus();
+                alert("Enter Normal Days Price");
+            }
+            else if (peakdays == '') {
+                $('#pdays').focus();
+                alert("Enter Peak Days Price");
+            }
+            else if (holidays == '') {
+                $('#holidays').focus();
+                alert("Enter Holidays Price");
+            }
+            else if (choicedays == '') {
+                $('#cdays').focus();
+                alert("Enter Choice Days Price");
+            }
+            else {
+                var package = {
+                    PackageName: packagename,
+                    Category: pkgcategory,
+                    PackageDescription: pkgdescription,
+                    peakdays: peakdays,
+                    normaldays: normaldays,
+                    holidays: holidays,
+                    choicedays: choicedays,
+                    VendorId: '@ViewBag.vendorid',
+                    VendorSubId: '@ViewBag.vsid',
+                    VendorType: '@ViewBag.Vendor.ServicType',
+                    VendorSubType: '@ViewBag.subtype',
+                    timeslot: timeslot,
+                    menuitems : menuitems,
+                    menu : menu
+                }
+                $.ajax({
+                    url: '/VDashboard/AddPackage',
+                    type: 'post',
+                    datatype: 'json',
+                    data: package,
+                    success: function (data) {
+                        alert(data);
+                        $('.overlay').hide();
+                    }
+                });
+            }
+        });
+
+        //Updating Package
+        $('.updatepkg').click(function () {
+            var menuitems='';
+            //validation('UpdatePackage');
+            $('.overlay').show();
+            $('#loadermsg').text("Updating Package...");
+            var allbuttons = $(".col-md-2-10 button").text();
+            var list=[];
+            for (var i = 0; i < allbuttons.split(')').length; i++) {
+                if(allbuttons.split(')')[i] != '' && allbuttons.split(')')[i].split('(')[1]!=0)
+                    list.push(allbuttons.split(')')[i]+')');
+            }
+            var allVal = '';
+            $(".col-md-2-10 button").each(function() {
+                if($(this).text().split('(')[1].split(')')[0] != 0)
+                allVal += ',' + $(this).val();
+            });
+            var allbuttonsvals = allVal.substring(1, allVal.length);
+            var newlists = $('.selpkgitems').val().substring(1,$('.selpkgitems').val().length) +',' + $('.pkgmenuitems').val();
+            var dblist = $('.pkgmenuitems').val();
+            var selectedlist = $('.availablepkgitems').val();
+            var splitteddblist = dblist.split(',');
+            var a =[];var b=[];
+            for (var i = 0; i < newlists.split(',').length; i++) {
+                var thisval = newlists.split(',')[i].split('(')[0]
+                if(thisval != '')
+                    a.push(thisval);
+            }
+            var availableitems = a;
+            for (var i = 0; i < availableitems.length; i++) {
+                var value = $.inArray(availableitems[i].replace('/','_'),selectedlist.split(','));
+                if (b.indexOf(value) == -1) {
+                    if (value != -1) {
+                        b.push(value);
+                        splitteddblist[value] = newlists.split(',')[i];
+                    }
+                    else {
+                        splitteddblist.push(newlists.split(',')[i]);
+                    }
+                }
+            }
+            menuitems =splitteddblist.join(',');
+            var pkgid = $(this).prev('input.packageid').val();
+            var packagename = $('#pkgname').val();
+            var pkgcategory = $("input[name='checkradio']:checked").val();
+            var peakdays = $('#pdays').val();
+            var normaldays = $('#ndays').val();
+            var holidays = $('#holidays').val();
+            var choicedays = $('#cdays').val();
+            var timeslot = $('#pkgslots').val();
+            var pkgdescription = $('#pkgdesc').val();
+            //var menuitems = $(this).parent('div').find('input.selpkgitems').val();
+            var menu = list.join(',');//$(this).parent('div').find('input.selpkgitems').val();
+            if (packagename == '') {
+                $(packagename).focus();
+                alert("Enter Package Name");
+            }
+            else if (pkgcategory == undefined) {
+                alert("Select Package Category");
+            }
+            else if (timeslot == '') {
+                alert("Select TimeSlots");
+            }
+            else if (normaldays == '') {
+                $('#ndays').focus();
+                alert("Enter Normal Days Price");
+            }
+            else if (peakdays == '') {
+                $('#pdays').focus();
+                alert("Enter Peak Days Price");
+            }
+            else if (holidays == '') {
+                $('#holidays').focus();
+                alert("Enter Holidays Price");
+            }
+            else if (choicedays == '') {
+                $('#cdays').focus();
+                alert("Enter Choice Days Price");
+            }
+            else {
+                var package = {
+                    PackageID:pkgid,
+                    PackageName: packagename,
+                    Category: pkgcategory,
+                    PackageDescription: pkgdescription,
+                    peakdays: peakdays,
+                    normaldays: normaldays,
+                    holidays: holidays,
+                    choicedays: choicedays,
+                    VendorId: '@ViewBag.vendorid',
+                    VendorSubId: '@ViewBag.vsid',
+                    VendorType: '@ViewBag.Vendor.ServicType',
+                    VendorSubType: '@ViewBag.subtype',
+                    timeslot: timeslot,
+                    menuitems : menuitems,
+                    menu:menu
+                }
+                //alert(menuitems);
+                $.ajax({
+                    url: '/VDashboard/UpdatePackage',
+                    type: 'post',
+                    datatype: 'json',
+                    data: package,
+                    success: function (data) {
+                        alert(data);
+                        $('.overlay').hide();
+                    }
+                });
+            }
+        });
+
+        // Removing Item from list
+        $(document).on('click','.removemitem',function(){
+            $('.overlay').show();
+            $('#loadermsg').text("Removing item from list...");
+            var item = $(this).next("input").next("label").text();
+            var selpkg = $('#pkgmodal .selectedpkg').val();
+            var totalitems = '';
+            var favorite = [];
+            var pkgcategory = $("input[name='checkradio']:checked").val();
+            $.each($('#pkgmodal .pkgitemsection table.menuitems input[type=checkbox]'), function () {
+                favorite.push($(this).next("label").text());
+                totalitems = favorite.join('!');
+            })
+            var tr = $(this).parents("tr");//.remove();
+            totalitems = totalitems.replace('!'+item,'');
+            var PackageMenu = {
+                VendorID :'@ViewBag.vsid',
+                VendorMasterID:'@ViewBag.vendorid',
+                Category: pkgcategory,
+                Welcome_Drinks:totalitems,
+                Starters:totalitems,
+                Rice:totalitems,
+                Bread:totalitems,
+                Curries:totalitems,
+                Fry_Dry:totalitems,
+                Salads:totalitems,
+                Soups:totalitems,
+                Deserts:totalitems,
+                Beverages:totalitems,
+                Fruits:totalitems
+            }
+            $.ajax({
+                url:'/VDashboard/UpdateMenuItems',
+                type: 'POST',
+                data: JSON.stringify({ PackageMenu: PackageMenu, type: selpkg }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success:function(data){
+                    $('.overlay').hide();
+                    alert(data);
+                    tr.remove();
+                }
+            });
+        });
+
+        //$(document).on('click','tags span',function(){
+        //    var course = $(this).text();
+        //    var pkgid = 'New';//$(this).parent("div.col-md-2-10").find("div.pkgsave").find("input.packageid").val();
+        //    var pkgcategory = $("input[name='checkradio']:checked").val();
+        //    var tabletr = $('#pkgmodal .pkgitemsection table.menuitems');
+        //    tabletr.empty();
+        //    var newitem='<tr class="newtr"><td><input type="textbox" class="form-control newitem" /><div align="center"><button class="btn btn-success sni">+ New Item</button>  <button class="btn btn-success saveall1">Save All</button></div></td></tr>';
+        //    if (course != '') {
+        //        filteritems(pkgcategory, course,pkgid); //uncomment this section to load items from db
+        //        //tabletr.append(newitem);
+        //        $('#pkgmodal .selectedpkg').val(course);
+        //        $('#pkgmodal').modal('show');
+        //    }
+
+        //});
+
+    </script>
+}

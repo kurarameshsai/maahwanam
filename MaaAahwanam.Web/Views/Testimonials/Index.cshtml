@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/ServicesMaster.cshtml";
+}
+
+@section Navigation
+{
+    <div class="breads">
+        <div class="breads_inner">
+            <div class="pageWidth">
+                <div class="title">
+                    <h3>Testimonials</h3>
+                </div>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="../index/index">Home</a></li>
+                        <li><i class="breads_arrow"></i></li>
+                        <li>Testimonials</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<article>
+    <div class="about_categories">
+        <select>
+            <option>Beautician</option>
+            <option>Photographers</option>
+            <option>Cake Vendors</option>
+            <option>Caterer Decorators</option>
+            <option>Designer Photographers</option>
+            <option>Entertainment</option>
+            <option>Fireworks</option>
+            <option>Godi wale</option>
+        </select>
+    </div>
+    <div class="about_content">
+        <div class="testimonials_inner">
+            <ul>
+                @if (ViewBag.Testimonials.Count != 0)
+                {
+                    foreach (var item in @ViewBag.Testimonials)
+                    {
+                        <li>
+                            <div class="test_content">
+                                <span><i class="ti-quote-left"></i></span>
+                                <p style="width: 90%; word-wrap:break-word;">@item.Description</p>
+                                <div class="arrow right_arrow"></div>
+                            </div>
+                            <div class="test_name">
+                                <div class="test_thumb">
+                                    <img src="../Testimonial/@item.ImagePath" style="height: 62px;max-width: 70px;">
+                                </div>
+                                <div class="test_heading">
+                                    <h3>@item.Name</h3>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li>
+                        <div class="test_content" style="width:750px;">
+                            <span><i class="ti-quote-left"></i></span>
+                            <p align="center" style="font-weight:bold;font-size:medium">No Testimonials Yet!!!</p>
+                            <span style="float:right"><i class="ti-quote-right"></i></span>                            
+                        </div>
+                        <div class="test_name">
+                            <div class="test_thumb">
+                               
+                            </div>
+                            <div class="test_heading">
+                              
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</article>
+
+<div class="clear"></div>

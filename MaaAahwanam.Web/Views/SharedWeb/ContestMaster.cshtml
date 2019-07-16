@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+@using MaaAahwanam.Web.Custom
+<html>
+<head>
+    <!-- Google Tag Manager -->
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KD2HPX6');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>:: Ahwanam Contests ::</title>
+    <link rel="icon" href="http://design.maa-aahwanam.com/contest/images/favIcn.png" type="image/png" sizes="32x32">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="http://design.maa-aahwanam.com/contest/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/newdesign/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="http://design.maa-aahwanam.com/contest/css/customstyles.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald:600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link href="~/newdesign/css/alertify.css" rel="stylesheet" />
+    @RenderSection("css", required: false)
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KD2HPX6"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    @*<div class="container-fluid indexBannerBg1">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand text-white logo primaryFont" href="/NHomePage">AHWANAM</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    @{Html.RenderAction("Authenticate", "Contests"); }
+                </div>
+            </nav>
+            <div class="w-100 bannerContent">
+                <h3 class="text-center primaryFont primaryTextColor bannerTextHead">Contests</h3>
+                <p class="text-white text-center fontWeight700 bannerText">Participate &amp Earn Exciting Prizes.</p>
+            </div>
+        </div>*@
+    @RenderSection("banner", required: false)
+    <div>
+        @RenderBody()
+    </div>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Authentication</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Signin with</p>
+                    <span onclick="fbLogin('Contests')" style="font-size: 16px;padding: 7px 25px;cursor: pointer;border: none;background-color: #36539b;color: #fff !important; text-align: center !important;">
+                        <i class="fa fa-facebook mr-2" aria-hidden="true"></i> Facebook
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid secondaryBgColor py-4 text-center text-white">
+        <div class="primaryFont"><h3>News Letters</h3></div>
+        <p style="font-size: 17px;" class="mb-0">Showcase your love by posting most memorable pic with your father.</p>
+        <div class="row py-4 justify-content-center">
+            <div class="col-12 col-sm-7 col-md-5">
+                <form>
+                    <input class="form-control mr-0 p-3" type="search" id="emailid" name="emailid" placeholder="email@yourdomain.com" aria-label="Search">
+                    <button class="btn primaryBgColor secondaryTextColor p-3 fontWeight700" type="button" value="Subscribe" onclick="SaveSubscriber()">Subscribe</button>
+                </form>
+                <p id="submsg"></p>
+            </div>
+        </div>
+        <ul class="row justify-content-center pl-0">
+            <li><a href="https://www.facebook.com/AhwanamEvents/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            @*<li><a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>*@
+            <li><a href="https://twitter.com/ahwanamevents"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+        </ul>
+        <div class="row justify-content-center fontWeight700" style="font-size: 17px;">2018 - Ahwanam, All Rights Reserved.</div>
+    </footer>
+    <script type="text/javascript" src="http://design.maa-aahwanam.com/contest/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="http://design.maa-aahwanam.com/contest/js/jquery.js"></script>
+    <script type="text/javascript" src="http://design.maa-aahwanam.com/contest/js/bootstrap.js"></script>
+    <script src="~/Scripts/CFAuth.js"></script>
+    <script src="~/newdesign/js/alertify.js"></script>
+    <script>
+
+        /* ------------------ To save the subscriber -----------------------------  */
+        function SaveSubscriber() {
+            // var Subscription = {};
+            // Subscription.EmailId = $('#emailid').val();
+            // Subscription.Status = null;
+            var EmailId = $('#emailid').val();
+            //alert(EmailId);
+            if (EmailId == '' || EmailId == null) {
+                alert("Enter Your Email-ID");
+                $('#emailid').focus();
+                //$("p#submsg").append("Enter Your Email-ID");
+            }
+            else {
+                $.ajax({
+                    url: '/Contests/SubmittingSubscriber?email=' + EmailId,
+                    type: 'POST',
+                    // data: JSON.stringify({ customerPhone, RestCode, CustomerRequest, DeliverTime, Totalamount,cgst1,sgst1,deliveryamount }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data == "success") {
+                            $("p#submsg").empty().append("<b>Subscribed Successfully</b>");
+                            //alert('subscribed successfully');
+                            //window.location.reload()
+                        } else if (data == "exits") {
+                            //alert('email already subscribed');
+                            //window.location.reload()
+                            $("p#submsg").empty().append("<b>E-mail is already subscribed</b>");
+
+                        }
+                        else {
+                            alert("not updated");
+                        }
+                    },
+                    error: function (data) {
+                        alert('subscription failed');
+                    }
+                });
+            }
+            
+        }
+    </script>
+
+    <script>
+        function alertmsg(val) {
+            alertify.alert(val, function () {
+                //alertify.message('OK');
+            });
+        }
+        
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

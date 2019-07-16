@@ -1,0 +1,388 @@
+﻿@model Tuple<MaaAahwanam.Models.Vendormaster, MaaAahwanam.Models.VendorVenue>
+@{
+    ViewBag.Title = "VendorDetails";
+    Layout = "~/Areas/Admin/Views/Shared/MainMaster.cshtml";
+}
+
+@section header{
+
+
+    <!-- END PAGE LEVEL  STYLES -->
+    <!-- END PAGE LEVEL  STYLES -->
+}
+
+<style>
+    #imgbox {
+        vertical-align: middle;
+        position: absolute;
+        border: 1px solid #999;
+        background-color: rgba(0,0,0,0.8);
+        filter: Alpha(Opacity=100);
+        visibility: hidden;
+        height: 300px;
+        width: 300px;
+        z-index: 50;
+        overflow: hidden;
+        text-align: center;
+    }
+</style>
+
+<!--PAGE CONTENT -->
+
+<div id="content">
+    <div class="inner">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2> Vendor Details</h2>
+            </div>
+        </div>
+        <hr />
+        <form method="post" action="/Admin/Vendor/VendorPhotoDet/" class="form-horizontal" id="popup-validation" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="body collapse in" id="div1"> <a href="/Admin/DashBoard/dashboard" class="btn btn-primary btn-xs">Home</a>&nbsp;&nbsp;&nbsp;<a href="/Admin/Vendor/Index" class="btn btn-primary btn-xs">Vendors List</a>&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Vendor Details</a> </div>
+                    <br />
+
+                    <h4>
+                        <i class="icon-th-list">
+                        </i> Vendor UserBusiId | Requestdate
+
+                    </h4>
+                </div>
+                <br />
+
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs" id="mytab">
+                                <li class="active"><a href="#home" data-toggle="tab">General</a> </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class='tab-pane fade in active' id="home">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div id="collapse2" class="body collapse in">
+                                                
+                                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                    <tr>
+                                                        <td><strong>Vendor Name</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.BusinessName)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Vendor Description</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.Description)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Address</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.Address)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Location</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.Landmark)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>City</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.City)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>State</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.State)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>ZIP Code</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.ZipCode)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Contact Person</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.ContactPerson)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Landline Number</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.LandlineNumber)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>E-mail</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.EmailId)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Url</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.Url)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Date of Establishment</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.EstablishedYear)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Experience</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item1.Experience)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Venue Type</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.VenueType)</td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td><strong>Food</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Food)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Food</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Food)</td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                        <td><strong>CockTails</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.CockTails)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Rooms</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Rooms)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Seating Capacity</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.SeatingCapacity)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Dining Capacity</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.DiningCapacity)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Minimum Seating Capacity</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Minimumseatingcapacity)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Maximum capacity</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Maximumcapacity)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Veg Lunch Price Per Plate</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.VegLunchCost)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Non-Veg Lunch Price Per Plate</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.NonVegLunchCost)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Veg Dinner Price Per Plate</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.VegDinnerCost)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Non-Veg Dinner Price Per Plate</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.NonVegDinnerCost)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Minimum Order</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.MinOrder)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Maximum Order</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.MaxOrder)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Decoration Allwoed</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.DecorationAllowed)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Hall Type</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.HallType)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Wi-Fi</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Wifi)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Menu with the no. of items</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Menuwiththenoofitems)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Distance from main places like</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.Distancefrommainplaceslike)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>LiveCooking Station</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.LiveCookingStation)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Service Cost</strong></td>
+                                                        <td>@Html.DisplayFor(model => this.Model.Item2.ServiceCost)</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td><strong>Images</strong></td>
+                                                        <td width="800px" height="10px">
+                                                            <div id="imgbox"></div>
+                                                            @if (@ViewBag.images != null)
+                                                            {
+                                                                foreach (var item in ViewBag.images)
+                                                                {
+                                                                    <img id="img" src="~/vendorimages/@item" alt="student" style="height:100px;width:150px;border:double" onmouseover='Large(this)' />
+                                                                }
+                                                            }
+                                                            
+                                                            <div id="editimage" style="min-height: 10px;min-width: 10px; "></div>
+
+                                                            <div id="dvPreview" align="center" style="padding:20px">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <div align="center">
+                                                    <input type="submit" value="Back To List" formaction="~/Admin/Vendors/AllVendors" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+<script>
+    function Large(obj) {
+        var imgbox = document.getElementById("imgbox");
+        imgbox.style.visibility = 'visible';
+        var img = document.createElement("img");
+
+        img.src = obj.src;
+        img.style.width = '400px';
+        img.style.height = '400px';
+
+        if (img.addEventListener) {
+            img.addEventListener('mouseout', Out, false);
+        } else {
+            img.attachEvent('onmouseout', Out);
+        }
+        imgbox.innerHTML = '';
+        imgbox.appendChild(img);
+        imgbox.style.left = (getElementLeft(obj) - 50) + 'px';
+        imgbox.style.top = (getElementTop(obj) - 50) + 'px';
+    }
+    function Out() {
+        document.getElementById("imgbox").style.visibility = 'hidden';
+    }
+</script>
+
+<!--END PAGE CONTENT -->
+@section Bottom{
+    <script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+    <script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+    <script src="~/Assets/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="~/Assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- PAGE LEVEL SCRIPT-->
+    <script src="~/Assets/js/jquery-ui.min.js"></script>
+    <script src="~/Assets/plugins/uniform/jquery.uniform.min.js"></script>
+    <script src="~/Assets/plugins/inputlimiter/jquery.inputlimiter.1.3.1.min.js"></script>
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/plugins/colorpicker/js/bootstrap-colorpicker.js"></script>
+
+    <script src="~/Assets/plugins/tagsinput/jquery.tagsinput.min.js"></script>
+    <script src="~/Assets/plugins/validVal/js/jquery.validVal.min.js"></script>
+
+    <script src="~/Assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Assets/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/Assets/plugins/datepicker/js/bootstrap-datepicker.js"></script>
+
+    <script src="~/Assets/plugins/switch/static/js/bootstrap-switch.min.js"></script>
+    <script src="~/Assets/plugins/jquery.dualListbox-1.3/jquery.dualListBox-1.3.min.js"></script>
+    <script src="~/Assets/plugins/autosize/jquery.autosize.min.js"></script>
+    <script src="~/Assets/plugins/jasny/js/bootstrap-inputmask.js"></script>
+    <script src="~/Assets/plugins/jasny/js/bootstrap-fileupload.js"></script><!--important for gallery-->
+    <script src="~/Assets/plugins/jquery.fancybox-1.3.4/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+    <script src="~/Assets/plugins/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.js"></script>
+    @*<script src="~/Assets/js/image_gallery.js"></script>*@
+    <script src="~/Assets/js/formsInit.js"></script>
+    <script>
+        $(function () { formInit(); });
+    </script>
+    <script>
+        $(function () {
+            if (this.Model.Item1 != null)
+                document.getElementById("dp2").value = this.Model.Item1.BusinessEstDate.ToShortDateString();
+        });
+    </script>
+    <!--END PAGE LEVEL SCRIPT-->
+    <!--END PAGE LEVEL SCRIPT-->
+    <!--END PAGE LEVEL SCRIPT-->
+}
+
+<script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+<script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script src="~/Assets/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="~/Assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#dataTables-example').dataTable();
+    });
+</script>
+<script type="text/javascript">
+    function DateFormat(field, rules, i, options) {
+        var regex = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+        if (!regex.test(field.val())) {
+            return "Please enter date in dd/MM/yyyy format."
+        }
+    }
+</script>
+<script type="text/javascript">
+    function DateFormat(field, rules, i, options) {
+        var regex = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
+        if (!regex.test(field.val())) {
+            return "Please enter date in dd/MM/yyyy format."
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    //$(function () {
+    //$("#btnsave").validationengine('attach', { promptposition: "topright" });
+    //);
+    $('[id*=btnsave]').bind("click", function () {
+        $("#form1").validationEngine('attach', { promptPosition: "topRight" });
+    });
+</script>

@@ -1,0 +1,45 @@
+﻿@model MaaAahwanam.Models.ServiceResponse
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/VendorMaster.cshtml";
+}
+
+<div style="">
+    <div class="heading-title">
+        <h2>Vendor Response</h2>
+    </div>
+    @using (Html.BeginForm("Index", "VendorReverseBiddingResponse", FormMethod.Post, new { @class = "form-signin", @id = "register_form", @autocomplete = "off", @enctype = "multipart/form-data" }))
+    {
+        <div class="displayDiv">
+            <div class="bidding_form">
+                <table>
+                    <tr>
+                        <td>
+                            <label>Description : </label>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.Description, new { @id = "Description", @name = "Description", placeholder = "Description", required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Amount : </label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Amount, new { @id = "Amount", @name = "Amount", placeholder = "Amount", required = "required" })
+                            @Html.HiddenFor(model => model.RequestId, new { Value = ViewBag.rid })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-big btn-green float-right">Submit <i class="ti-angle-double-right"></i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+</div>

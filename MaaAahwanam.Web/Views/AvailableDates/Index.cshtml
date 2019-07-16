@@ -1,0 +1,94 @@
+﻿@model MaaAahwanam.Models.Availabledates
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/VendorMaster.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.js"></script>
+    @*<link rel="stylesheet" type="text/css" href="/css/result-light.css">*@
+    @*<script type="text/javascript" src="http://saumurbikehire.com/booking/datetime/jquery.datetimepicker.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://saumurbikehire.com/booking/datetime/jquery.datetimepicker.css">*@
+    <script src="~/CSSWeb/js/jquery-ui.js"></script>
+    @*<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>*@
+    @*<script src="http://multidatespickr.sourceforge.net/jquery-ui.multidatespicker.js"></script>*@
+    @*<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />*@
+    <script src="~/Scripts/jquery-ui.multidatespicker.js"></script>
+    <link href="~/Assets/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/CSSWeb/dates.css" rel="stylesheet" />
+    <script src="~/CSSWeb/availabledates.js"></script>
+    <title></title>
+
+    @*<script type='text/javascript'>
+            $(function () {
+                var setMinTime = "";
+                var today = new Date();
+                var lastDate = new Date(today.getFullYear(), today.getMonth(0) + 1, 31);
+                $('#products_delivery').datetimepicker({
+                    inline: true,
+                    lang: 'en',
+                    startDate: '-1m',
+                    endDate: lastDate,
+                    timepicker: false,
+                    format: 'Y/m/d',
+                    formatDate: 'Y/m/d',
+                });
+            });
+        </script>*@
+    <style>
+        #vendorservicelist {
+            width: 50%;
+        }
+    </style>
+</head>
+
+@section Navigation
+{
+    <div class="breads">
+        <div class="breads_inner">
+            <div class="pageWidth">
+                <div class="title">
+                    <h3>Available Dates</h3>
+                </div>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="../Index/index">Home</a></li>
+                        <li><i class="breads_arrow"></i></li>
+                        <li><a href="index.html">Services</a></li>
+                        <li><i class="breads_arrow"></i></li>
+                        <li>Available Dates</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<body>
+    @using (Html.BeginForm("Index", "AvailableDates", FormMethod.Post, new { @class = "form-signin", @id = "register_form", @autocomplete = "off", @enctype = "multipart/form-data" }))
+    {
+        @*@Html.TextAreaFor(m => m.availabledate, new { @id = "products_delivery", @name = "products_delivery", @class = "some_class", required = "required" })*@
+        <div align="center" style="width:100%">
+            <label>Select Service Type</label> @*<input type="hidden" id="selectedid" />*@
+            @Html.DropDownList("vendorservicelist", "--Select Service Type--")
+        </div>
+        @Html.HiddenFor(model => model.vendorsubid)
+        <br />
+        <div id="products_delivery" align="center"></div>
+        @*<div class="availabledates" align="center"></div>*@
+        <br /><br />
+        <div align="center">
+            <button type="submit" name="command" id="save" value="save" class="btn btn-big btn-green">Save Date<i class="ti-angle-double-right"></i></button>
+            <button type="submit" name="command" id="remove" value="remove" class="btn btn-big btn-red">Remove Selected<i class="ti-trash"></i></button>
+        </div>
+
+            @Html.HiddenFor(m => m.availabledate, new { @style = "width: 500px;" })
+            <input type="hidden" id="removedates" />
+            @*<input type="text" id="removedates" style="width:500px"/><br/><br/><input type="text" id="availabledate" style="width:500px" />*@
+    }
+</body>
+</html>

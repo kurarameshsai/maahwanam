@@ -1,0 +1,119 @@
+﻿@model MaaAahwanam.Models.ServiceResponse
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/VendorMaster.cshtml";
+}
+<link rel="stylesheet" href="~/CSSWeb/bootstrap/css/Datatable_css.css" />
+<script src="~/Assets/plugins/dataTables/jquery.dataTables.js"></script>
+@section Navigation
+{
+    <script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+<script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <div class="breads">
+        <div class="breads_inner">
+            <div class="pageWidth">
+                <div class="title">
+
+                    <h3>Vendor's Reverse Bidding Response</h3>
+                </div>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="~/VendorDashboard/index">Home</a></li>
+                        <li><i class="breads_arrow"></i></li>
+                        <li>Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+    <div class="heading-title">
+        <h2>Vendor Response (Reverse Bidding)</h2>
+    </div>
+    @using (Html.BeginForm("Index", "VendorRBResponse", FormMethod.Post, new { @class = "form-signin", @id = "register_form", @autocomplete = "off", @enctype = "multipart/form-data" }))
+    {
+        <div class="displayDiv">
+            <div class="bidding_form">
+                <table>
+                    <tr>
+                        <td>
+                            <label>Description : </label>
+                        </td>
+                        <td>
+                            @Html.TextAreaFor(model => model.Description, new { @id = "Description", @name = "Description", placeholder = "Description", required = "required" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Amount : </label>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.Amount, new { @id = "Amount", @name = "Amount", placeholder = "Amount", required = "required" })
+                            @Html.HiddenFor(model => model.RequestId, new { Value = ViewBag.rid })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-big btn-green float-right">Submit <i class="ti-angle-double-right"></i></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+<br />
+<h3>Bid History :</h3><br />
+<div class="dashboardList dashboardList-nospace">
+    <table class="responsive" id="table1">
+        <thead>
+            <tr>
+                <th>RequestID</th>
+                <th>Description</th>
+                <th>Bid Amount</th>
+                <th>Bid Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.BidHistory != null)
+            {
+                foreach (var item in ViewBag.BidHistory)
+                {
+                    <tr>
+                        <td>@item.RequestId</td>
+                        <td>@item.Description</td>
+                        <td>@item.Amount</td>
+                        <td>
+                            @if (item.UpdatedDate != null)
+                            {
+                                @item.UpdatedDate.ToShortDateString()
+                            }
+                            else
+                            {
+                                <p>Not Available</p>
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><p>Not Bidded Yet</p></tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="~/assets/plugins/dataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="~/Assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //BootstrapDialog.alert('Welcom to MaaAahwanam DashBoard');
+            $('#table1').dataTable({ bFilter: false, ordering: false, bLengthChange: false, "pageLength": 5 });
+        });
+    </script>
+}

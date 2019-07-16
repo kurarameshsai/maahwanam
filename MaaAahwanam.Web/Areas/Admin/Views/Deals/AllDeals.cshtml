@@ -1,0 +1,248 @@
+﻿
+@{
+    ViewBag.Title = "AllDeals";
+    Layout = "~/Areas/Admin/Views/Shared/MainMaster.cshtml";
+}
+
+<link href="~/Assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    <div id="content">
+        <div class="inner">
+            <div class="row">
+                <!--BLOCK SECTION -->
+                @*<div class="row">
+                        <div class="col-lg-12">
+                            <div style="text-align: center;">
+                                <a class="quick-btn" href="../Vendor/Index">
+                                    <i class="icon-check icon-2x"></i>
+                                    <span> Vendors</span>
+                                    <span class="label label-danger">1000</span>
+                                </a>
+                                <a class="quick-btn" href="../Other/Index">
+                                    <i class="icon-envelope icon-2x"></i>
+                                    <span>Comments</span>
+                                    <span class="label label-success">25</span>
+                                </a>  <a class="quick-btn" href="../IssueTicketsAdmin/AdminTicketIndex">
+                                    <i class="icon-bolt icon-2x"></i>
+                                    <span>Tickets</span>
+                                    <span class="label label-warning">10</span>
+                                </a> <a class="quick-btn" href="../Other/Index">
+                                    <i class="icon-external-link icon-2x"></i>
+                                    <span>Orders</span>
+                                    <span class="label btn-metis-4">368</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>*@
+                <!--END BLOCK SECTION -->
+                <div class="col-lg-12">
+                    <h2 align="center"> All Deals </h2>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+
+                        @*<a href="/Admin/Vendors/VendorDetails" class="btn btn-primary btn-xs">Create New Vendor</a>*@
+                        <div align="right" class="panel-heading">
+                            <button type="button" data-toggle="tooltip" data-placement="top" title="Export to PDF" class="btn btn-default btn-circle">
+                                <i class="icon-check"></i>
+                            </button>
+                            <button type="button" data-toggle="tooltip" data-placement="top" title="Export to Exccel" class="btn btn-primary btn-circle">
+                                <i class="icon-list"></i>
+                            </button>
+                            <button type="button" data-toggle="tooltip" data-placement="top" title="Print" class="btn btn-success btn-circle">
+                                <i class="icon-link"></i>
+                            </button>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label class="control-label col-lg-4">Service Type</label>
+                            <div class="col-lg-4">
+                                @*<select class="form-control" id="dropstatus" name="dropstatus" onchange="this.form.submit()">
+                                        <option>Select Service Type</option>
+                                        <option value="Venue" @Request.Form["dropstatus"]>Venue</option>
+                                        <option value="Catering" @Request.Form["dropstatus"]>Caterers</option>
+                                        <option value="Decorator" @Request.Form["dropstatus"]>Decorators</option>
+                                        <option value="Photography" @Request.Form["dropstatus"]>Photographers</option>
+                                        <option value="InvitationCards" @Request.Form["dropstatus"]>Invitation Cards</option>
+                                        <option value="Entertainment" @Request.Form["dropstatus"]>Entertainment</option>
+                                        <option value="EventOrganisers" @Request.Form["dropstatus"]>Event Organisers</option>
+                                        <option value="BeautyServices" @Request.Form["dropstatus"]>Beauty Services</option>
+                                        <option value="WeddingCollection" @Request.Form["dropstatus"]>Wedding Collection</option>
+                                        <option value="TravelAccomodation" @Request.Form["dropstatus"]>Travel & Accomodation</option>
+                                        <option value="Gifts" @Request.Form["dropstatus"]>Gifts</option>
+                                        <option value="Others" @Request.Form["dropstatus"]>Others</option>
+                                    </select>*@
+                                @Html.DropDownList("dropstatus", new List<SelectListItem>()
+                            {
+                           new SelectListItem() {Text="Select Service Type",Value="" },
+                           new SelectListItem() {Text="Venue",Value="Venue" },
+                           new SelectListItem() {Text="Caterers",Value="Catering" },
+                           new SelectListItem() {Text="Decorators",Value="Decorator" },
+                           new SelectListItem() {Text="Photographers",Value="Photography" },
+                           new SelectListItem() {Text="Invitation Cards",Value="InvitationCards" },
+                           new SelectListItem() {Text="Entertainment",Value="Entertainment" },
+                           new SelectListItem() {Text="Event Organisers",Value="EventOrganisers" },
+                           new SelectListItem() {Text="Beauty Services",Value="BeautyServices" },
+                           new SelectListItem() {Text="Wedding Collection",Value="WeddingCollection" },
+                           new SelectListItem() {Text="Travel & Accommodation",Value="TravelAccomodation" },
+                           new SelectListItem() {Text="Gifts",Value="Gifts" },
+                           new SelectListItem() {Text="Others",Value="Others" }
+                       },
+                       new { onchange = "this.form.submit();", @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                @if (ViewBag.List != null)
+                                {
+                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        @*style="width:100%"*@
+                                        <thead>
+                                            <tr>
+                                                <th style="display:none">Deal ID</th>
+                                                <th>Business Name</th>
+                                                <th>Deal Start Date</th>
+                                                <th>Deal End Date</th>
+                                                <th>Deal Price</th>   @*<th>Service Type</th>*@
+                                                <th>Terms & Conditions</th>
+                                                <th style="display:none">Vendor ID</th>
+                                                <th style="display:none">Vendor Master ID</th>
+                                                @*<th>Status</th>*@
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in ViewBag.List)
+                                            {
+                                                <tr>
+                                                    <td style="display:none">@item.DealID</td>
+                                                    <td>
+                                                        @if (item.BusinessName != null)
+                                                        { 
+                                                            @item.BusinessName 
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>Not Available</p>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @*@string.Format(@item.UpdatedDate.ToString(),"{0:MM/dd/yyyy}")*@
+                                                        @if (item.DealStartDate != null)
+                                                        {
+                                                            @item.DealStartDate.ToShortDateString()
+                                                        }
+                                                        else {
+                                                            <p>Not Available</p>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.DealEndDate != null)
+                                                        {
+                                                            @item.DealEndDate.ToShortDateString()
+                                                        }
+                                                        else {
+                                                        <p>Not Available</p>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        @if (item.VendorType == "Venue")
+                                                        {
+                                                            if (item.VendorCategory == "Banquet Hall")
+                                                            {
+                                                                <p>
+                                                                    Veg Lunch cost : Rs.@item.DealVegLunchCost,<br/>
+                                                                    Veg Dinner cost : Rs.@item.DealVegDinnerCost,<br />
+                                                                    Non-Veg Lunch cost : Rs.@item.DealNonVegLunchCost,<br />
+                                                                    Non-Veg Dinner cost : Rs.@item.DealNonVegDinnerCost<br />
+                                                                </p>
+                                                            }
+                                                        else
+                                                            {
+                                                                <p>Service Price : Rs.@item.DealServicePrice</p>
+                                                            }
+                                                        }
+                                                        else if (item.VendorType == "Catering")
+                                                        {
+                                                            <p>
+                                                                Veg Price : Rs.@item.VegPricePerPlate,<br />
+                                                                Non-Veg Price : Rs.@item.NonVegPricePerPlate<br />
+                                                            </p>
+                                                        }
+                                                        else if (item.VendorType == "BeautyServices")
+                                                        {
+                                                            <p>
+                                                                Bridal Makeup Price : Rs.@item.BridalMakeupStartsFrom,<br />
+                                                                Party Makeup Price  : Rs.@item.PartyMakeupStartsFrom<br />
+                                                            </p>
+                                                        }
+                                                        else if (item.VendorType == "InvitationCards")
+                                                        {
+                                                            <p>
+                                                                Card Cost : Rs.@item.CardCost,<br />
+                                                                Card Cost With Print  : Rs.@item.CardCostWithPrint<br />
+                                                            </p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p>Service Price : Rs.@item.DealServicePrice</p>
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        <p style="width: 300px; word-wrap:break-word;">@item.TermsConditions</p>
+                                                    </td>
+                                                    <td style="display:none">
+                                                        @item.VendorId
+                                                    </td>
+                                                    <td style="display:none">
+                                                        @item.VendorSubId
+                                                    </td>
+                                                    @*<td>
+        <a href="#" class="btn btn-primary btn-xs btn-rect"> @item.status</a>
+    </td>*@
+                                                    <td>
+                                                        <input type="submit" class="btn btn-default btn-xs" value="View" name="command" formaction="/Admin/Deals/AllDeals?id=@item.VendorId&&vid=@item.VendorSubId&&dealid=@item.DealID" />
+                                                        <input type="submit" class="btn btn-default btn-xs" value="Edit" name="command" formaction="/Admin/Deals/AllDeals?id=@item.VendorId&&vid=@item.VendorSubId&&dealid=@item.DealID" />
+                                                        <input type="submit" class="btn btn-default btn-xs" value="Delete" name="command" />
+                                                        
+                                                        @*<input type="submit" class="btn btn-default btn-xs" value="Make A Deal" name="command" formaction="/Admin/Deals/AllDeals?id=@item.VendorId&&vid=@item.VendorSubId" style="width:128px;" />*@
+                                                       
+                                                        @*<a href="/Admin/Vendors/AllVendors" class="btn btn-default btn-xs">Edit</a>
+                                                            <a href="#" class="btn btn-default btn-xs">Delete</a>*@
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                @if (ViewBag.List == null)
+                                {
+                                    <h3 align="center">Select a Deal To View Records</h3>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!--END PAGE CONTENT -->
+<script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+<script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+</script>
+

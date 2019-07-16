@@ -1,0 +1,913 @@
+﻿@using System.Globalization
+@{
+    ViewBag.Title = ":: Invoice ::";
+    Layout = "~/Views/SharedWeb/vmp.cshtml";
+    var count = 0;
+}
+
+@section css{
+    <style>
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
+
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
+
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
+
+        /*.table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }*/
+
+        .col-md-10 {
+            color: black;
+        }
+    </style>
+
+}
+<input type="hidden" name="GridHtml" />
+<input type="hidden" id="User_Id" name="User_Id" value="@ViewBag.User_Id" />
+<input type="hidden" id="OrderId" name="OrderId" value="@ViewBag.orderid" />
+<input type="hidden" id="OrderDetailId" name="OrderDetailId" value="" />
+<div class="col-md-10">
+    <div id="print-content" class="container-fluid">
+        <div class="row">
+            <div class="col-12" style="padding-left:30px">
+                <div class="invoice-title add_top_30">
+                    <div class="table-responsive">
+                        <table style="height: 182px;" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 172px;">
+                                        <strong>Invoice</strong>
+                                    </td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td style="width: 173px;">
+                                        <strong>Order</strong> #  @ViewBag.orderid
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 172px;">
+                                        <strong>Billed To:</strong>
+                                        <p> @ViewBag.vendorname</p>
+                                        <p>@ViewBag.vendoraddress</p>
+                                    </td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td style="width: 173px;">
+                                        <strong>Shipped To:</strong>
+                                        <p> @ViewBag.username</p>
+                                        <p></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 172px;">
+                                        <strong>Booked Date:</strong>
+                                        <p>@ViewBag.bookeddate</p>
+                                    </td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td style="width: 173px;">
+                                        <strong>Order Date:</strong>
+                                        <p>@ViewBag.orderdate</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="padding-left:30px">
+                <div class="add_top_15">
+                    <h3><strong>Order summary</strong></h3>
+                    <div class="table-responsive">
+                        <table class="table table-condensed" style="width:100%;max-width:100%">
+                            <thead>
+                                <tr>
+                                    <td><strong>Event Type</strong></td>
+                                    <td class="text-center"><strong>Price</strong></td>
+                                    <td class="text-center"><strong>Quantity</strong></td>
+                                    <td class="text-right"><strong>Due Amount</strong></td>
+                                    <td class="text-right"><strong>Total Amount</strong></td>
+                                    <td class="text-right"><strong>Grand Total (Total Amount + GST)</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.orderdetails)
+                                {
+                                    <tr>
+                                        <td>@item.eventtype</td>
+                                        <td class="text-center">Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.perunitprice)).Replace(".00", "")</td>
+                                        <td class="text-center">@item.guestno</td>
+                                        <td class="text-right">
+                                            Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.Due)).Replace(".00", "")
+                                        </td>
+                                        <td class="text-right">
+                                            Rs  @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.totalpric1)).Replace(".00", "")
+                                        </td>
+                                        <td class="text-right">Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.totalpric1) + (Convert.ToDouble(@item.totalpric1) * 0.18)).Replace(".00", "")</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line"></td>
+                                    <td class="thick-line text-center"><strong>Subtotal</strong></td>
+                                    <td class="thick-line text-right">
+                                        Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@ViewBag.total)).Replace(".00", "")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong>GST</strong></td>
+                                    <td class="no-line text-right">18%</td>
+                                </tr>
+                                <tr>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line"></td>
+                                    <td class="no-line text-center"><strong> Grand Total</strong></td>
+                                    <td class="no-line text-right">
+                                        Rs  @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@ViewBag.gstplustotalAmount)).Replace(".00", "")
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" style="padding-left:30px">
+                            <div class="add_top_15">
+                                <h3><strong>Order Details</strong></h3>
+                                <div class="table-responsive1">
+                                    <table class="table table-condensed1" id="orderdetails" style="width:100%;max-width:100%">
+                                        <thead>
+                                            <tr>
+                                                <td><strong>Select</strong></td>
+                                                <td><strong>Order DetailId</strong></td>
+                                                <td class="text-center"><strong>Service Name</strong></td>
+                                                <td class="text-center"><strong>Price</strong></td>
+                                                <td class="text-center"><strong>Quantity</strong></td>
+                                                <td class="text-center"><strong>Due Amount</strong></td>
+                                                <td class="text-center"><strong>Total Amount</strong></td>
+                                                <td class="text-center"><strong>Discount</strong></td>
+                                                <td class="text-center"><strong>GST</strong></td>
+                                                <td class="text-right"><strong>Grand Total</strong></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                                            @foreach (var item in ViewBag.orderdetails)
+                                                            {
+                                                                
+                                                                <tr class="recordsection">
+                                                                    <td><input type="checkbox" class="chcktblservice" /></td>
+                                                                    <td class="detailid"> @item.orderdetailedid </td>
+                                                                    <td class="text-center">@item.ServicType</td>
+                                                                    <td class="text-center">Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.perunitprice)).Replace(".00", "")</td>
+                                                                    <td class="text-center">@item.guestno</td>
+                                                                    <td class="sbaldue text-center">Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.Due)).Replace(".00", "")</td>
+                                                                    <td class="tsamnt text-center">Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.totalpric1)).Replace(".00", "")</td>
+                                                                    <td class="text-center">
+                                                                        @if (ViewBag.discount[count] != null)
+                                                                        {  
+                                                                            @*@(++count)*@
+                                                                            <label>
+                                                                                Discount Type : @ViewBag.discount[count].Split(new char[] { '!' })[0]<br />
+                                                                                Discount : @ViewBag.discount[count].Split(new char[] { '!' })[1]
+                                                                            </label>                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <select name="DiscountType" id="DiscountType"  class="selectdiscount" style="font-size: 11px;" disabled>
+                                                                                <option value="notselected">Select Discount Type</option>
+                                                                                <option value="Percentage %">Percentage %</option>
+
+                                                                                <option value="Flat Rate ₹">Flat Rate ₹</option>
+                                                                            </select>
+                                                                            <div class="ServiceDiscount" style="padding-left:5px;padding-top:8px;">
+                                                                                <input type="text" class="disctxt" id="Discount" name="Discount" placeholder="Enter Discount" style="font-size: 12px; width:128px;padding:0px;" value="0" disabled>
+                                                                            </div>
+                                                        }
+                                                    </td>
+                                                    <td class="text-right"><label id="GST" class="lblgst" value="0.18">18%</label></td>
+                                                    <td class="text-right gndttl"><label class="fgndttl">Rs @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.totalpric1) + (Convert.ToDouble(@item.totalpric1) * 0.18)).Replace(".00", "")</label></td>
+                                                </tr>
+                                                count++;
+                                            }
+                                        </tbody>
+                                    </table>
+                                    <hr />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if (ViewBag.payment.Count != 0)
+                    {<div class="row">
+                                        <div class="col-lg-12" style="padding-left:30px">
+                                            <div class="add_top_15">
+                                                <h3><strong>Payment summary</strong></h3>
+                                                <div class="table-responsive2">
+                                                    <table class="table table-condensed2" style="width:100%;max-width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <td><strong>Payment By</strong></td>
+                                                                <td><strong>Payment Date</strong></td>
+                                                                <td class="text-center"><strong>Payment Id</strong></td>
+                                                                <td class="text-center"><strong>Payment Type</strong></td>
+                                                                <td class="text-right"><strong>Received Amount</strong></td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var item in ViewBag.payment)
+                                                            {
+                                                                <tr>
+                                                                    <td><a href="/duepayment?oid=@ViewBag.orderid&paymentby=@String.Format(@item.PaymentBy).Replace(" ", "_")" class="orderidlnk" style="cursor:pointer">@item.PaymentBy</a> </td>
+                                                                    <td> @item.Payment_Date.ToString("dd-MMM-yyyy") </td>
+                                                                    <td class="text-center">@item.Payment_Id</td>
+                                                                    <td class="text-center">@item.Payment_Type</td>
+                                                                    <td class="text-right"> Rs @item.Received_Amount</td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="Paymentmode" style="display:none;padding-top:0px;">
+        <div class="col-lg-12" style="padding-left:30px">
+            <div class="add_top_15">
+                <h3 class="col-md-12"><strong> Payment Mode</strong></h3>
+                <form>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row payment-options">
+                                <fieldset class="form-check" style="display:inline">
+                                    <label class="form-check-label" for="Status1">Cash</label>
+                                    <input type="radio" class="chckcash" id="Type1" name="Payment_Type" value="Cash" checked required />
+                                </fieldset>
+                                <fieldset class="form-check" style="display:inline">
+                                    <label class="form-check-label" for="Status2">Cheque</label>
+                                    <input type="radio" class="chckcheque" id="Type2" name="Payment_Type" value="Cheque" required />
+                                </fieldset>
+                                <fieldset class="form-check" style="display:inline">
+                                    <label class="form-check-label" for="Status2"> Credit / Debit Card</label>
+                                    <input type="radio" class="chckcard" id="Type3" name="Payment_Type" value="Credit/DebitCard" required />
+                                </fieldset>
+                                <fieldset class="form-check" style="display:inline">
+                                    <label class="form-check-label" for="Status2">Bank Transfer</label>
+                                    <input type="radio" class="chckbt" id="Type4" name="Payment_Type" value="Bank Transfer" required />
+                                </fieldset>
+                                <fieldset class="form-check" style="display:inline">
+                                    <label class="form-check-label" for="Status2">Wallet</label>
+                                    <input type="radio" class="chckwallet" id="Type5" name="Payment_Type" value="Wallet" required />
+                                </fieldset>
+                            </div>
+                            <br />
+                            <div class="row Cashdetails" id="cashdetails">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label>Date:</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input class="form-control datepicker" id="Cash_Date" name="Cash_Date" type="text" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Payment By</label>
+                                        <input type="text" class="form-control" id="PaymentBy" name="PaymentBy" placeholder="Enter Customer Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Cashier Name:</label>
+                                        <input type="text" class="form-control" id="Cash_Card_Holdername" name="Cash_Card_Holdername" style="padding: 5px;">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row Chequedetails" id="chequedetails" style="display:none;">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label>Date:</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input class="form-control datepicker" id="Cheque_Date" name="Cheque_Date" placeholder="DD/MM/YYYY" type="text" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Payment By</label>
+                                        <input type="text" class="form-control" id="PaymentBy" name="PaymentBy" placeholder="Enter Customer Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Bank name</label>
+                                        <input type="text" class="form-control" id="Cheque_Bankname" name="Cheque_Bankname" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Cheque No</label>
+                                        <input type="text" class="form-control" id="Cheque_Number" name="Cheque_Number" style="padding: 5px;">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row credit/debitcarddetails" id="carddetails" style="display:none;">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label>Date:</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input class="form-control datepicker" id="creditORdebitcard_date" name="creditORdebitcard_date" placeholder="DD/MM/YYYY" type="text" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Payment By</label>
+                                        <input type="text" class="form-control" id="PaymentBy" name="PaymentBy" placeholder="Enter Customer Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Card Holder Name</label>
+                                        <input type="text" class="form-control" id="Card_Holder_Name" name="Card_Holder_Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Last 4 digits</label>
+                                        <input type="text" class="form-control" id="Card_Last4digits" name="Card_Last4digits" style="padding: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row Bankdetails" id="bankdetails" style="display:none;">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label>Date:</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input class="form-control datepicker" id="Bank_Transfer_date" name="Bank_Transfer_date" placeholder="DD/MM/YYYY" type="text" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Payment By</label>
+                                        <input type="text" class="form-control" id="PaymentBy" name="PaymentBy" placeholder="Enter Customer Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Account Holder Name</label>
+                                        <input type="text" class="form-control" id="Bank_Transfer_Name" name="Bank_Transfer_Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Transaction Id</label>
+                                        <input type="text" class="form-control" id="Bank_Transaction_ID" name="Bank_Transaction_ID" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Bank Name</label>
+                                        <input type="text" class="form-control" id="Bank_Transfer_IFSCcode" name="Bank_Transfer_IFSCcode" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Branch Name</label>
+                                        <input type="text" class="form-control" id="Bank_Transfer_Branchname" name="Bank_Transfer_Branchname" style="padding: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row Walletdetails" id="walletdetails" style="display:none;">
+                                <div class="col-md-4">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label>Date:</label>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"></div>
+                                        <input class="form-control datepicker" id="Wallet_Date" name="Wallet_Date" placeholder="DD/MM/YYYY" type="text" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Payment By</label>
+                                        <input type="text" class="form-control" id="PaymentBy" name="PaymentBy" placeholder="Enter Customer Name" style="padding: 5px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Mobile Number</label>
+                                        <input type="text" class="form-control" id="Wallet_Number" name="Wallet_Number" style="padding: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-5" style="padding: 14px;">Total Amount</div>
+                                <div class="col-md-7" style="padding:1px;margin-left: -19px;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Opening_Balance" name="Opening_Balance" style="padding: 5px;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5" style="padding: 14px;">Balance Due</div>
+                                <div class="col-md-7" style="padding:1px;margin-left: -19px;">
+                                    <input type="hidden" class="form-control" id="Current_Balance1" name="Current_Balance1" value="@ViewBag.balance" style="padding: 5px;" readonly>
+
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Current_Balance" name="Current_Balance" style="padding: 5px;" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5" style="padding: 14px;">Final Amount</div>
+                                <div class="col-md-7" style="padding:1px;margin-left: -19px;">
+                                    <input type="hidden" class="form-control" id="FinalAmount1" name="FinalAmount1" value="@ViewBag.gstplustotalAmount" style="padding: 5px;">
+                                    <input type="hidden" class="form-control" id="FinalAmount2" name="FinalAmount2" value="" style="padding: 5px;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="FinalAmount" name="FinalAmount" value="" style="padding: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5" style="padding: 14px;">Received Amount</div>
+                                <div class="col-md-7" style="padding:1px;margin-left: -19px;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="Received_Amount" name="Received_Amount" style="padding: 5px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:30px">
+                        <div class="col-md-6  remarks margin-top" style="padding:5px">
+                            <label>Remarks</label>
+                            <textarea class="form-control" rows="3" id="Remarks" name="Remarks"></textarea>
+                        </div>
+                    </div>
+                    <br />
+                    <div align="center">
+                        <div style="position: absolute; left: 485px;">
+                            <button id="SavePayment" type="button" name="command" value="Save" class="btn btn-success" style="display:block">Save Payment</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div align="right">
+        <a href="/vdb?c=orders" class="btn btn-danger">Go Back</a>
+        <button type="button" onclick="email(@ViewBag.orderid)" class="btn btn-primary"><i class="icon-direction-1"></i>Email</button>
+        <button type="button" class="btn btn-primary" id="btnrcvpmnt">Receive Payment</button>
+        <button name="btnsaveas" onclick="window.location.href='/vinvoice/pdfpreview?oid=@ViewBag.orderid'" class="btn btn-primary"><i class="icon-download"></i>Print</button>
+        <button name="btnsaveas" onclick="window.location.href='/vinvoice/pdfpreview?oid=@ViewBag.orderid'" class="btn btn-primary"><i class="icon-download"></i>Save as PDF</button>
+    </div>
+</div>
+
+<script src="~/newdesignstyles/Scripts/jquery-2.2.4.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" integrity="sha384-THVO/sM0mFD9h7dfSndI6TS0PgAGavwKvB5hAxRRvc0o9cPLohB0wb/PTA7LdUHs" crossorigin="anonymous"></script>
+
+<script>
+    /*
+ * jQuery helper plugin for examples and tests
+ */
+    (function ($) {
+        $.fn.html2canvas = function (options) {
+            var date = new Date(), $message = null, timeoutTimer = false, timer = date.getTime();
+            html2canvas.logging = options && options.logging;
+            html2canvas.Preload(this[0], $.extend({
+                complete: function (images) {
+                    var queue = html2canvas.Parse(this[0], images, options),
+                        $canvas = $(html2canvas.Renderer(queue, options)),
+                        finishTime = new Date();
+                    $canvas.css({ position: 'absolute', left: 0, top: 0 }).appendTo(document.body);
+                    $canvas.siblings().toggle();
+
+                    $(window).click(function () {
+                        if (!$canvas.is(':visible')) {
+                            $canvas.toggle().siblings().toggle();
+                            throwMessage("Canvas Render visible");
+                        } else {
+                            $canvas.siblings().toggle();
+                            $canvas.toggle();
+                            throwMessage("Canvas Render hidden");
+                        }
+                    });
+                    throwMessage('Screenshot created in ' + ((finishTime.getTime() - timer) / 1000) + " seconds<br />", 4000);
+                }
+            }, options));
+
+            function throwMessage(msg, duration) {
+                window.clearTimeout(timeoutTimer);
+                timeoutTimer = window.setTimeout(function () {
+                    $message.fadeOut(function () {
+                        $message.remove();
+                    });
+                }, duration || 2000);
+                if ($message)
+                    $message.remove();
+                $message = $('<div ></div>').html(msg).css({
+                    margin: 0,
+                    padding: 10,
+                    background: "#000",
+                    opacity: 0.7,
+                    position: "fixed",
+                    top: 10,
+                    right: 10,
+                    fontFamily: 'Tahoma',
+                    color: '#fff',
+                    fontSize: 12,
+                    borderRadius: 12,
+                    width: 'auto',
+                    height: 'auto',
+                    textAlign: 'center',
+                    textDecoration: 'none'
+                }).hide().fadeIn().appendTo('body');
+            }
+        };
+    })(jQuery);
+
+</script>
+<script>
+    $(function () {
+        $("#btnSubmit").click(function () {
+            $("input[name='GridHtml']").val(document.getElementById("print-content").outerHTML); //$("#print-content").html());
+        });
+    });
+    function printDiv(divName) {
+
+        var printContents = document.getElementById(divName).innerHTML;
+        w = window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+    $('#savepdf').click(function () {
+        // $("input[name='GridHtml']").val($("#print-content").html());
+        //var pdfhtml = $("input[name='GridHtml']").val();
+        var pdfhtml = document.getElementById("print-content").outerHTML;// $("#print-content").html();
+        // var pdfhtml = $(this).attr("GridHtml");
+        var oid = '@Request.QueryString["oid"]';
+        //alert(pdfhtml);
+        $.ajax({
+            url: '/vinvoice/pdfdownload',//?pdfhtml=' + pdfhtml + "&&oid=" + oid,
+            type: 'POST',
+            contentType: 'application/json; charset=utf-8',
+            dataType: "json",
+            data: {},
+            data: JSON.stringify({ pdfhtml: pdfhtml, oid: oid }),
+            success: function (result) {
+                if (result == "success") {
+                    alert("pdf downloaded sucess fully");
+                }
+                else {
+                    alert("Error Occurred in downloading pdf");
+                }
+            }
+        })
+
+    });
+
+    // This code is collected but useful, click below to jsfiddle link.
+    function email(val) {
+        $.ajax({
+            url: '/vinvoice/Email?oid=' + val,
+            type: 'POST',
+            contentType: 'application/json',
+
+            success: function (result) {
+                if (result == "success") {
+                    alert("Email sent Successfully");
+                }
+                else {
+                    alert("Error Occurred in sending email");
+                }
+            }
+        })
+    };
+    $(document).ready(function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+        var today = (day) + "-" + (month) + "-" + now.getFullYear();
+        $('.datepicker').val(today);
+
+        $('input:radio[name="Payment_Type"]').change(function () {
+            if ($(this).val() == "Cash") { $('#cashdetails').show(); $('#chequedetails').hide(); $('#carddetails').hide(); $('#bankdetails').hide(); $('#walletdetails').hide(); }
+            else if ($(this).val() == "Cheque") { $('#cashdetails').hide(); $('#chequedetails').show(); $('#carddetails').hide(); $('#bankdetails').hide(); $('#walletdetails').hide(); }
+            else if ($(this).val() == "Credit/DebitCard") { $('#cashdetails').hide(); $('#chequedetails').hide(); $('#carddetails').show(); $('#bankdetails').hide(); $('#walletdetails').hide(); }
+            else if ($(this).val() == "Bank Transfer") { $('#cashdetails').hide(); $('#chequedetails').hide(); $('#carddetails').hide(); $('#bankdetails').show(); $('#walletdetails').hide(); }
+            else if ($(this).val() == "Wallet") { $('#cashdetails').hide(); $('#chequedetails').hide(); $('#carddetails').hide(); $('#bankdetails').hide(); $('#walletdetails').show(); }
+        });
+    });
+    var sum = 0; var sum1 = 0; var fnmnt = 0
+    $("#btnrcvpmnt").on('click', function () {
+        $('#Paymentmode').css('display', 'block');
+        $('#btnrcvpmnt').css('display', 'none');
+        $('#orderdetails tr input.chcktblservice').prop('checked', true);
+        if ($('#orderdetails tr input.chcktblservice').is(':checked')) {
+            $('#orderdetails tr #DiscountType').removeAttr('disabled');
+            $('#orderdetails tr #Discount').removeAttr('disabled');
+            $("#orderdetails tr .detailid").each(function () {
+                var rid;
+                var oid = $("#OrderDetailId").val();
+                var odid = $(this).text();
+                if (rid == '') rid = odid;
+                else rid = oid + ',' + odid;
+                $("#OrderDetailId").val(rid);
+            });
+            //opening Balance
+            $("#orderdetails tr .tsamnt").each(function () {
+                var totalamt = $(this).text();
+                var ctamt = totalamt.replace(/\Rs /g, '').replace(/,/g, '');
+                sum += parseInt(ctamt);
+                $('#Opening_Balance').val(sum);
+
+            });
+            //currentbalance
+            $("#orderdetails tr .sbaldue").each(function () {
+                var totalamt = $(this).text();
+                var ctamt = totalamt.replace(/\Rs /g, '').replace(/,/g, '');
+                sum1 += parseInt(ctamt);
+                //alert(sum1)
+                $('#Current_Balance').val(sum1);
+            });
+
+            $("#orderdetails tr label.fgndttl").each(function () {
+                var totalamt = $(this).text();
+                var ctamt = totalamt.replace(/\Rs /g, '').replace(/,/g, '');
+                fnmnt += parseInt(ctamt);
+                var crntbalance = 0; var cntttlnmnt = 0;
+                //var cntbaldue = $("#orderdetails tr .sbaldue").text().replace(/\Rs /g, '~').replace(/,/g, '').trim();
+                //var cnttnmnt = $("#orderdetails tr .tsamnt").text().replace(/\Rs /g, '~').replace(/,/g, '').trim();
+                //crntbalance = cntbaldue.replace(/~/g, ',').substring(1);
+                //cntttlnmnt = cnttnmnt.replace(/~/g, ',').substring(1);
+                //var cntbaldue = crntbalance.split(',')
+                //var cnttnmnt = cntttlnmnt.split(',')
+
+                //if (crntbalance == cntttlnmnt && cntttlnmnt != 0 && crntbalance != 0) {
+                //    var totalamt = $(this).text();
+                //    var ctamt = totalamt.replace(/\Rs /g, '').replace(/,/g, '');
+                //    fnmnt += parseInt(ctamt);
+
+                //}
+                //else {
+                //    var gndttl = $(this).text();
+                //    var cntgndttl = gndttl.replace(/\Rs /g, '').replace(/,/g, '');
+                //    var grndttlnmnt = parseInt(cntgndttl);
+                //    fnmnt = crntbalance + grndttlnmnt;
+                //}
+                $('#FinalAmount').val(fnmnt);
+            });
+        }
+    });
+
+    $('#Received_Amount').on('input', function () {
+        var fnmnt = $('#FinalAmount1').val();
+        var rcvnmnt = $('#Received_Amount').val();
+        //var result = 0
+        if (rcvnmnt == null || rcvnmnt == "") {
+            alert("Enter Some Amount");
+            $("#FinalAmount").val(fnmnt);
+        }
+        else if (parseInt(rcvnmnt) > parseInt(fnmnt)) {
+            alert("Enter less than or Equal Of Balance Due Amount...");
+            $("#FinalAmount").val(fnmnt);
+        }
+        else {
+            var result = parseInt(fnmnt) - parseInt(rcvnmnt);
+            $("#FinalAmount").val(result);
+        }
+    });
+    $("#SavePayment").click(function () {
+        var OrderDetailId = $("#OrderDetailId").val();
+        var Received_Amount = $("#Received_Amount").val();
+        var table = $('#orderdetails');
+        var count = $('#orderdetails tr').length;
+        var discount = [];
+        $('#orderdetails tr.recordsection').each(function () {
+            var checked = $(this).find('.chcktblservice').is(':checked');
+            if (checked) {
+                var disctype = $(this).find('.selectdiscount').val();
+                var disc = $(this).find('.disctxt').val();
+                var odid = $(this).find('.detailid').text();
+                discount.push(odid + '!' + disctype + '!' + disc);
+            }
+        });
+        var fdiscount = discount.join('~');
+        //alert(fdiscount)
+        var PaymentBy = $('#PaymentBy').val();
+        if (PaymentBy == '') { alert('Enter Payment By Person Name'); $('#PaymentBy').focus(); }
+        else if (Cash_Card_Holdername == '') { alert("Enter Cashier Name"); $("#Cash_Card_Holdername").focus(); }
+        else{
+        var payments = {
+            OrderId: $("#OrderId").val(),
+            User_Id: $("#User_Id").val(),
+            Payment_Type: $("input[name='Payment_Type']:checked").val(),
+            PaymentBy: $('#PaymentBy').val(),
+            Cash_Date: $("#Cash_Date").val(),
+            Cash_Card_Holdername: $("#Cash_Card_Holdername").val(),
+            Cheque_Date: $("#Cheque_Date").val(),
+            Cheque_Bankname: $("#Cheque_Bankname").val(),
+            Cheque_Number: $("#Cheque_Number").val(),
+            creditORdebitcard_date: $("creditORdebitcard_date").val(),
+            Card_Holder_Name: $("#Card_Holder_Name").val(),
+            Card_Last4digits: $("#Card_Last4digits").val(),
+            Bank_Transfer_date: $("#Bank_Transfer_date").val(),
+            Bank_Transaction_ID: $("#Bank_Transaction_ID").val(),
+            Bank_Transfer_Name: $("#Bank_Transfer_Name").val(),
+            Bank_Transfer_IFSCcode: $("#Bank_Transfer_IFSCcode").val(),
+            Bank_Transfer_Branchname: $("#Bank_Transfer_Branchname").val(),
+            Wallet_Date: $("#Wallet_Date").val(),
+            Wallet_Number: $("#Wallet_Number").val(),
+            Current_Balance: $('#FinalAmount').val(),
+            GST: $('#GST').text(),
+            Opening_Balance: $('#Opening_Balance').val(),
+            Remarks: $("#Remarks").val()
+        }
+        $.ajax({
+            url: '/vinvoice/savepayment',
+            type: 'Post',
+            contentType: 'application/json',
+            data: JSON.stringify({ payments: payments, OrderDetailId: OrderDetailId, Received_Amount: Received_Amount, finaldiscount: fdiscount }),
+            success: function (data) {
+                alert(data);
+                location.reload();
+            },
+            error: function (data) {
+                alert("failed");
+            }
+        });
+        }
+        });
+   
+    $("#orderdetails tr input.chcktblservice").click(function () {
+        var checked = $(this).is(':checked');
+        var gstsum5 = $('#FinalAmount').val(); // GSt Total Amount
+        var tr = $(this).parent('td').parent('tr');
+        var rid;
+        if (checked) {
+            var oid = $("#OrderDetailId").val();
+            var odid = tr.find('td:eq(1)').text();
+            if (rid == '') rid = odid;
+            else rid = oid + ',' + odid;
+            $("#OrderDetailId").val(rid);
+        }
+        else {
+            var oid = $("#OrderDetailId").val();
+            var odid = tr.find('td:eq(1)').text();
+            rid = oid.replace(odid, '');
+            $("#OrderDetailId").val(rid);
+        }
+        var openingbal = $('#Opening_Balance').val();
+        var opamt = tr.find('.tsamnt').text().replace('Rs ', '').replace(/,/g, '').trim();
+        //Opening Balance
+        if (openingbal == '')
+            $('#Opening_Balance').val(opamt);
+        else {
+
+            if (checked)
+                $('#Opening_Balance').val(parseInt(openingbal) + parseInt(opamt));
+            else
+                $('#Opening_Balance').val(parseInt(openingbal) - parseInt(opamt));
+        }
+        //Balance Due
+        var currentbal = $('#Current_Balance').val();
+        var cntbal = '';
+        var cntbal1 = tr.find('.sbaldue').text().replace('Rs ', '').replace(/,/g, '').trim();
+        var opamt1 = tr.find('.tsamnt').text().replace('Rs ', '').replace(/,/g, '').trim();
+        if (cntbal1 == opamt1 && opamt1 != 0 && cntbal1 != 0) {
+            cntbal = tr.find('.gndttl').text().replace('Rs ', '').replace(/,/g, '').trim();
+        }
+        else {
+            cntbal = cntbal1;
+        }
+        if (currentbal != '') {
+            if (checked)
+                $('#Current_Balance').val(parseInt(currentbal) + parseInt(cntbal));
+            else
+                $('#Current_Balance').val(parseInt(currentbal) - parseInt(cntbal));
+        }
+        else {
+            $('#Current_Balance').val(cntbal);
+        }
+        $('#Paymentmode').css('display', 'block');
+        // Total Amount + GST
+        if (checked) {
+            var total = 0; var gstsum = 0
+            var openingbalance = $('#Opening_Balance').val();
+            var duebalance = $('#Current_Balance').val();
+            var famount = $('#FinalAmount').val();
+            if (openingbalance == duebalance && openingbalance != 0 && duebalance != 0) {
+                var gstplusttamnt = parseFloat(duebalance);
+                var gstplusfinal = gstplusttamnt + (gstplusttamnt * 18 / 100);
+                if (checked) {
+                    gstsum += gstplusfinal;
+                    tr.find('#DiscountType').removeAttr('disabled');
+                    tr.find('#Discount').removeAttr('disabled');
+                    $('#FinalAmount').val(gstsum)
+                    $('#FinalAmount1').val(gstsum)
+                }
+                else {
+                    var famt = tr.find('.gndttl').text().replace('Rs ', '').replace(/,/g, '').trim();
+                    gstsum = parseInt(famount) - parseInt(famt);
+                    tr.find('#DiscountType').attr('disabled', 'disabled');
+                    tr.find('#Discount').attr('disabled', 'disabled')
+                    $('#FinalAmount').val(gstsum)
+                    $('#FinalAmount1').val(gstsum)
+                }
+                //$('#FinalAmount').val(gstsum);
+            }
+            else {
+                var cnmt = $('#Current_Balance').val();
+                tr.find('#DiscountType').removeAttr('disabled');
+                tr.find('#Discount').removeAttr('disabled');
+                $('#FinalAmount').val(cnmt);
+                $('#FinalAmount1').val(cnmt);
+            }
+        }
+
+    });
+    var discounttype = '';
+    $('#orderdetails tr td').find('select.selectdiscount').change(function () {
+        discounttype = $(this).find('option:selected').text()
+        $(this).parent('td').find('#Discount').focus();
+    });
+    $('#orderdetails tr td').find('input.disctxt').on('input', function () {
+        var ttamnt = $(this).parent('div').parent('td.text-center').parent('tr').find('.tsamnt').text().replace('Rs ', '-').replace(/,/g, '').substr(1);
+        var disc = 0;
+        var discamnt = $(this).val();
+        if (discounttype == 'Percentage %') {
+            if (discamnt > 100) {
+                alert('Percentage should not be greater than 100');
+            }
+            else { disc = ttamnt - (ttamnt * discamnt / 100); }
+        }
+        else if (discounttype == 'Flat Rate ₹') {
+            disc = ttamnt - discamnt;
+
+        }
+        var finalamnt = disc + (disc * 18 / 100);
+        $('#FinalAmount').val(finalamnt);
+        $('#FinalAmount1').val(finalamnt);
+        $(this).parent('div').parent('td.text-center').parent('tr').find('.fgndttl').text('Rs ' + finalamnt);
+        var amt = 0;
+        $('#orderdetails tr').each(function () {
+            var checked = $(this).find('input.chcktblservice').is(':checked');
+            var tamt = $(this).find('.fgndttl').text().replace('Rs ', '-').replace(',', '').substr(1);
+            if (checked)
+                amt += parseInt(tamt);
+            $('#FinalAmount').val(amt);
+            $('#FinalAmount1').val(amt);
+        });
+    });
+
+
+</script>
+
+@*<script>
+        $('#disctype').click(function () {
+            var table = $('#orderdetails');
+            var count = $('#orderdetails tr').length;
+            var discount = [];
+            $('#orderdetails tr.recordsection').each(function () {
+                var checked = $(this).find('.chcktblservice').is(':checked');
+                if (checked) {
+                    var disctype = $(this).find('.selectdiscount').val();
+                    var disc = $(this).find('.disctxt').val();
+                    var odid = $(this).find('.detailid').text();
+                    discount.push(odid+'!'+disctype +'!'+ disc);
+                }
+            });
+            var fdiscount = discount.join('~');
+            alert(fdiscount);
+        });
+    </script>*@

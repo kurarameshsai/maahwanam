@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "update Deal";
+    Layout = "~/Views/SharedWeb/NVendorMasterPage.cshtml";
+}
+@using System.Globalization
+
+<link href="~/newdesign/css/jquery.datetimepicker.css" rel="stylesheet" />
+
+<div class="page-content container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            @using (Html.BeginForm("updatedeal", "NVendorDeals", FormMethod.Post))
+            {
+
+                if (ViewBag.dealrecord1 != null)
+                {
+                    foreach (var item in ViewBag.dealrecord1)
+                    {
+                        <div class="nav-tabs-vertical">
+                            <div class="tab-content padding-vertical-15">
+                                <form class="">
+                                    <input type="hidden" class="form-control" name="vid" value="@item.VendorId" autocomplete="off">
+                                    <input type="hidden" class="form-control" name="id" value="@item.DealID" autocomplete="off">
+
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label" for="inputBasicFirstName">Deal Name</label>
+
+                                            <input class="form-control" type="text"  name="DealName" value="@item.DealName" placeholder="Deal Name"   autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Original Price</label>
+
+                                            <input class="form-control" type="text"  name="OriginalPrice" value="@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.OriginalPrice)).Replace(".00", "")" placeholder="Original Price" required>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Deal Price</label>
+
+                                            <input class="form-control"  type="text"  name="DealPrice" value="@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.DealPrice)).Replace(".00", "")" placeholder="Deal Price" required>
+                                        </div>
+
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Category</label>
+
+                                            <input class="form-control" type="text"  name="Category" value="@item.Category" placeholder="Category" autocomplete="off" disabled>
+
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Type</label>
+
+                                            <input class="form-control" type="text"  name="type" id="type" value="@item.VendorType - @item.VendorSubType" placeholder="Type" autocomplete="off" disabled>
+
+                                        </div>
+                              @if (@item.VendorType == "venue" || @item.VendorType == "Venue" || @item.VendorType == "Catering")
+                              {
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label" for="inputBasicFirstName">FoodType</label>
+
+                                            <input class="form-control" type="text"  name="food type" value="@item.FoodType" placeholder="FoodType" autocomplete="off" disabled>
+
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Minimum Number Of Guests</label>
+
+                                            <input class="form-control" type="number"  name="minGuests" value="@item.MinMemberCount" placeholder="Minimum Number Of Guests"   autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Maximum Number Of Guests</label>
+
+                                            <input class="form-control" type="number"  name="maxGuests" value="@item.MaxMemberCount" placeholder="Maximum Number Of Guests"  autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <label class="control-label" for="inputBasicFirstName">Timeslot</label>
+                                            <div class="row">
+                                                <div class="form-group col-sm-6">
+                                                    <div class="checkbox-custom checkbox-primary">
+                                                        <input class="form-control" type="checkbox" name="timeslot" value="Morning">
+                                                        <label>Morning</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                    <div class="checkbox-custom checkbox-primary">
+                                                        <input class="form-control" type="checkbox" name="timeslot1" value="Evening">
+                                                        <label>Evening</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                              }
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">Start Date</label>
+                                            @*<input placeholder="Date" value="@item.DealStartDate" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="StartDate"  id="date">*@
+
+                                            @*<input type="date" class="form-control" name="StartDate" placeholder="Start Date"  autocomplete="off">*@
+                                            @*<input placeholder="@item.DealStartDate" name="StartDate" class="textbox-n" type="text" onfocus="(this.type='date')" id="date">*@
+                                            <input class="form-control" type="text"  name="StartDate" id="datetimepicker"  value="@item.DealStartDate.ToString("dd MMM yyyy")"  placeholder="StartDate" required/>
+
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="control-label" for="inputBasicFirstName">End Date</label>
+                                            @*<input placeholder="Date" value="@item.DealEndDate" class="form-control" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="EndDate"id="date">*@
+
+                                            @*<input type="date" class="form-control" name="EndDate" placeholder="End Date" value="@item.DealEndDate" autocomplete="off">*@
+                                            <input class="form-control" type="text" name="EndDate" id="datetimepicker1"  value="@item.DealEndDate.ToString("dd MMM yyyy")" placeholder="End Date" required/>
+
+                                            @*<input placeholder="@item.DealEndDate" name="EndDate" class="textbox-n" type="text" id="datetimepicker">*@
+
+                                        </div>
+                                       
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="inputBasicFirstName">Deal Description</label>
+
+                                        <textarea class="form-control"  name="ddesc"  placeholder="Deal Description" required>@item.DealDescription</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        
+                                        
+                                        <button type="submit" class="btn btn-animate btn-animate-side btn-success">
+                                            <span>
+                                                <i class="icon wb-check-circle" aria-hidden="true"></i>Update
+                                            </span>
+                                        </button>
+                                        @*<button type="submit" class="btn btn-primary">Update</button>*@
+                                        <button type="button"  onclick="window.location.href='/NVendorDeals/Index?ks=@ViewBag.id'" class="btn btn-animate btn-animate-side btn-danger">
+                                            <span>
+                                                <i class="icon wb-close-mini"  aria-hidden="true"></i>Cancel
+                                            </span>
+                                        </button>
+                                    </div>
+                                    
+                                </form>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/newdesign/js/jquery.datetimepicker.full.js"></script>
+    <script type="text/javascript">
+        /*--- Date and Time ----*/
+        $('#datetimepicker,#datetimepicker1').datetimepicker({
+            dayOfWeekStart: 1,
+            lang: 'en',
+            timepicker: false,
+            format: 'd/m/Y',
+            minDate: '-1970/01/01',//yesterday is minimum date(for today use 0 or -1970/01/01)
+            maxDate: '+1970/03/02'//tomorrow is maximum date calendar
+        });
+        /*------------ Date and Time --------------*/
+
+      
+   
+
+    </script>
+@*@if (ViewBag.msg != "" && ViewBag.msg != null)
+{
+    <script>
+        alertify.alert("@ViewBag.msg", function () {
+        });
+    </script>
+}*@
+}

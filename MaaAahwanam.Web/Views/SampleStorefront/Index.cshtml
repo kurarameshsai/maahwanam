@@ -1,0 +1,439 @@
+﻿@model Tuple<MaaAahwanam.Models.UserLogin,MaaAahwanam.Models.Vendormaster>
+@{
+    ViewBag.Title = "Store Front";
+    Layout = "~/Views/SharedWeb/MasterPage.cshtml";
+}
+
+@*<div class="container-fluid">
+    <div class="row">
+        <div class="inner-page-banner">
+            <img src="~/newdesign/images/inner-page-banner.jpg" alt="Banner">
+            <div class="content">
+                <h3 class="margin-top-0 hidden-xs">Discover every prospect</h3>
+                <p class="hidden-xs">Come, partner with Ahwanam to explore infinite opportunities to promote your business with our state-of-art technology.</p>
+                <a href="/VendorSignUp1">Join Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container vendor-row margin-top-100 margin-bottom-100">
+    <div class="row">
+        <div class="vendor-row-content col-xs-12 visible-xs">
+            <h3>Storefront</h3>
+            <p>No website? No problem. Ahwanam offers completely customizable and responsive Storefront compatible with all kinds of devices. Enrol with us and our team of professional photographers & Videographers shall capture, design and upload pictures and videos to your web page and you can begin accepting online orders.</p>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+            <figure>
+                <img src="~/newdesign/images/store-front.png" alt="Store Front">
+                <figcaption>Store Front</figcaption>
+            </figure>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+            <div class="vendor-content">
+                <h3>Storefront</h3>
+                <p>No website? No problem. Ahwanam offers completely customizable and responsive Storefront compatible with all kinds of devices. Enrol with us and our team of professional photographers & Videographers shall capture, design and upload pictures and videos to your web page and you can begin accepting online orders.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row margin-top-30">
+        <div class="vendor-row-content col-xs-12 visible-xs">
+            <h3>Bookings</h3>
+            <p>We work for you round the clock. The booking calendar shall be open for 2 years. Customers can book the venue 24 x 7, 365 days. “Instant Price Display” allows the customer to book / block the venue without second thought.</p>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+            <div class="vendor-content">
+                <h3>Bookings</h3>
+                <p>We work for you round the clock. The booking calendar shall be open for 2 years. Customers can book the venue 24 x 7, 365 days. “Instant Price Display” allows the customer to book / block the venue without second thought.</p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+            <figure>
+                <img src="~/newdesign/images/bookings.png" alt="Store Front">
+                <figcaption>Bookings</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div class="row">
+        <div class="vendor-row-content col-xs-12 visible-xs">
+            <h3>Smart Dashboard</h3>
+            <p>Ahwanam offers dashboard with smart tools. It is a comprehensive platform to monitor overall reports, bookings, financials, calendar and many more. It is dominant and resourceful tool for tracking overall health of your business.</p>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+            <figure>
+                <img src="~/newdesign/images/dashboard.png" alt="Store Front">
+                <figcaption>Smart Dashboard</figcaption>
+            </figure>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+            <div class="vendor-content">
+                <h3>Smart Dashboard</h3>
+                <p>Ahwanam offers dashboard with smart tools. It is a comprehensive platform to monitor overall reports, bookings, financials, calendar and many more. It is dominant and resourceful tool for tracking overall health of your business.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row margin-top-30">
+        <div class="vendor-row-content col-xs-12 visible-xs">
+            <h3>Promotions</h3>
+            <p>We work for you round the clock. The booking calendar shall be open for 2 years. Customers can book the venue 24 x 7, 365 days. “Instant Price Display” allows the customer to book / block the venue without second thought.</p>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+            <div class="vendor-content">
+                <h3>Promotions</h3>
+                <p>We work for you round the clock. The booking calendar shall be open for 2 years. Customers can book the venue 24 x 7, 365 days. “Instant Price Display” allows the customer to book / block the venue without second thought.</p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+            <figure>
+                <img src="~/newdesign/images/promotions.png" alt="Store Front">
+                <figcaption>Promotions</figcaption>
+            </figure>
+        </div>
+    </div>
+    <div class="row">
+        <div class="vendor-row-content col-xs-12 visible-xs">
+            <h3>Services</h3>
+            <p>All at your finger tips. This enables you to track all features from anywhere. Venue Management System and Asset Tracking will ease your operational cost and time thereby decreasing the manual participation. Automated processes will help in spending less man hours.</p>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+            <figure>
+                <img src="~/newdesign/images/services.png" alt="Store Front">
+                <figcaption>Services</figcaption>
+            </figure>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+            <div class="vendor-content">
+                <h3>Services</h3>
+                <p>All at your finger tips. This enables you to track all features from anywhere. Venue Management System and Asset Tracking will ease your operational cost and time thereby decreasing the manual participation. Automated processes will help in spending less man hours.</p>
+            </div>
+        </div>
+    </div>
+        
+    <div class="row margin-top-30">
+        <div class="vendor-row-content col-xs-12 visible-xs">
+            <h3>Smart Analytics</h3>
+            <p>Ahwanam offers advanced real-time statistics and insightful data that helps provide a transparent 360° analysis of your performance to maximize your business potential.</p>
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+            <div class="vendor-content">
+                <h3>Smart Analytics</h3>
+                <p>Ahwanam offers advanced real-time statistics and insightful data that helps provide a transparent 360° analysis of your performance to maximize your business potential.</p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+            <figure>
+                <img src="~/newdesign/images/analytics.png" alt="Store Front">
+                <figcaption>Smart Analytics</figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <div class="row margin-top-30 text-center">
+        <a href="/VendorSignUp1" class="bottom-button">Join Now</a>
+    </div>
+</div>*@
+<form method="post">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="inner-page-banner">
+                <img src="~/newdesign/images/inner-page-banner.jpg" alt="Banner">
+                <div class="content">
+                    <!--<h3 class="margin-top-0 hidden-xs">Discover every prospect</h3>-->
+                    <ul class="hidden-xs">
+                        <li>1)&nbsp;Join hands with Ahwanam and get high-quality leads to grow your business!</li>
+                        <li>2)&nbsp;Your Virtual Storefront</li>
+                        <li>3)&nbsp;Ahwanam is your new personal storefront!</li>
+                    </ul>
+                    <a id="joinnow">Join Now</a>
+                    @*<a href="#" data-toggle="modal" data-target="#myModal">Log In</a>*@
+                    <a href="/UserRegistration">Sign In</a> @*class="login-popup-display"*@
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container vendor-row margin-top-100 margin-bottom-100">
+        @*<div class="row text-center margin-bottom-30">
+                <h3>Partner With Us</h3>
+                <p>We are looking for partners who can help our customers make events more memorable! Become an Ahwanam partner and enjoy privileged access to cater to high profile events. Registering as an Ahwanam partner is free and comes with a unique advantages-  just create your business profile, boast your services, provide competitive pricing, unique offers, your availability on your own Ahwanam storefront, and our strong marketing personal will promote your business  and inform you about customer leads.</p>
+            </div>*@
+        <div class="row margin-bottom-30">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <h3 class="text-center">Partner With Us</h3>
+                <p>We are looking for partners who can help our customers make events more memorable! Become an Ahwanam&nbsp;partner and enjoy privileged access to cater to high profile events. Registering as an Ahwanam partner is free and comes with a unique advantages- &nbsp;just create your business profile, boast your services, provide competitive pricing, unique offers, your availability on your own Ahwanam storefront, and our strong marketing personal will promote your business  and inform you about customer leads.</p>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <video id="video1" poster="~/newdesign/images/videobg.jpg">
+                    <source src="~/newdesign/images/Ahwanam_Video.mp4" type="video/mp4">
+                </video>
+                <button onclick="play()" type="button"><i class="fa fa-play" aria-hidden="true"></i></button>
+                <button onclick="pause()" type="button"><i class="fa fa-pause" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="vendor-row-content col-xs-12 visible-xs">
+                <h3>Portfolio</h3>
+                <p>As a partner with Ahwanam, you will enjoy plenty benefits of a virtual storefront. Display your portfolio, accolades, previous work and much more on Ahwanam to create an attractive profile for potential clients. Upload your latest works in pictures and add brief information about the products/services you render to complete your set-up. Once this is done, you have a stunning storefront ready to bring more leads.</p>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+                <figure>
+                    <img src="~/newdesign/images/portfolio.png" alt="Store Front">
+                    <figcaption>Portfolio</figcaption>
+                </figure>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+                <div class="vendor-content">
+                    <h3>Portfolio</h3>
+                    <p>As a partner with Ahwanam, you will enjoy plenty benefits of a virtual storefront. Display your portfolio, accolades, previous work and much more on Ahwanam to create an attractive profile for potential clients. Upload your latest works in pictures and add brief information about the products/services you render to complete your set-up. Once this is done, you have a stunning storefront ready to bring more leads.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-top-30">
+            <div class="vendor-row-content col-xs-12 visible-xs">
+                <h3>Manage Bookings</h3>
+                <p>Managing your calendar is no longer a hassle. Just update your calendar on the Ahwanam dashboard and receive timely alerts from us! The calendar on the Ahwanam dashboard lets you update details regarding your schedule and availability so that you can efficiently and easily manage your bookings.  Ahwanam also sends you timely SMSes and emails about your bookings, leads, customer queries and more, ensuring that you are updated at all times.</p>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+                <div class="vendor-content">
+                    <h3>Manage Bookings</h3>
+                    <p>Managing your calendar is no longer a hassle. Just update your calendar on the Ahwanam dashboard and receive timely alerts from us! The calendar on the Ahwanam dashboard lets you update details regarding your schedule and availability so that you can efficiently and easily manage your bookings.  Ahwanam also sends you timely SMSes and emails about your bookings, leads, customer queries and more, ensuring that you are updated at all times.</p>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+                <figure>
+                    <img src="~/newdesign/images/bookings.png" alt="Store Front">
+                    <figcaption>Manage Bookings</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="row">
+            <div class="vendor-row-content col-xs-12 visible-xs">
+                <h3>Offer and Promotions</h3>
+                <p>Having off season discounts is a great way to promote your business. Promote your service and entice potential customers with such promotional offers on Ahwanam. Display coupons, discounts, special packages and special offers for potential clients and grow your business!</p>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+                <figure>
+                    <img src="~/newdesign/images/promotions.png" alt="Store Front">
+                    <figcaption>Offer and Promotions</figcaption>
+                </figure>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+                <div class="vendor-content">
+                    <h3>Offer and Promotions</h3>
+                    <p>Having off season discounts is a great way to promote your business. Promote your service and entice potential customers with such promotional offers on Ahwanam. Display coupons, discounts, special packages and special offers for potential clients and grow your business!</p>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-top-30">
+            <div class="vendor-row-content col-xs-12 visible-xs">
+                <h3>Smart Dashboard</h3>
+                <p>Stay updated on your account activity, quotes, bookings, leads, account history, daily reports and more with the Ahwanam dashboard! The Ahwanam dashboard is smart, efficient and easy to understand. Just sign into your account and get insights into your account activity.</p>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+                <div class="vendor-content">
+                    <h3>Smart Dashboard</h3>
+                    <p>Stay updated on your account activity, quotes, bookings, leads, account history, daily reports and more with the Ahwanam dashboard! The Ahwanam dashboard is smart, efficient and easy to understand. Just sign into your account and get insights into your account activity.</p>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+                <figure>
+                    <img src="~/newdesign/images/smartdashboard.png" alt="Store Front">
+                    <figcaption>Smart Dashboard</figcaption>
+                </figure>
+            </div>
+        </div>
+        <div class="row">
+            <div class="vendor-row-content col-xs-12 visible-xs">
+                <h3>Insightful Analytics</h3>
+                <p>Get insights and reports on the overall health of your business! The Ahwanam dashboard gives you real time data on the number of leads, queries and more that your account has garnered. Use this business analytics data to analyze your account and make educated changes to your account based on actual data. These reports can also help you understand which promotional offers work well for you!</p>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 vendor-row-fig">
+                <figure>
+                    <img src="~/newdesign/images/InsightfulAnalytics.png" alt="Store Front">
+                    <figcaption>Insightful Analytics</figcaption>
+                </figure>
+            </div>
+            <div class="col-xs-12 col-sm-8 col-md-8 hidden-xs vendor-row-content">
+                <div class="vendor-content">
+                    <h3>Insightful Analytics</h3>
+                    <p>Get insights and reports on the overall health of your business! The Ahwanam dashboard gives you real time data on the number of leads, queries and more that your account has garnered. Use this business analytics data to analyze your account and make educated changes to your account based on actual data. These reports can also help you understand which promotional offers work well for you!</p>
+                </div>
+            </div>
+        </div>
+       @using (Html.BeginForm("Index", "SampleStorefront", FormMethod.Post))
+       {
+        <div class="row margin-top-30" id="registration">
+            <div class="row margin-left-0 margin-right-0 selectbusiness margin-bottom-30">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <i class="fa fa-suitcase hidden-xs hidden-sm" aria-hidden="true"></i>
+                    <div class="form-group text-center">
+                        <label>Select Business</label>
+                        <select class="form-control"  name="Item2.ServicType" id="Item2_ServicType" required>
+                            <option selected="selected" disabled="disabled" value="">Select</option>
+                            <option>Venue</option>
+                            <option>Catering</option>
+                            <option>Photography</option>
+                            <option>Decorator</option>
+                            <option>Mehendi</option>
+                            <option>Pandit</option>
+                            <option value="EventManagement">Event Management</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-left-0 margin-right-0">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Name"  name="Item2.ContactPerson" id="Item2_ContactPerson" required>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="E-Mail" name="Item2.EmailId" id="Item2_EmailId" onchange = "check()" required>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Company" name="Item2.BusinessName" id="Item2_BusinessName" required maxlength="50" >
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <input type="number" class="form-control" placeholder="Mobile" name="Item2.ContactNumber" id="Item2_ContactNumber" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-top-30 text-center" id="join-bottom">
+           @* <a href="/VendorSignUp1" class="bottom-button">Join Now</a>*@
+            <button type="submit" class="btn btn-default bottom-button" name="command" value="VendorReg">@* onclick="this.form.submit();"*@
+                Join Now
+            </button>
+        </div>
+       }
+        @*<div class="form-group">
+            <label>Select Category</label>
+            <select class="form-control">
+                <option>Venue</option>
+                <option>Catering</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input name="Item2.ContactPerson" id="Item2_ContactPerson" type="text" class="form-control" placeholder="Your Name">
+            <input name="Item2.EmailId" id="Item2_EmailId" type="text" class="form-control" placeholder="Your Email">
+            <input name="Item2.BusinessName" id="Item2_BusinessName" type="text" class="form-control" placeholder="Your Business Name">
+            <input name="Item2.ContactNumber" id="Item2_ContactNumber" type="text" class="form-control" placeholder="Your Contact Number">
+        </div>
+        <div class="row margin-top-30 text-center">
+            @*<a href="/VendorSignUp1" class="bottom-button">Join Now</a>
+            <button class="bottom-button" type="submit" name="command" value="VendorReg">Join Now</button>
+        </div>*@
+    </div>
+
+    @*<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h3>Log In</h3>
+                    <div>
+                        Username : <input name="UserName" id="UserName" type="text" placeholder="Username" value="">
+                        <br /><br />
+                        Password : <input name="Password" id="Password" type="password" placeholder="Password">
+                        <br /><br />
+                        <input type="submit" value="Login" /> <a>Forgot Password?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@using (Html.BeginForm("Index", "SampleStorefront", FormMethod.Post))
+{
+    <div class="container-fluid login-popup">
+        <div class="login-form">
+            <div class="form-group">
+                <label>User Name</label>
+                <input name="Item1.UserName" id="Item1_UserName" type="text" class="form-control" placeholder="" value="" required="required">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input name="Item1.Password" id="Item1_Password" type="password" class="form-control" placeholder="" required="required">
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-primary" type="submit" name="command" value="Login">Sign in</button>
+            </div>
+            <div class="form-group text-center">
+                <a href="#">Forgot Password ?</a>
+            </div>
+            <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+    </div>
+}
+
+    
+</form>
+@*<script type="text/javascript" language="javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" language="javascript" src="js/bootstrap.min.js"></script>*@
+<script src="~/newdesign/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+var ahvideo = document.getElementById("video1");
+function play(){
+	ahvideo.play();}
+function pause(){
+    ahvideo.pause();
+}
+//<!----- Login Pop Up --------->
+$("a.login-popup-display").click(function(){
+    $(".login-popup").css("display","block");
+});
+$(".login-popup .login-form i").click(function(){
+    $(this).parents(".login-popup").css("display","none");
+});
+//<!----- Login Pop Up --------->//<!----- Join Now Registration Block --------->
+$(document).ready(function(){
+    if(window.location.href.indexOf("vendorpage.html#") > -1){
+        $(".login-popup").css("display","block");
+    }
+});
+$("#joinnow").click(function(){
+    $("html,body").animate({
+        scrollTop: $("#registration").offset().top},"slow");
+});
+//$("#join-bottom > button").click(function () {
+//    var selectValue = $("#registration select").val();
+//    if (selectValue == $("#registration select > option:first-child").val()) {
+//        alert("Select Service");
+//    }
+//    //else {
+//    //    alert("NO");
+//    //}
+//});
+    //<!----- Join Now Registration Block --------->function ValidateEmail(email) {
+    var expr = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/;
+    return expr.test(email);
+};function check() {
+    var emailId = $("#Item2_EmailId").val();
+    //alert(emailId);
+    if (!ValidateEmail(emailId)) {
+        alert("Invalid email address.");
+    }
+    else {
+        $.ajax({
+            url: '/SampleStorefront/checkemail',
+            type: 'POST',
+            data: JSON.stringify({ emailid: emailId }),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+                if (data == "exists") {
+                    alert("E-Mail ID Already Taken!!! Try Another");
+                    $("#Item2_EmailId").val("").focus();
+                    //$("#Item2_EmailId").focus();
+                }
+            },
+            error: function (data)
+            { alert("Server is Not Responding at the Moment"); }
+        });
+    }
+
+}
+</script>
+

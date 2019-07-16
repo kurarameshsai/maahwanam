@@ -1,0 +1,20 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MaaAahwanam.Models
+{
+    
+    public class Subscription
+    {
+        [Key]
+        public long SubscriptionId { get; set; }
+        public string EmailId { get; set; }
+        public string Status { get; set; }
+        public long? UpdatedBy { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+    }
+}

@@ -1,0 +1,365 @@
+﻿
+@{
+    ViewBag.Title = "::Search Results ::";
+    Layout = "~/Views/SharedWeb/UserModuleMasterPage.cshtml";
+}
+@section css{
+
+<link href="~/newdesignstyles/css/ion.rangeSlider.css" rel="stylesheet" />
+<link href="~/newdesignstyles/css/normalize.css" rel="stylesheet" />
+@*<link href="~/newdesign/css/jquery.datetimepicker.css" rel="stylesheet" />*@
+}
+
+<style>
+    .iCheck-helper, .theiaStickySidebar {
+        border: 1px lightgrey solid;
+    }
+
+    .nice-select {
+        width: 315px;
+    }
+
+        .nice-select .list {
+            height: 250px;
+            width: 315px;
+            overflow: visible;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+    #other {
+        height: 26px;
+        width: 200px;
+        border: solid 1px black;
+        padding-left: 0px;
+    }
+
+    .box_grid .wrapper {
+        padding: 0px;
+    }
+
+    .box_grid ul {
+        padding: 0px 0px;
+    }
+
+    .uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6, h1, h2, h3, h4, h5, h6 {
+        margin: 0 0 0px 0;
+    }
+
+    .th, td {
+        padding: 0px;
+        text-align: left;
+    }
+
+    .box_grid figure small5 {
+        right: -7px;
+        top: 0px;
+        padding: 0px 33px 0px;
+    }
+
+    .vendorimg {
+        max-width: 100%;
+        height: 135px;
+        overflow: hidden;
+        background-repeat: no-repeat !important;
+        background-size: cover !important;
+        background-position: center !important;
+    }
+
+    table.priceslist tr td {
+        border: 0px;
+        width: 215px;
+    }
+
+        table.priceslist tr td span {
+            float: right;
+        }
+
+            table.priceslist tr td span strong {
+                font-size: 16px;
+            }
+
+    .margin_60_35 {
+        padding-top: 70px;
+        padding-bottom: 0px;
+        margin:0px 0px 0px 15px;
+    }
+
+    .col-lg-9 {
+        margin-top: -30px;
+        
+    }
+    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    padding-right: 0px;
+    /*padding-left: 10px;*/
+
+}
+    .box_grid figure{
+        height:140px;
+    }
+</style>
+
+<div class="collapse" id="collapseMap">
+    <div id="map" class="map"></div>
+</div>
+<!-- End Map -->
+
+<div class="container margin_60_35">
+    <div class="row">
+        <aside class="col-lg-3" id="sidebar">
+            <div id="filters_col">
+                <a data-toggle="collapse" href="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters" id="filters_col_bt">Filters </a>
+                <div class="collapse show" id="collapseFilters">
+                    <div class="filter_type">
+                        <h6>Service Types</h6>
+                        <p id="selectedservices" style="display:none"></p>
+                        <ul class="allservices">
+                            <li>
+                                <label>
+                                    <input type="checkbox" id="service" class="icheck service">Hotel @*<small>(945)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Banquet @*<small>(45)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Resort @*<small>(30)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Convention @*<small>(25)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Function @*<small>(56)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    @*<input type="checkbox" class="icheck">*@ Decorator @*<small>(25)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    @*<input type="checkbox" class="icheck">*@ Photography @*<small>(56)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    @*<input type="checkbox" class="icheck" disabled>*@ OYO Banquets @*<small>(25)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    @*<input type="checkbox" class="icheck" disabled>*@ Catering @*<small>(56)</small>*@
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="filter_type">
+                        <h6>Budget</h6>
+                        <input type="text" id="range" name="range" value="">
+                    </div>
+                    <div class="filter_type">
+                        <h6>Food Type</h6>
+                        <ul>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Vegetarian @*<small>(25)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Non-Vegetarian @*<small>(26)</small>*@
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="filter_type">
+                        <h6>Amenities</h6>
+                        <ul>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">AC @*<small>(25)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Wi-Fi @*<small>(26)</small>*@
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">TV
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="checkbox" class="icheck">Parking Facility
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/collapse -->
+            </div>
+            <!--/filters col-->
+        </aside>
+        <!-- /aside -->
+
+        <input type="hidden" id="rcount" value="@ViewBag.count" />
+        <div class="col-lg-9">
+
+            <div class="isotope-wrapper" id="presults">
+                @{ Html.RenderAction("Loadmore", "results");}
+                <!-- /row -->
+            </div>
+        </div>
+
+        <!-- /col -->
+    </div>
+</div>
+<!-- /container -->
+
+
+
+@section scripts{
+<script src="~/newdesignstyles/Scripts/ion.rangeSlider.js"></script>
+@*<script src="~/newdesign/js/jquery.datetimepicker.full.js"></script>*@
+    <script>
+        if ('@Request.QueryString["eventtype"]' != '')
+            $("span.current").text('@Request.QueryString["eventtype"]');
+        else
+            $("span.current").text('Select Event');
+        $(document).ready(function()
+        {$("#modal-example").css("display", "none");
+        }
+        );
+    </script>
+    <script>
+
+        //Lazy Loading.......
+        var pageIndex = 0;
+        var pageCount;
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                GetRecords();
+            }
+        });
+        function GetRecords() {
+            pageIndex++;
+            //alert(pageIndex);
+            var servicetype = 'Venue';
+            var slider = $('#range').slider().val();
+            //var maxAge = $('#range').slider().val()[1];
+           // alert(minAge);
+            //alert(slider);
+            var selectedservices = $('#selectedservices').text();
+            $.ajax({
+                type: "POST",
+                url: "/results/LazyLoad?count=" + pageIndex + "&&type=" + selectedservices + "&&slider=" +slider,
+                data: $('#rcount').val(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: function (response) {
+                    alert("Failed to Load data");
+                },
+                error: function (response) {
+                    alert("Something went wrong!!! Try Again after sometime");
+                }
+            });
+        }
+        function OnSuccess(response) {
+            //alertify.success('New Records Loaded!!! Scroll Down to View');
+            var str = '';
+            //if (response == '') {
+            //    alertify.error('No More Records to Display'); //error message
+            //}
+            $.each(response, function (key, value) {
+                if (value.logo != null) { str = '/vendorimages/'+value.logo } else if (value.image != null) { str = '/vendorimages/'+value.image } else { str = '/noimages.png' }
+                var cost1 = (value.cost1 != null && value.cost1 != '') ? value.cost1 : 0;
+                var cost2 = (value.cost2 != null && value.cost2 != '') ? value.cost2 : 0;
+                var sp1 = (value.normaldays != null && value.normaldays != '') ? value.normaldays : 0;
+                var sp2 = (value.normaldays != null && value.normaldays != '') ? value.normaldays : 0;
+                $('#allrecords').append("<div class='col-md-4 isotope-item popular'><div class='box_grid'><figure><a href='/viewservice/index?id="+value.Id+'&&vid='+value.subid+"'><div class='vendorimg' style='background:url("+str+")'></div></a><small5>"+value.subtype+"</small5> </figure> <div class='wrapper'> <h5 class='uk-h5'>" + value.BusinessName + "<p class='p_0'>" + value.Landmark + ", " + value.City + "</p></h5> <div class='panel panel-default'><table class='priceslist'><tr><td><p>Veg<span><span style='color:red;text-decoration:line-through'>₹"+sp1+"</span>&emsp;₹<strong>"+cost1+"</strong>&emsp;</span></p></td></tr><tr><td><p>Non-Veg<span><span style='color:red;text-decoration:line-through'>₹"+sp2+"</span>&emsp;₹<strong>"+cost2+"</strong>&emsp;</span></p></td></tr></table></div></div><ul><li> Capacity : "+value.Minimumseatingcapacity+" - "+value.Maximumcapacity+"</li><li><a href='/viewservice/index?id="+value.Id+'&&vid='+value.subid+"'>Book Now</a></li></ul></div></div>");
+            });
+            $('#loadresults').empty();
+        }
+    </script>
+
+    <script>
+        // Records Filter
+        $('ul.allservices').find('.iCheck-helper').click(function () {
+            var value = $(this).parents("label").text().trim();
+            if ($(this).parents("label").find("input[type='checkbox']").is(':checked')) {
+                if ($("#selectedservices").text() == '') { $("#selectedservices").append(value); }
+                else { $("#selectedservices").append(","+value); }
+            }
+            else {
+                var servicesarray = $("#selectedservices").text().split(',');
+                for (var i = 0; i < servicesarray.length; i++) {
+                    if (servicesarray[i] === value) {
+                        servicesarray.splice(i, 1);
+                    }
+                }
+                $("#selectedservices").empty().html(servicesarray.join(','));
+            }
+            pageIndex = 0;
+            var url = "/results/Loadmore?count=1&&type=" + $("#selectedservices").text();
+            $('#presults').empty().load(url);
+
+        });
+
+
+    </script>
+    <!-- Range Slider -->
+    <script>
+        $("#range").ionRangeSlider({
+            hide_min_max: true,
+            keyboard: true,
+            min: @ViewBag.minprice,
+            max: @ViewBag.maxprice,
+            type: 'double',
+            step: 1,
+            prefix: "Min. ",
+            grid: false,
+            onFinish: function (data) {
+                load_product(data);
+            }
+
+
+           
+        });
+                        // code here for filtering records based on budget
+
+        function load_product(data) {
+          //  alert(data.from + '-' + data.to);
+            var fromto = data.from + ',' + data.to;
+              
+            $.ajax({
+                url: "/results/Loadmore?to_from=" + fromto +"&&type=" + $("#selectedservices").text(),
+                method: "POST",
+                //data: { minimum_range: minimum_range, maximum_range: maximum_range },
+                success: function (data) {
+                    //  $('#load_product').fadeIn('slow').html(data);
+                    $('#loadresults').empty().html(data);
+                 
+                }
+            });
+        }
+
+
+
+    </script>
+    <script type="text/javascript">
+        $('.list input').click(function (e) {
+            e.stopPropagation();
+        })
+    </script>
+}

@@ -1,0 +1,530 @@
+﻿@using System.Globalization
+@using MaaAahwanam.Web.Models
+@using MaaAahwanam.Web.Custom
+@model Tuple<MaaAahwanam.Models.UserLogin, MaaAahwanam.Models.UserDetail>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @*<script>
+window['_fs_debug'] = false;
+window['_fs_host'] = 'fullstory.com';
+window['_fs_org'] = 'GZ4R7';
+window['_fs_namespace'] = 'FS';
+(function(m,n,e,t,l,o,g,y){
+    if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
+    g=m[e]=function(a,b,s){g.q?g.q.push([a,b,s]):g._api(a,b,s);};g.q=[];
+    o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+    y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+    g.identify=function(i,v,s){g(l,{uid:i},s);if(v)g(l,v,s)};g.setUserVars=function(v,s){g(l,v,s)};g.event=function(i,v,s){g('event',{n:i,p:v},s)};
+    g.shutdown=function(){g("rec",!1)};g.restart=function(){g("rec",!0)};
+    g.consent=function(a){g("consent",!arguments.length||a)};
+    g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+    g.clearUserCookie=function(){};
+})(window,document,window['_fs_namespace'],'script','user');
+    </script>*@
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> :: Ahwanam :: </title>
+    <link rel="shortcut icon" href="~/CSSWeb/images/favicon.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <!-- Bootstrap core CSS -->
+    <link href="~/mdb/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="~/mdb/css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="~/mdb/css/style.css" rel="stylesheet">
+    <style>
+        .overlay {
+            background: no-repeat scroll center center #FFF;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999999;
+            background-color: rgba(0,0,0,0.8);
+            /* END EXTERNAL S */
+        }
+    </style>
+    <style>
+        .nav-tabs .nav-link {
+        color:white;
+        }
+        #modalLRForm button {
+        width:35%;
+        }
+        #modalLRForm button.btn-info {
+        background-color:#543791!important;
+        }
+         #modalLRForm .light-blue.darken-3 {
+        background-color:#543791!important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main navigation -->
+    <header>
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top -navbar">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <img src="~/mdb/img/logo.png" style="width: 27%;">
+                </a>
+                <div class="collapse navbar-collapse" style="margin-left:40%">
+                   
+                            @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                var user = (CustomPrincipal)HttpContext.Current.User;
+                                if (user.UserType == "Admin")
+                                {
+                                    Response.Redirect("/Admin/Login");
+                                }
+                                if (user.UserType == "Vendor")
+                                {
+                                    Response.Redirect("/Vdb/Index");
+                                }
+                                if (user.UserType == "User")
+                                {
+                                    <span><a id="sign-in" style="font-size:16px; font-weight: 700;text-transform:capitalize" class="login">@ViewBag.username</a></span>
+                                    <ul>
+                                        <li><a href="/Home/SignOut">Log Out</a></li>
+                                    </ul>
+                                }
+                            }
+                            else
+                            {
+                                <a href="" style="font-size: 16px;font-family: lato;font-weight: 600;" data-toggle="modal" data-target="#modalLRForm">Login/Register</a>
+                            }
+                             &nbsp;
+                            @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                <a class="login" style="font-size:16px; font-weight: 700" href="/cart/Index">Cart(@ViewBag.cartCount)</a>
+                            }
+                            else
+                            {
+                                <a href="/pregister" style="font-size:16px;font-family: lato" title="Partner Registration">PartnerRegistration</a>
+                            }
+                            &nbsp;
+                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" style="font-size:11px;font-weight:800;">
+                                Call: +91 7032199007
+                            </button>
+                        
+                            <img src="~/mdb/img/india.png">
+                        
+                    </div>
+                </div>
+        </nav>
+        <!-- Navbar -->
+        <!-- Full Page Intro -->
+        <div class="view container-fluid" style="background-image: url('http://design.maa-aahwanam.com/panagea/images/convention1.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
+            <!-- Mask & flexbox options-->
+            <div class="mask rgba-indigo-strong d-flex justify-content-center align-items-center">
+                <!-- Content -->
+                <div class="container">
+                    <!--Grid row-->
+                    <div class="row no-gutters custom-search-input-2">
+                        <div class="col-md-2">
+                            <img src="~/mdb/img/location.png" style="top: 39%;left: 4%;">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Location" value="Hyderabad" required="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-input">
+                            <img src="~/mdb/img/checklist.png" style="top: 39%;left: 4%;">
+                            <input class="form-control" placeholder="What type of event" value="" required="" autocomplete="off">
+                        </div>
+                        <div class="col-md-2">
+                            <img src="~/mdb/img/family.png" style="top: 39%; left: 4%;">
+
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Guests" required="">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <img src="~/mdb/img/calendar.png" style="top: 39%;left: 4%;">
+                            <div class="form-group">
+                                <input class="form-control" id="datetimepicker1" type="text" name="dates" placeholder="Date?" required="">
+                            </div>
+                        </div>
+                        <div class="col-button">
+                            <button type="button" class="btn btn-danger btn-lg waves-effect waves-light" style="width: 107%;margin: 0;height: 100%;font-family: roboto;font-weight: 500;">Search</button>
+                        </div>
+                    </div>
+                </div>
+                <!--Grid row-->
+            </div>
+            <!-- Content -->
+        </div>
+        <!-- Full Page Intro -->
+    </header>
+    <!-- Main navigation -->
+    <div class="card-block">
+        <div class="row">
+            <div class="col-md-12 featurearea">
+                <img src="~/mdb/img/left.png">&emsp;&emsp;
+                <img src="~/mdb/img/wedding.png">&emsp;&emsp;
+                <img src="~/mdb/img/decorator.png">&emsp;&emsp;
+                <img src="~/mdb/img/florist.png">&emsp;&emsp;
+                <img src="~/mdb/img/cocktail.png">&emsp;&emsp;
+                <img src="~/mdb/img/engagement.png">&emsp;&emsp;
+                <img src="~/mdb/img/buffet.png">&emsp;&emsp;<img src="~/mdb/img/right.png">
+                <div class="row">
+                    <p class="icontext">WEDDING</p>
+                    <p class="icontext1">DECORS</p>
+                    <p class="icontext2">FLORISTS</p>
+                    <p class="icontext3">COCKTAIL</p>
+                    <p class="icontext4">ENGAGEMENT</p>
+                    <p class="icontext5">CATERING</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="main_title_2">
+
+            <h6 class="box-h6-2">HOW IT WORKS</h6>
+            <p class="subtext-1">Make A Story Of Painless Celebrations</p>
+        </div><br><br><br>
+        <div class="card-deck" id="home-box">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="amenties" style="font-family: lato;font-size: 16px;font-weight: 600;">Select a package &amp; <br>Shortlist your venues<div id="circle"><div><p class="circle-text">1</p></div></div></h4>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="amenties" style="font-family: lato;font-size: 16px;font-weight: 600;">Fill your basic details<br> to block venue<div id="circle"><div><p class="circle-text">2</p></div></div></h4>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="amenties" style="font-family: lato;font-size: 16px;font-weight: 600;">Pay the final amount <br>& start celebrations<div id="circle"><div><p class="circle-text">3</p></div></div></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid_1 margin_80_0_0">
+        <h6 class="box-h6">BEST DEALS FOR YOU</h6>
+        <p class="subtext-1">Get Best Deals Now From Our Website, Checkout.</p>
+        <div class="container margin_60_35">
+            <div class="wrapper-grid">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        <div class="box_grid">
+                            <figure>
+                                <a href="tour-detail.html"><img src="~/mdb/img/green.jpg" class="img-fluid" alt="" width="800" height="533"></a>
+                            </figure>
+                        </div>
+                    </div>
+                    <!-- /box_grid -->
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        <div class="box_grid_0">
+                            <figure>
+                                <a href="tour-detail.html"><img src="~/mdb/img/banquet.jpg" class="img-fluid" alt="" width="800" height="533"></a>
+                            </figure>
+                        </div>
+                    </div>
+                    <!-- /box_grid -->
+                    <div class="col-xl-4 col-lg-6 col-md-6">
+                        <div class="box_grid">
+                            <figure>
+                                <a href="tour-detail.html"><img src="~/mdb/img/convention1.jpg" class="img-fluid" alt="" width="800" height="533"></a>
+                            </figure>
+                        </div>
+                    </div>
+                    <!-- /box_grid -->
+                    <div class="col-sm-6">
+                        <div class="box_grid">
+                            <figure>
+                                <a href="tour-detail.html"><img src="~/mdb/img/banner1.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"></div></a>
+                            </figure>
+                        </div>
+                    </div>
+                    <!-- /box_grid -->
+                    <div class="col-sm-6">
+                        <div class="box_grid">
+                            <figure>
+                                <a href="tour-detail.html"><img src="~/mdb/img/banner3.jpg" class="img-fluid" alt="" width="800" height="533"><div class="read_more"></div></a>
+                            </figure>
+                        </div>
+                    </div>
+                    <!-- /box_grid -->
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /wrapper-grid -->
+        </div>
+        <!-- /container -->
+    </div>
+    <div class="bg_color_2">
+        <div class="col-sm-10 col-xs-8 col-md-8" id="packages">
+            <h5 class="box-h5">HAND PICKED VENDORS</h5>
+            <p class="subtext">Get Best Deals Now From Our Website, Checkout.</p>
+
+            <div class="card-deck" id="venues">
+                <div class="card">
+                    <img class="card-img-top" src="~/mdb/img/marriot.jpg" alt="Card image cap">
+                    <div class="row">
+                        <div class="rating">
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <div id="homelabel">Hotel</div>
+                            <span class="badge badge-default" style="margin-left: -183px;margin-top: 101px;">58 Reviews</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="name">
+                            Marriot Hotel
+                            <i class="fas fa-map-marker-alt" style="color: red;padding-left: 38%;"></i>
+                            Tank Bund, Hyd
+                        </h5>
+                        <div class="row">
+                            <div class="card-text" style="padding-left: 10%;font-size: 11px;font-weight: 800;font-family: lato;margin: 1px;">
+                                Veg/Plate<strike style="color: red;padding-left: 105px;font-size: 11px;font-weight: 800;font-family: roboto;">₹39999</strike><span></span><input type="text" id="placeholder" value="₹79999">
+                                <i class="fas fa-check active" style="margin-left: -16px;color: green;font-size: 11px;"></i>
+                            </div>
+                            <div class="card-text" style="padding-left: 10%;font-size: 11px;font-weight: 800;font-family: lato;margin: 1px;">
+                                Veg/Plate<strike style="color: red;padding-left: 105px;font-size: 11px;font-weight: 800;font-family: roboto;">₹39999</strike><span></span><input type="text" id="placeholder" value="₹79999">
+                                <i class="fas fa-check active" style="margin-left: -16px;color: green;font-size: 11px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" id="description">Capacity : 200 - 1500.<a href="#" style="float:right;padding-top: 4px;">Book Now</a></small>
+                    </div>
+                </div>
+                <div class="card">
+
+                    <img class="card-img-top" src="~/mdb/img/taj.jpg" alt="Card image cap">
+                    <div class="row">
+
+                        <div class="rating">
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <div id="homelabel">Hotel</div>
+                            <span class="badge badge-default" style="margin-left: -183px;margin-top: 101px;">58 Reviews</span>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="name">
+                            Taj Deccan
+                            <i class="fas fa-map-marker-alt" style="color: red;padding-left: 38%;"></i>
+                            BanjaraHills, Hyd
+                        </h5>
+                        <div class="row">
+                            <div class="card-text" style="padding-left: 10%;font-size: 11px;font-weight: 800;font-family: lato;margin: 1px;">
+                                Veg/Plate<strike style="color: red;padding-left: 105px;font-size: 11px;font-weight: 800;font-family: roboto;">₹39999</strike><span></span><input type="text" id="placeholder" value="₹79999">
+                                <i class="fas fa-check active" style="margin-left: -16px;color: green;font-size: 11px;"></i>
+                            </div>
+                            <div class="card-text" style="padding-left: 10%;font-size: 11px;font-weight: 800;font-family: lato;margin: 1px;">
+                                Veg/Plate<strike style="color: red;padding-left: 105px;font-size: 11px;font-weight: 800;font-family: roboto;">₹39999</strike><span></span><input type="text" id="placeholder" value="₹79999">
+                                <i class="fas fa-check active" style="margin-left: -16px;color: green;font-size: 11px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" id="description">Capacity : 200 - 1500.<a href="#" style="float:right;padding-top: 4px;">Book Now</a></small>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top" src="~/mdb/img/trident.jpg" alt="Card image cap">
+                    <div class="row">
+
+                        <div class="rating">
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <i class="fas fa-star" id="star"></i>
+                            <div id="homelabel">Hotel</div>
+                            <span class="badge badge-default" style="margin-left: -183px;margin-top: 101px;">58 Reviews</span>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="name">
+                            Trident Hotel
+                            <i class="fas fa-map-marker-alt" style="color: red;padding-left: 39%;"></i>
+                            Hitechcity, Hyd
+                        </h5>
+                        <div class="row">
+                            <div class="card-text" style="padding-left: 10%;font-size: 11px;font-weight: 800;font-family: lato;margin: 1px;">
+                                Veg/Plate<strike style="color: red;padding-left: 105px;font-size: 11px;font-weight: 800;font-family: roboto;">₹39999</strike><span></span><input type="text" id="placeholder" value="₹79999">
+                                <i class="fas fa-check active" style="margin-left: -16px;color: green;font-size: 11px;"></i>
+                            </div>
+                            <div class="card-text" style="padding-left: 10%;font-size: 11px;font-weight: 800;font-family: lato;margin: 1px;">
+                                Veg/Plate<strike style="color: red;padding-left: 105px;font-size: 11px;font-weight: 800;font-family: roboto;">₹39999</strike><span></span><input type="text" id="placeholder" value="₹79999">
+                                <i class="fas fa-check active" style="margin-left: -16px;color: green;font-size: 11px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" id="description">Capacity : 200 - 1500.<a href="#" style="float:right;padding-top: 4px;">Book Now</a></small>
+                    </div>
+                </div>
+            </div>
+
+        </div><br>
+        <a href="/results" class="btn_1  add_top_30">
+            Explore More &emsp;<img src="~/mdb/img/arrow1.png">
+        </a>
+        <br><br>
+    </div>
+
+    <div class="container margin_60_35">
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <input type="email" class="form-page" id="inputEmail4" placeholder="Email">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Full Height Modal Right -->
+    <!--Modal: Login / Register Form-->
+    <div class="modal fade" id="modalLRForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog cascading-modal" role="document">
+            <!--Content-->
+            <div class="modal-content">
+
+                <!--Modal cascading tabs-->
+                <div class="modal-c-tabs">
+                    
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs md-tabs tabs-2 light-blue darken-3" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#panel7" role="tab">
+                                <i class="fa fa-user mr-1"></i>
+                                Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#panel8" role="tab">
+                                <i class="fa fa-user-plus mr-1"></i>
+                                Register
+                            </a>
+                        </li>
+                    </ul>
+                    
+                        <!-- Tab panels -->
+                        <div class="tab-content">
+                            <!--Panel 7-->
+                            <div class="login tab-pane fade in show active" id="panel7" role="tabpanel">
+                                <form method="post" action="home/Authentication?type=login">
+                                    <!--Body-->
+                                    <div class="modal-body mb-1">
+                                        <div class="md-form form-sm mb-5">
+                                            <i class="fa fa-envelope prefix"></i>
+                                            <input type="email" id="Item1_UserName" name="Item1.UserName" class="form-control form-control-sm validate" required>
+                                            <label data-error="wrong" data-success="right" for="Item1_UserName">Your email</label>
+                                        </div>
+
+                                        <div class="md-form form-sm mb-4">
+                                            <i class="fa fa-lock prefix"></i>
+                                            <input type="password" id="Item1_Password" name="Item1.Password" class="form-control form-control-sm validate" required>
+                                            <label data-error="wrong" data-success="right" for="Item1_Password">Your password</label>
+                                        </div>
+                                        <div class="text-center mt-2">
+                                            <button type="submit" id="btnlogin" class="btn btn-info">Log in <i class="fa  fa-arrow-circle-right" aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!--Footer-->
+                                    <div class="modal-footer">
+                                        <div class="options text-center text-md-right mt-1">
+                                            @*<p>Not a member? <a href="#panel8" class="blue-text">Sign Up</a></p>*@
+                                            <p>Forgot <a href="#" class="blue-text">Password?</a></p>
+                                        </div>
+                                        <button type="button" class="btn btn-danger waves-effect ml-auto" data-dismiss="modal">Close</button>
+                                    </div>
+                                    </form>
+                            </div>
+                            <!--/.Panel 7-->
+                            <!--Panel 8-->
+                            <div class="register tab-pane fade" id="panel8" role="tabpanel">
+                                <form method="post" action="home/Authentication?type=register">
+                                    <!--Body-->
+                                    <div class="modal-body">
+                                        <div class="md-form form-sm mb-5">
+                                            <i class="fa fa-user prefix"></i>
+                                            <input type="text" id="Item2_FirstName" name="Item2.FirstName" class="form-control form-control-sm validate" required>
+                                            <label data-error="wrong" data-success="right" for="Item2_FirstName">Your Name</label>
+                                        </div>
+
+                                        <div class="md-form form-sm mb-5">
+                                            <i class="fa fa-envelope prefix"></i>
+                                            <input type="email" id="Item1_UserName" name="Item1.UserName" class="form-control form-control-sm validate" required>
+                                            <label data-error="wrong" data-success="right" for="Item1_UserName">Your email</label>
+                                        </div>
+
+                                        <div class="md-form form-sm mb-5">
+                                            <i class="fa fa-lock prefix"></i>
+                                            <input type="password" id="Item1_Password" name="Item1.Password" class="form-control form-control-sm validate" required>
+                                            <label data-error="wrong" data-success="right" for="Item1_Password">Your password</label>
+                                        </div>
+
+                                        <div class="md-form form-sm mb-4">
+                                            <i class="fa fa-mobile prefix"></i>
+                                            <input type="tel" id="Item2_UserPhone" name="Item2.UserPhone" class="form-control form-control-sm validate" required>
+                                            <label data-error="wrong" data-success="right" for="Item2_UserPhone">Phone Number</label>
+                                        </div>
+
+                                        <div class="text-center form-sm mt-2">
+                                            <button type="submit" id="btnregister" class="btn btn-info">Sign up <i class="fa fa-arrow-circle-right"></i></button>
+                                        </div>
+
+                                    </div>
+                                    <!--Footer-->
+                                    <div class="modal-footer">
+                                        <div class="options text-right">
+                                            @*<p class="pt-1">Already have an account? <a href="#panel7" class="blue-text">Log In</a></p>*@
+                                        </div>
+                                        <button type="button" class="btn btn-danger waves-effect ml-auto" data-dismiss="modal">Close</button>
+                                    </div>
+                                    </form>
+                                </div>
+                            <!--/.Panel 8-->
+                        </div>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+    <!--Modal: Login / Register Form-->
+
+    @*<div class="text-center">
+        <a href="" class="btn btn-default btn-rounded my-3" data-toggle="modal" data-target="#modalLRForm">
+            Launch
+            Modal LogIn/Register
+        </a>
+    </div>*@
+    <!-- Full Height Modal Right -->
+    <!-- /Start your project here-->
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="~/mdb/js/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="~/mdb/js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="~/mdb/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="~/mdb/js/mdb.min.js"></script>
+    
+</body>
+</html>

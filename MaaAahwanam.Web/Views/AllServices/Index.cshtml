@@ -1,0 +1,788 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/MainMaster.cshtml";
+}
+
+@section Navigation
+{
+    <div class="breads">
+        <div class="breads_inner">
+            <div class="pageWidth">
+                <div class="title">
+                    <h3>All Services</h3>
+                </div>
+                <div class="breadcrumbs">
+                    <ul>
+                        <li><a href="../Index/Index">Home</a></li>
+                        <li><i class="breads_arrow"></i></li>
+                        <li><a href="">All Services</a></li>
+                        @*<li><i class="breads_arrow"></i></li>
+                            <li>Deals</li>*@
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*@user.FirstName @user.LastName*@
+}
+
+<style>
+    .resp-tabs-list li {
+    cursor:default;
+    }
+</style>
+
+<section>
+    <div class="about_main">
+        <div class="pageWidth">
+            <aside>
+                <h4>Categories</h4> <input type="hidden" id="hdnloac" name="hdnloac" value="" />
+                <span>&nbsp;</span>
+                <ul>
+                    <li><a href="../product?par=Venue&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Venues</a></li>
+                    <li><a href="../product?par=Catering&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Caterers</a></li>
+                    <li><a href="../product?par=Photography&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Photographies</a></li>
+                    <li><a href="../product?par=InvitationCard&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Invitation Cards</a></li>
+                    <li><a href="../product?par=Decorator&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Decorators</a></li>
+                    <li><a href="../product?par=Entertainment&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Entertainments</a></li>
+                    <li><a href="../product?par=Eventorganiser&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Event organisers</a></li>
+                    <li><a href="../product?par=BeautyService&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Beauty Services</a></li>
+                    <li><a href="../product?par=Travel&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Travels</a></li>
+                    <li><a href="../product?par=Gift&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Gifts</a></li>
+                    <li><a href="../product?par=WeddingCollection&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Wedding Collections</a></li>
+                    <li><a href="../product?par=Other&sType=%&loc=@Request.QueryString["l"]&a=ASC"> Others</a></li>
+                </ul>
+            </aside>
+            <article>
+                <div class="about_categories">
+                    <select>
+                        <option>Venues</option>
+                        <option>Caterers</option>
+                        <option>Decorators</option>
+                        <option>Photographers</option>
+                        <option>Invitation Cards</option>
+                        <option>Entertainment</option>
+                        <option>Event Organizers</option>
+                        <option>Beauty Services</option>
+                        <option>Wedding Collection</option>
+                        <option>Travel & Accomodation</option>
+                        <option>Wedding Favors</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+                <div id="parentHorizontalTab">
+                    <ul class="resp-tabs-list hor_1">
+                        <li>Venues</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Venue&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+
+                    <!-- Venues -->
+                    <div class="resp-tabs-container hor_1">
+                        <div>
+                            @if (ViewBag.Venue != null || ViewBag.Venue.Count != 0)
+                            {
+                                foreach (var item in ViewBag.Venue)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@item.ServicType.Trim()&VID=@item.Id&subvid=@item.subid">
+                                                <div class="zoomDiv">
+                                                    @if (item.image != null)
+                                                    {
+                                                        <img src="../vendorimages/@item.image" alt="thumb">
+                                                    }
+                                                    else if (item.image == null)
+                                                    {
+                                                        <img src="../noimages.png" />
+                                                    }
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                @if (item.subtype != "Banquet Hall")
+                                                {
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @item.Cost</span>
+                                                }
+                                                 <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@item.ServicType.Trim()&VID=@item.Id&subvid=@item.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@item.BusinessName</a></h2>*@
+                                            <h2><a href="#">@item.BusinessName</a></h2>
+                                            <p>@item.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            }
+                            @if (ViewBag.Venue == null || ViewBag.Venue.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div id="parentHorizontalTab2">
+                    <ul class="resp-tabs-list hor_1">
+                        <li>Caterers</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Catering&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+
+                    <div class="resp-tabs-container hor_1">
+                        <!-- Caterers -->
+                        <div>
+                            @if(ViewBag.Catering != null || ViewBag.Catering.Count != 0)
+                            {
+                                foreach (var itemCaterers in ViewBag.Catering)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemCaterers.ServicType.Trim()&VID=@itemCaterers.Id&subvid=@itemCaterers.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemCaterers.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemCaterers.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemCaterers.ServicType.Trim()&VID=@itemCaterers.Id&subvid=@itemCaterers.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemCaterers.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemCaterers.BusinessName</a></h2>
+                                            <p>@itemCaterers.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Catering == null || ViewBag.Catering.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div id="parentHorizontalTab3">
+                    <ul class="resp-tabs-list">
+                        <li style="background-color: #2d3e50;color: #fff">Decorators</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Decorator&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Decorators-->
+                        <div>
+                            @if(ViewBag.Decorator != null || ViewBag.Decorator.Count != 0)
+                            {
+                                foreach (var itemDecorator in ViewBag.Decorator)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemDecorator.ServicType.Trim()&VID=@itemDecorator.Id&subvid=@itemDecorator.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemDecorator.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemDecorator.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemDecorator.ServicType.Trim()&VID=@itemDecorator.Id&subvid=@itemDecorator.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemDecorator.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemDecorator.BusinessName</a></h2>
+                                            <p>@itemDecorator.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Decorator == null || ViewBag.Decorator.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab4">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Photographers</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Photography&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Photographers-->
+                        <div>
+                            @if (ViewBag.Photography != null || ViewBag.Photography.Count != 0)
+                            {
+                                foreach (var itemPhotographers in ViewBag.Photography)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemPhotographers.ServicType.Trim()&VID=@itemPhotographers.Id&subvid=@itemPhotographers.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemPhotographers.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemPhotographers.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemPhotographers.ServicType.Trim()&VID=@itemPhotographers.Id&subvid=@itemPhotographers.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemPhotographers.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemPhotographers.BusinessName</a></h2>
+                                            <p>@itemPhotographers.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Photography == null || ViewBag.Photography.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                                <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                @* After Load more*@
+                <div id="parentHorizontalTab5">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Invitation Cards</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=InvitationCard&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Invitation Card-->
+                        <div>
+                            @if (ViewBag.InvitationCard != null || ViewBag.InvitationCard.Count != 0)
+                            {
+                                foreach (var itemInvitationCard in ViewBag.InvitationCard)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemInvitationCard.ServicType.Trim()&VID=@itemInvitationCard.Id&subvid=@itemInvitationCard.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemInvitationCard.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemInvitationCard.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemInvitationCard.ServicType.Trim()&VID=@itemInvitationCard.Id&subvid=@itemInvitationCard.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemInvitationCard.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemInvitationCard.BusinessName</a></h2>
+                                            <p>@itemInvitationCard.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.InvitationCard == null || ViewBag.InvitationCard.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                                <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab6">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Reverse Gifts</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Gift&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Reverse Gifts-->
+                        <div>
+                            @if (ViewBag.Gift != null || ViewBag.Gift.Count != 0)
+                            {
+                                foreach (var itemGift in ViewBag.Gift)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemGift.ServicType.Trim()&VID=@itemGift.Id&subvid=@itemGift.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemGift.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemGift.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemGift.ServicType.Trim()&VID=@itemGift.Id&subvid=@itemGift.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemGift.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemGift.BusinessName</a></h2>
+                                            <p>@itemGift.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Gift == null || ViewBag.Gift.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                                <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab7">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Entertainments</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Entertainment&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Entertainment-->
+                        <div>
+                            @if (ViewBag.Entertainment != null || ViewBag.Entertainment.Count != 0)
+                            {
+                                foreach (var itemEntertainment in ViewBag.Entertainment)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemEntertainment.ServicType.Trim()&VID=@itemEntertainment.Id&subvid=@itemEntertainment.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemEntertainment.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemEntertainment.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemEntertainment.ServicType.Trim()&VID=@itemEntertainment.Id"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemEntertainment.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemEntertainment.BusinessName</a></h2>
+                                            <p>@itemEntertainment.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Entertainment == null || ViewBag.Entertainment.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                                <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab8">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Travels</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Travel&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+                    <div class="resp-tabs-container hor_1">
+                        <!--Travel & Accommodation-->
+                        <div>
+                            <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                            @if (ViewBag.Travel != null || ViewBag.Travel.Count != 0)
+                            {
+                                foreach (var itemTravel in ViewBag.Travel)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemTravel.ServicType.Trim()&VID=@itemTravel.Id&subvid=@itemTravel.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemTravel.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemTravel.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemTravel.ServicType.Trim()&VID=@itemTravel.Id&subvid=@itemTravel.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemTravel.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemTravel.BusinessName</a></h2>
+                                            <p>@itemTravel.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Travel == null || ViewBag.Travel.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                                <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab9">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Others</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Other&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Others-->
+                        <div>
+                            @if (ViewBag.Other != null || ViewBag.Other.Count != 0)
+                            {
+                                foreach (var itemOther in ViewBag.Other)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemOther.ServicType.Trim()&VID=@itemOther.Id&subvid=@itemOther.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemOther.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemOther.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemOther.ServicType.Trim()&VID=@itemOther.Id&subvid=@itemOther.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemOther.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemOther.BusinessName</a></h2>
+                                            <p>@itemOther.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Other == null || ViewBag.Other.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                                <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                            </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div id="parentHorizontalTab10">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Beauty Services</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=BeautyService&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Beauty Services-->
+                        <div>
+                            @if (ViewBag.BeautyServices != null || ViewBag.BeautyServices.Count != 0)
+                            {
+                                foreach (var itemBeautyServices in ViewBag.BeautyServices)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemBeautyServices.ServicType.Trim()&VID=@itemBeautyServices.Id&subvid=@itemBeautyServices.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemBeautyServices.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemBeautyServices.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemBeautyServices.ServicType.Trim()&VID=@itemBeautyServices.Id&subvid=@itemBeautyServices.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemBeautyServices.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemBeautyServices.BusinessName</a></h2>
+                                            <p>@itemBeautyServices.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.BeautyServices == null || ViewBag.BeautyServices.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                    <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab11">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Event organisers</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=Eventorganiser&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Event organiser-->
+                        <div>
+                            @if (ViewBag.Eventorganiser != null || ViewBag.Eventorganiser.Count != 0)
+                            {
+                                foreach (var itemEventorganiser in ViewBag.Eventorganiser)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemEventorganiser.ServicType.Trim()&VID=@itemEventorganiser.Id&subvid=@itemEventorganiser.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemEventorganiser.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemEventorganiser.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemEventorganiser.ServicType.Trim()&VID=@itemEventorganiser.Id&subvid=@itemEventorganiser.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemEventorganiser.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemEventorganiser.BusinessName</a></h2>
+                                            <p>@itemEventorganiser.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Eventorganiser == null || ViewBag.Eventorganiser.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                    <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div id="parentHorizontalTab12">
+                    <ul class="resp-tabs-list hor_1">
+                        <li style="background-color: #2d3e50;color: #fff">Wedding collections</li>
+                    </ul>
+                    <div class="deals_all">
+                        <a href="../product?par=WeddingCollection&sType=%&loc=@Request.QueryString["l"]&a=ASC">View All</a>
+                    </div>
+                    <div class="resp-tabs-container hor_1">
+                        <hr style="border-top: 1px solid #2d3e50;padding: 3px">
+                        <!--Wedding collection-->
+                        <div>
+                            @if (ViewBag.Weddingcollection != null || ViewBag.Weddingcollection.Count != 0)
+                            {
+                                foreach (var itemWeddingcollection in ViewBag.Weddingcollection)
+                                {
+                                <div class="deals-main">
+                                    <div class="deal newDeal">
+                                        <div class="deal-thumb">
+                                            <a href="../ProductInfo?par=@itemWeddingcollection.ServicType.Trim()&VID=@itemWeddingcollection.Id&subvid=@itemWeddingcollection.subid">
+                                                <div class="zoomDiv">
+                                                    <img src="../vendorimages/@itemWeddingcollection.image" alt="thumb">
+                                                    <div class="deal-mask"> <span class="pic_img"><i class="ti-image"></i></span>  </div>
+                                                </div>
+                                            </a>
+                                            <div class="amount">
+                                                <span style="background: rgba(0,0,0,0.8);float: left;color: #fff;padding: 4px 10px;font-size: 13px;" class="price">Rs. @itemWeddingcollection.Cost</span>
+                                                <span style="background: rgba(0,0,0,0.8);color: #fff;padding: 4px 10px;font-size: 13px;" class="buy"><a href="../ProductInfo?par=@itemWeddingcollection.ServicType.Trim()&VID=@itemWeddingcollection.Id&subvid=@itemWeddingcollection.subid"><i class="ti-shopping-cart"></i> Book Now</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="deal-details">
+                                            @*<h2><a href="deal-info.html">@itemWeddingcollection.BusinessName</a></h2>*@
+                                            <h2><a href="#">@itemWeddingcollection.BusinessName</a></h2>
+                                            <p>@itemWeddingcollection.Description</p>
+                                            <div class="deal-footer">
+                                                <ul>
+                                                    <li><div class="rate" data-rate-value=4></div></li>
+                                                    <li><i class="ti-comment-alt"></i> 1362</li>
+                                                    <li><i class="ti-eye"></i> 1500</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            }
+                            @if (ViewBag.Weddingcollection == null || ViewBag.Weddingcollection.Count == 0)
+                            {
+                                <p style="font-weight:bold">No Results Found For This Location</p>
+                            }
+                            <!--<div class="loadMore">
+                    <button name="loadmore" class="btn btn-green more-button"><i class="ti-reload"></i> Load More</button>
+                </div>-->
+                            <div class="clear"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+        </div>
+
+    </div>
+</section>
+
+
+<div class="clear"></div>
+
+@*<script>
+    window.onload = function () {
+        var url = window.location.href;
+        var op = url.substring(url.lastIndexOf('=') + 1).replace("%20"," ");
+        $("#hdnloac").val(op);
+    }
+</script>*@

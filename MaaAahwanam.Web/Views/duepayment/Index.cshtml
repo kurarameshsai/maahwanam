@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/SharedWeb/vmp.cshtml";
+}
+
+@section css{
+    <style>
+        table,td{
+            border:none; 
+         border-top: none !important;
+        }
+       .table-condensed2, .bdline, tr.rline, td.thick-line {
+            border-top: 1px inset;
+        }
+    </style>
+    }
+
+<div class="col-md-10">
+    <div id="print-contentdetails" class="container-fluid">
+        <div class="row">
+            <div class="col-12" style="padding-left:30px">
+                <div class="invoice-title add_top_30">
+                    <div class="table-responsive">
+                        <table class="table tablepayment" style="height: 182px;" width="100%">
+                            <tbody>
+                                <tr class="brline">
+                                    <td style="width: 172px; font-size:18px;"><strong>Payment Bill</strong></td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td style="width: 173px;"><strong>Order</strong> #  @ViewBag.orderid</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 172px;">
+                                        <strong>Billed To:</strong>
+                                        <p>@ViewBag.vendorname</p>
+                                        <p>@ViewBag.vendoraddress</p>
+                                    </td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td class="on-line" style="width: 173px;">
+                                        <strong>Shipped To:</strong>
+                                        <p class="on-line">@ViewBag.username</p>
+                                        <p></p>                                      
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td style="width: 173px;"><strong>Payment By:</strong><p>@ViewBag.paymentbycustmname</p></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 172px;"><strong>Booked Date:</strong><p>@ViewBag.bookeddate</p></td>
+                                    <td style="width: 173px;">&nbsp;</td>
+                                    <td style="width: 173px;"><strong>Order Date:</strong><p>@ViewBag.orderdate</p></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+   <div class="row" style="padding-top:30px;">
+       <div class="col-lg-12" style="padding-left:30px">
+           <div class="add_top_15">
+               <h3><strong>Payment Details</strong></h3>
+               <div class="table-responsive2">
+                   <table class="table table-condensed2" style="width:100%;max-width:100%">
+                       <thead>
+                           <tr class="brline1">
+                               <td class="thick-line"><strong>Payment By</strong></td>
+                               <td class="thick-line"><strong>Payment Date</strong></td>
+                               <td class="text-center thick-line"><strong>Payment Id</strong></td>
+                               <td class="text-center thick-line"><strong>Payment Type</strong></td>
+                               <td class="text-center thick-line"><strong>Received Amount</strong></td>
+                           </tr>
+                       </thead>
+                       <tbody class="bdline">
+                           @foreach (var item in ViewBag.paymentbycustmlst)
+                           {
+                               <tr class="rline">
+                                   <td class="thick-line">@item.PaymentBy</td>
+                                   <td class="thick-line">@item.Payment_Date.ToString("dd-MMM-yyyy") </td>
+                                   <td class="text-center thick-line">@item.Payment_Id</td>
+                                   <td class="text-center thick-line">@item.Payment_Type</td>
+                                   <td class="text-center thick-line"> Rs @item.Received_Amount</td>
+                               </tr> 
+                           }
+                       </tbody>
+                   </table>
+               </div>
+
+               <hr />
+           </div>
+       </div>
+     </div>
+ </div>     
+    <div align="right">
+        <a href="/vdb?c=orders" class="btn btn-danger">Go Back</a>
+        <button type="button" onclick="email(@ViewBag.orderid)" class="btn btn-primary"><i class="icon-direction-1"></i>Email</button>
+        <button name="btnprint" onclick="printDiv('print-contentdetails')" class="btn btn-primary"><i class="icon-print"></i>Print</button>
+        <button name="btnsaveas" id="savepdf" class="btn btn-primary"><i class="icon-download"></i>Save as PDF</button>
+    </div>
+</div>
+
+<script>
+    function printDiv(divName) {
+
+        var printContents = document.getElementById(divName).innerHTML;
+        w = window.open();
+        w.document.write(printContents);
+        w.print();
+        w.close();
+    }
+    function email(val) {
+        $.ajax({
+            url: '/duepayment/Email?oid=' + val,
+            type: 'POST',
+            contentType: 'application/json',
+
+            success: function (result) {
+                if (result == "success") {
+                    alert("Email sent Successfully");
+                }
+                else {
+                    alert("Error Occurred in sending email");
+                }
+            }
+        })
+    };
+</script>
+

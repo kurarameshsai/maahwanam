@@ -1,0 +1,538 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    @*<script>
+window['_fs_debug'] = false;
+window['_fs_host'] = 'fullstory.com';
+window['_fs_org'] = 'GZ4R7';
+window['_fs_namespace'] = 'FS';
+(function(m,n,e,t,l,o,g,y){
+    if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
+    g=m[e]=function(a,b,s){g.q?g.q.push([a,b,s]):g._api(a,b,s);};g.q=[];
+    o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+    y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+    g.identify=function(i,v,s){g(l,{uid:i},s);if(v)g(l,v,s)};g.setUserVars=function(v,s){g(l,v,s)};g.event=function(i,v,s){g('event',{n:i,p:v},s)};
+    g.shutdown=function(){g("rec",!1)};g.restart=function(){g("rec",!0)};
+    g.consent=function(a){g("consent",!arguments.length||a)};
+    g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+    g.clearUserCookie=function(){};
+})(window,document,window['_fs_namespace'],'script','user');
+    </script>*@
+
+    <meta charset="utf-8">
+    <meta https-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewBag.Title</title>
+
+    <!-- Favicons-->
+    <link rel="shortcut icon" href="~/CSSWeb/images/favicon.png" type="image/x-icon">
+
+    <!-- BASE CSS -->
+    <link href="~/newdesignstyles/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/newdesignstyles/css/style.css" rel="stylesheet">
+    <link href="~/newdesignstyles/css/vendors.css" rel="stylesheet">
+    <link href="~/newdesignstyles/css/all_icons.min.css" rel="stylesheet">
+
+    <!-- semantic -->
+    <link rel="stylesheet" href="~/newdesignstyles/css/semantic.css" type="text/css">
+    <link rel="stylesheet" href="~/newdesignstyles/css/semantic.min.css" type="text/css">
+
+    <!-- SPECIFIC CSS -->
+    <link href="~/newdesignstyles/css/daterangepicker.css" rel="stylesheet">
+    <link href="~/newdesignstyles/css/intlTelInput.css" rel="stylesheet">
+    @RenderSection("css", false)
+    <!-- YOUR CUSTOM CSS -->
+    <link href="~/newdesignstyles/css/custom.css" rel="stylesheet">
+
+    <link href="~/newdesign/css/alertify.css" rel="stylesheet" />
+
+    <style>
+             #modal-example .form-group input.form-control {
+             padding-left: 40px;
+         }
+
+         #modal-example .form-group i {
+             font-size: 21px;
+             position: absolute;
+             left: 12px;
+             top: 34px;
+             color: #ccc;
+             width: 25px;
+             height: 25px;
+             display: block;
+             font-weight: 400 !important;
+         }
+         input.form-control {
+         font-weight:700;
+         }
+
+         .overlay {
+             background: no-repeat scroll center center #FFF;
+             position: fixed;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             z-index: 9999999;
+             background-color: rgba(0,0,0,0.8);
+             /* END EXTERNAL S */
+         }
+        .btn_1 {
+        margin-left:0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="page" class="theia-exception">
+
+        <header class="header menu_fixed">
+            <div id="preloader"><div data-loader="circle-side"></div></div><!-- /Page Preload -->
+            <div id="logo">
+                <a href="/home">
+                    <img src="~/newdesignstyles/img/logo.png" width="40" height="36" data-retina="true" alt="" class="logo_sticky">
+                    <img src="~/newdesignstyles/img/logo.png" width="70" height="36" data-retina="true" alt="" class="logo_normal">
+                </a>
+            </div>
+            @*<ul id="top_menu">
+                    <li><a href="#" class="cart-menu-btn" title="Cart"><strong>4</strong></a></li>
+                    <li><a href="#sign-in-dialog" id="sign-in" class="login" title="Sign In">Sign In</a></li>
+                    <li><a href="#" class="wishlist_bt_top" title="Your wishlist">Your wishlist</a></li>
+                </ul>*@
+            <!-- /top_menu -->
+            <a href="#menu" class="btn_mobile">
+                <div class="hamburger hamburger--spin" id="hamburger">
+                    <div class="hamburger-box">
+                        <div class="hamburger-inner"></div>
+                    </div>
+                </div>
+            </a>
+            <nav id="menu" class="main-menu">
+                @{Html.RenderAction("ItemsCartViewBindingLayout", "Home");}
+            </nav>
+
+        </header>
+        <!-- /header -->
+        <main style="background-color:#fff">
+            <div class="container margin_60_35" style="margin-left:auto">
+                <form method="post">
+                    <div class="row no-gutters custom-search-input-2">
+
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <input class="form-control" type="text" placeholder="Location" id="loc" name="loc">
+                                <img src="~/newdesignstyles/images/customer/location.png">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            @*<input class="form-control" type="text" placeholder="What type of event" value="" required="" autocomplete="off">
+                                @*<select required id="selectevent" name="selectevent" onchange="showfield(this.options[this.selectedIndex].value)">
+                                        <option value="" disabled>Select Event</option>
+                                        <option value="Wedding">Wedding</option>
+                                        <option value="Party">Party</option>
+                                        <option value="Corporate">Corporate</option>
+                                        <option value="Baby Function">Baby Function</option>
+                                        <option value="Birthday">Birthday</option>
+                                        <option value="Engagement">Engagement</option>
+                                        <option value="Other">Other</option>
+                                    </select>*@
+                            <div class="nice-select" tabindex="0" style="background-color:white">
+                                <span class="current" style="padding-left:20px;font-weight:700;">Select Event</span>
+                                <ul class="list">
+                                    <li data-value="" class="option disabled">Select Event</li>
+                                    <li data-value="Wedding" class="option selected">Wedding</li>
+                                    <li data-value="Party" class="option">Party</li>
+                                    <li data-value="Corporate" class="option">Corporate</li>
+                                    <li data-value="Baby Function" class="option">Baby Function</li>
+                                    <li data-value="Birthday" class="option">Birthday</li>
+                                    <li data-value="Engagement" class="option">Engagement</li>
+                                    <li data-value="Other" class="option">Other &emsp;<input type="text" id="other"></li>
+                                </ul>
+                            </div>
+                            @*<div id="div1"></div>*@
+                            <img src="~/newdesignstyles/images/customer/checklist.png">
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <input class="form-control" type="number" id="guests" name="guests" placeholder="Guests">
+                                <img src="~/newdesignstyles/images/customer/family.png">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <input class="form-control" id="datetimepicker1" type="text" name="datetimepicker1" placeholder="Date" required>
+                                <img src="~/newdesignstyles/images/landingpage/calendar.png">
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="submit" id="btnsearch" class="btn_search" value="Search">
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div>
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+
+    <!--/footer-->
+    <!-- page -->
+    <!-- Sign In Popup -->
+    <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide ">
+        <div class="overlay" style="display: none;">
+            <div style="left: 50%; top: 50%; position: fixed; transform: translate(-50%, -50%); text-align: center;">
+                <img src="~/CSSWeb/images/Loader.gif" /><br>
+                <p style="color: white; font-style: italic; font-family:serif;" id="loadermsg"></p>
+            </div>
+        </div>
+        <div class="small-dialog-header">
+            <h3>Sign In / Register</h3>
+        </div>
+        <form>
+            <div class="sign-in-wrapper">
+                @*<a href="#0" class="social_bt facebook">Login with Facebook</a>
+                    <a href="#0" class="social_bt google">Login with Google</a>
+                    <div class="divider"><span>Or</span></div>*@
+                <div class="authenticationBlocks">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Email ID" name="UserName" id="UserName" />
+
+                        @*<input type="email" class="form-control" name="email" id="email">*@
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="Password" class="form-control" placeholder="Password" name="Password1" id="Password1" />
+
+                        @*<input type="password" class="form-control" name="password" id="password" value="">*@
+                        <i class="icon_lock_alt"></i>
+                    </div>
+                    <div class="clearfix add_bottom_15">
+                        @*<div class="checkboxes float-left">
+                                <label class="container_check">
+                                    Remember me
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>*@
+                        <div class="float-right mt-1"><a id="forgot" href="javascript:void(0);">Forgot Password?</a></div>
+                    </div>
+                    <div class="text-center"><input type="button" value="Login" onclick="login(this.value)" class="btn_1 full-width" name="command"></div>
+
+                    <div class="text-center">
+                        Don’t have an account? <a id="signup" class="registerBtn" href="javascript:void(0);">Sign up</a>
+                    </div>
+                </div>
+                @*<div class="float-right mt-1 registerBtn"><a id="signup" href="javascript:void(0);">Sign up</a></div>*@
+                <div id="forgot_pw" class="forgotks" style="min-height: 290px;">
+                    <div class="form-group">
+                        <label>Please confirm login email below</label>
+                        <input type="email" class="form-control" name="email_forgot" id="email_forgot">
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <p>You will receive an email containing a link allowing you to reset your password to a new preferred one.</p>
+                    <div class="text-center"><input type="button" value="Reset Password" onclick="forgot(this.value)" class="btn_1 full-width" name="command"></div>
+                    <div class="float-right mt-1"><a id="forgot" class="loginBtn" href="javascript:void(0);">Login</a></div>
+
+                </div>
+                <div id="signup" class="register">
+
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="txtname" id="txtname">
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="Password" minlength="5" id="Password">
+                        <i class="icon_lock_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="Email" id="txtemail">
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" pattern="^\d{10}$" style="padding-left:80px;" class="form-control" id="txtphone">
+                        <i class="icon_phone"></i>
+                    </div>
+                    <span id="error-msg" style="color:red"></span>
+                    <p>You will receive an email containing a link allowing you to activate</p>
+                    <div class="float-right mt-1"><a id="signin" class="loginBtn" href="javascript:void(0);">Login</a></div>
+
+                    @*<div class="text-center"><input type="button" value="Register" onclick="savecustomer(this.value)" class="btn_1"></div>*@
+                    <div class="text-center"><input type="button" id="btnregister" value="Register" style="padding:16px 26px" onclick="savecustomer(this.value)" class="btn btn-danger" disabled></div> @*class="btn_1" *@
+
+                </div>
+            </div>
+        </form>
+        <!--form -->
+    </div>
+    <!-- /Sign In Popup -->
+    <!--modal popup-->
+
+    <div id="modal-example" uk-modal>
+        <div class="uk-modal-dialog">
+            <button class="uk-modal-close-default" type="button" uk-close></button>
+            <div class="uk-modal-header">
+                <h3 class="uk-modal-title" style="font-size:22px">Sign In / Register</h3>
+            </div>
+            <div class="uk-modal-body">
+                <div class="authenticationBlocks">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" placeholder="Enter Your Email ID" name="UserName1" id="UserName1" required />
+
+                        @*<input type="email" class="form-control" name="email" id="email">*@
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="Password" class="form-control" placeholder="Enter Your Password" name="Password2" id="Password2" required />
+
+                        @*<input type="password" class="form-control" name="password" id="password" value="">*@
+                        <i class="icon_lock_alt"></i>
+                    </div>
+                    <div class="clearfix add_bottom_15">
+                        @*<div class="checkboxes float-left">
+                                <label class="container_check">
+                                    Remember me
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>*@
+                        <div class="float-right mt-1"><a class="forgotPasswordBtn" id="forgot" href="javascript:void(0);">Forgot Password?</a></div>
+                    </div>
+                    <div class="text-center"><input type="submit" value="Login" onclick="login1(this.value)" class="btn_1 full-width" name="command"></div>
+
+                    <div class="text-center">
+                        Don’t have an account? <a id="signup" class="registerBtn" href="javascript:void(0);">Sign up</a>
+                    </div>
+                </div>
+                <div id="forgot_pw" class="forgotks forgotPassword" style="min-height: 290px;">
+                    <div class="ksc" style="padding: 54px;">
+                        <div class="form-group">
+                            <label>Please confirm login email below</label>
+                            <input type="email" class="form-control" placeholder="Enter Your Password" name="email_forgot1" id="email_forgot1" required />
+
+                            @*<input type="password" class="form-control" name="password" id="password" value="">*@
+                            <i class="icon_mail_alt"></i>
+                        </div>
+                        @*<div class="form-group">
+                                <label>Please confirm login email below</label>
+                                <input type="email" class="form-control" name="email_forgot1" id="email_forgot1">
+                                <i class="icon_mail_alt"></i>
+                            </div>*@
+                        <p>You will receive an email containing a link allowing you to reset your password to a new preferred one.</p>
+                        <div class="text-center"><input type="submit" value="Reset Password" onclick="forgot1(this.value)" class="btn_1 full-width" name="command"></div>
+                        <div class="float-right mt-1"><a id="forgot" class="loginBtn" href="javascript:void(0);">Login</a></div>
+                    </div>
+                </div>
+                <div id="signup" class="register">
+
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="Name1" id="txtname1" placeholder="Enter Your Name" required>
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="Password3" minlength="5" id="Password3" placeholder="Enter Your Desired Password" required>
+                        <i class="icon_lock_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" name="Email1" id="txtemail1" placeholder="Enter Your Email ID" required>
+                        <i class="icon_mail_alt"></i>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" pattern="^\d{10}$" style="padding-left:80px;" class="form-control" id="txtphone1">
+                        <i class="icon_phone"></i>
+                    </div>
+                    <span id="error-msg1" style="color:red"></span>
+
+                    <p>You will receive an email containing a link allowing you to activate</p>
+                    <div class="float-right mt-1"><a id="signin" class="loginBtn" href="javascript:void(0);">Login</a></div>
+
+                    @*<div class="text-center"><input type="submit" value="Register" onclick="savecustomer1(this.value)" class="btn_1"></div>*@
+                    <div class="text-center"><input type="button" id="btnregister1" value="Register" style="padding:16px 26px" onclick="savecustomer1(this.value)" class="btn btn-danger" disabled></div> @*class="btn_1" *@
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end of modal -->
+
+    <div id="toTop"></div><!-- Back to top button -->
+    <!-- COMMON SCRIPTS -->
+    @*<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>*@
+    <script src="~/newdesignstyles/Scripts/jquery-2.2.4.min.js"></script>
+    <script src="~/newdesignstyles/Scripts/common_scripts.js"></script>
+    <script src="~/newdesignstyles/Scripts/main.js"></script>
+    @*<script src="http://design.maa-aahwanam.com/panagea/assets/validate.js"></script>*@
+    <script src="~/newdesignstyles/Scripts/moment.min.js"></script>
+    @*<script src="~/newdesignstyles/Scripts/daterangepicker.js"></script>*@
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Map -->
+    @*<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyB6Vck_vRXDPR8ILH8ZLOeGSEz_n4YR0mU"></script>
+        <script src="~/newdesignstyles/Scripts/map_tours.js"></script>
+        <script src="~/newdesignstyles/Scripts/infobox.js"></script>*@
+
+    <!-- Masonry Filtering -->
+    <script src="~/newdesignstyles/Scripts/isotope.min.js"></script>
+    <script src="~/newdesignstyles/Scripts/intlTelInput.js"></script>
+
+    <script src="~/newdesign/js/alertify.js"></script>
+    <script src="~/newdesignstyles/Scripts/daterangepicker.js"></script>
+    <script>
+        var input = document.querySelector("#txtphone"),
+            errorMsg = document.querySelector("#error-msg"),
+            errorMsg1 = document.querySelector("#error-msg1"),
+            input1 = document.querySelector("#txtphone1");
+        var iti = window.intlTelInput(input, {
+            initialCountry: "auto",
+            geoIpLookup: function (success, failure) {
+                $.get("https://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    success(countryCode);
+                });
+            },
+            utilsScript: "../newdesignstyles/Scripts/utils.js",
+        });
+        var iti1 = window.intlTelInput(input1, {
+            initialCountry: "auto",
+            geoIpLookup: function (success, failure) {
+                $.get("https://ipinfo.io", function () { }, "jsonp").always(function (resp) {
+                    var countryCode = (resp && resp.country) ? resp.country : "";
+                    success(countryCode);
+                });
+            },
+            utilsScript: "../newdesignstyles/Scripts/utils.js",
+        });
+
+        var errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+        input.addEventListener('blur', function () {
+            reset();
+            if (input.value.trim()) {
+                if (iti.isValidNumber()) {
+                    //validMsg.classList.remove("hide");
+                    $('#btnregister').removeAttr('disabled');
+                } else {
+                    input.classList.add("error");
+                    var errorCode = iti.getValidationError();
+                    errorMsg.innerHTML = errorMap[errorCode];
+                    errorMsg.classList.remove("hide");
+                }
+            }
+        });
+        input1.addEventListener('blur', function () {
+            reset1();
+            if (input1.value.trim()) {
+                if (iti1.isValidNumber()) {
+                    //validMsg.classList.remove("hide");
+                    $('#btnregister1').removeAttr('disabled');
+                } else {
+                    input1.classList.add("error");
+                    var errorCode = iti1.getValidationError();
+                    errorMsg1.innerHTML = errorMap[errorCode];
+                    errorMsg1.classList.remove("hide");
+                }
+            }
+        });
+
+        var reset = function () {
+            input.classList.remove("error");
+            errorMsg.innerHTML = "";
+            errorMsg.classList.add("hide");
+        };
+        var reset1 = function () {
+            input1.classList.remove("error");
+            errorMsg1.innerHTML = "";
+            errorMsg1.classList.add("hide");
+        };
+
+    </script>
+    @RenderSection("scripts", false)
+    <script>
+        //$(window).load(function () {
+        //    var $container = $('.isotope-wrapper');
+        //    $container.isotope({ itemSelector: '.isotope-item', layoutMode: 'masonry' });
+        //});
+
+        $('.filters_listing').on('click', 'input', 'change', function () {
+            var selector = $(this).attr('data-filter');
+            $('.isotope-wrapper').isotope({ filter: selector });
+        });
+    </script>
+
+    <!-- Range Slider -->
+    @*<script>
+             $("#range").ionRangeSlider({
+                hide_min_max: true,
+                keyboard: true,
+                min: 30,
+                max: 180,
+                from: 0,
+                to: 500,
+                type: 'double',
+                step: 1,
+                prefix: "Min. ",
+                grid: false
+            });
+        </script>*@
+
+    <script>
+        $('#datetimepicker1,#datepicker2').daterangepicker({
+            singleDatePicker: true,
+            minDate: new Date(),
+            locale: {
+                format: 'DD/MM/YYYY'
+            }
+        });
+    </script>
+    <script src="~/Scripts/auth.js"></script>
+
+    <!-- COLOR SWITCHER  -->
+    @*<script src="http://design.maa-aahwanam.com/panagea/js/switcher.js"></script>
+        <div id="style-switcher">
+            <h6>Color Switcher <a href="#"><i class="ti-settings"></i></a></h6>
+            <div>
+                <ul class="colors" id="color1">
+                    <li><a href="#" class="default" title="Default"></a></li>
+                    <li><a href="#" class="aqua" title="Aqua"></a></li>
+                    <li><a href="#" class="green_switcher" title="Green"></a></li>
+                    <li><a href="#" class="orange" title="Orange"></a></li>
+                    <li><a href="#" class="blue" title="Blue"></a></li>
+                </ul>
+            </div>
+        </div>*@
+    <!--Start of Tawk.to Script-->
+
+
+    @*<script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5b7e7e93afc2c34e96e7d2fe/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>*@
+    <!--End of Tawk.to Script-->
+</body>
+</html>

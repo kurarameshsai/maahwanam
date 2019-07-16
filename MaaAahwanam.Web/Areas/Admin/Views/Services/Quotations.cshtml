@@ -1,0 +1,252 @@
+﻿@model MaaAahwanam.Models.ServiceResponse
+@{
+    ViewBag.Title = "QuotView";
+    Layout = "~/Areas/Admin/Views/Shared/MainMaster.cshtml";
+    var i = 0;
+}
+
+@section header{
+    <!-- PAGE LEVEL STYLES -->
+    <link href="~/Assets/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Assets/plugins/wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css" />
+<link rel="stylesheet" href="assets/plugins/Font-Awesome/css/font-awesome.css" />
+<link rel="stylesheet" href="assets/plugins/wysihtml5/dist/bootstrap-wysihtml5-0.0.2.css" />
+<link rel="stylesheet" href="assets/css/Markdown.Editor.hack.css" />
+<link rel="stylesheet" href="assets/plugins/CLEditor1_4_3/jquery.cleditor.css" />
+<link rel="stylesheet" href="assets/css/jquery.cleditor-hack.css" />
+<link rel="stylesheet" href="assets/css/bootstrap-wysihtml5-hack.css" />
+
+
+    <!-- END PAGE LEVEL  STYLES -->
+}
+<!--PAGE CONTENT -->
+<div id="content">
+    <div class="inner">
+        <div class="row">
+            <div class="col-lg-12" align="center">
+                <h2> Quotation Requests Details</h2>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="body collapse in" id="div1"> <a href="~/Admin/DashBoard/dashboard" class="btn btn-primary btn-xs">Home</a>&nbsp;&nbsp;&nbsp;<a href="~/Admin/Services/QuotRequests" class="btn btn-primary btn-xs">Quotation Requests</a>&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-primary btn-xs">Quotation Request Details</a> </div>
+                <br />
+                @*<h4><i class="icon-th-list"></i> Request #@ViewBag.quotid | <p id="id"></p></h4>*@
+                <h4><i class="icon-th-list"></i> Request #@ViewBag.quotid | @ViewBag.quotdate</h4>
+            </div>
+            <br />
+        </div>
+        <!-- Quot Starts here -->
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="pricing-table">
+                    @if (@ViewBag.QuotationRecordsList != null)
+                    {
+                        
+                        foreach (var item in ViewBag.QuotationRecordsList)
+                        {
+
+                            <li class="col-lg-4" style="border:groove">
+                                <h4>Request Id:@item.RequestId</h4>
+                                <h4 id="rid" style="padding-bottom:10px">Response Id:@item.ResponseId</h4>
+                                <!--<div class="price-body">-->
+                                @*<div class="price" style="display:block"><sup>&#x20B9;</sup>@item.Amount</div>*@
+                                <div class="price" style="display:block"><p>&#x20B9;@item.Amount</p></div>
+                                <!--</div>-->
+                                <div class="features">
+                                    <ul>
+                                        <li id="id @i">@item.Description</li>
+                                    </ul>
+                                </div>
+                                <div class="footer">
+                                    <input id="btnedit" type="button" value="Edit" onclick="return edit('@item.Amount','id @i','@item.ResponseId')" class="btn btn-info btn-rect" />
+                                    @*<input id="btnedit1" type="button" value="edit" onclick="return test('id @i');" />*@
+                                    <a href="#" class="btn btn-danger btn-rect"> Delete </a>
+                                </div>
+                            </li>
+                            i++;
+                        }
+                    }
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+<br/><br/>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box">
+                    <header>
+                        <div class="icons"><i class="icon-th-large"></i></div>
+                        <h5>Basic Editor</h5>
+                        <ul class="nav pull-right">
+                            <li>
+                                <div class="btn-group">
+                                    <a class="accordion-toggle btn btn-xs minimize-box" data-toggle="collapse"
+                                       href="#div-1">
+                                        <i class="icon-minus"></i>
+                                    </a>
+                                    <button class="btn btn-danger btn-xs close-box">
+                                        <i class="icon-remove"></i>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </header>
+                    <div id="div-1" class="body collapse in">
+                        <form method="post">
+                            @Html.TextBoxFor(model => this.Model.ResponseId, new { @class = "form-control", @style = "display:none" })
+                            <label>Amount</label>
+                            @Html.TextBoxFor(model => this.Model.Amount, new { @class = "form-control", placeholder = "Enter Amount" })
+                            <br />
+                            <label>Description</label>
+                            @*<textarea id="wysihtml5" class="form-control" rows="10"></textarea>*@
+                            @Html.TextAreaFor(model => this.Model.Description, new { @class = "form-control", placeholder = "Enter Description", @rows = "4" })
+                            <div class="form-actions">
+                                <br />
+                                <input id="btnsave" type="submit" value="Submit" name="command" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Comments -->
+        <div class="row"></div>
+        <!-- comments end -->
+    </div>
+</div>
+<!--END PAGE CONTENT -->
+@section Bottom{
+    <script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+    <script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+    <!-- PAGE LEVEL SCRIPTS -->
+
+
+    <script src="~/Assets/plugins/CLEditor1_4_3/jquery.cleditor.min.js"></script>
+    <script src="~/Assets/plugins/pagedown/Markdown.Converter.js"></script>
+    <script src="~/Assets/plugins/pagedown/Markdown.Sanitizer.js"></script>
+    <script src="~/Assets/plugins/Markdown.Editor-hack.js"></script>
+    <script src="~/Assets/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="~/Assets/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="~/Assets/plugins/wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>
+    <script src="~/Assets/plugins/bootstrap-wysihtml5-hack.js"></script>
+    <script src="~/Assets/js/editorInit.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').dataTable({
+                "order": [[0, "desc"]]
+            });
+            
+        });
+    </script>
+    <script>
+        $(function () { formWysiwyg(); });
+    </script>
+<script>
+        function edit(amount,i,id) {
+            var desc = document.getElementById(i).innerHTML;
+            $("#Amount").val(amount);
+            $("#Description").val(desc);
+            $("#btnsave").val("Update");
+            $("#ResponseId").val(id);
+            //var url = window.location.href;
+            //alert(url.search('?rid='));
+            //window.location.href = url +'?rid='+id+'';
+        }
+
+</script>
+
+
+    <script>
+        window.onload = function () {
+            var date = $("#hdndate").val(); 
+            $("#id").html(date.toString('dd-MM-yy'));
+        }
+    </script>
+
+
+<script>
+    function test(i) {
+        //$('#id').each(function () {
+        //alert(i);
+        var value = i;
+        //alert(i);
+        var customerId = document.getElementById(i).innerHTML;
+        
+        alert(customerId);
+
+        //alert(tableHeadings);
+        //});
+    }
+</script>
+
+
+    <!-- END PAGE LEVEL SCRIPTS -->
+}
+
+
+
+
+
+@*<li class="active danger col-lg-4">
+        <h3>12313232-Quot2</h3>
+        <!--<div class="price-body">-->
+        <div class="price"><span class="price-figure"><sup>&#x20B9;</sup>1,00,000</div>
+        <!--</div>-->
+        <div class="features">
+            <ul>
+                <li>Hotel NKM Grand</li>
+                <li>Unlimited File Access</li>
+                <li>Free Appointments</li>
+                <li><strong>20 Bonus Points</strong> every month</li>
+                <li>Customizable Profile Page</li>
+                <li><strong>6 months</strong> support</li>
+            </ul>
+        </div>
+        <div class="footer"> <a href="#" class="btn btn-info btn-rect"> Edit </a> <a href="#" class="btn btn-danger btn-rect"> Delete </a></div>
+        <!--<div class="footer"> <a href="#" class="btn btn-metis-1 btn-lg btn-rect">Get Started</a> </div>-->
+    </li>
+    <li class="col-lg-4">
+        <h3>12313232-Quot3</h3>
+        <!--<div class="price-body">-->
+        <div class="price"><span class="price-figure"><sup>&#x20B9;</sup>60,000</div>
+        <!--</div>-->
+        <div class="features">
+            <ul>
+                <li>Maharaja Classic Inn</li>
+                <li>Unlimited File Access</li>
+                <li>Free Appointments</li>
+                <li><strong>50 Bonus Points</strong> every month</li>
+                <li>Customizable Profile Page</li>
+                <li><strong>Lifetime</strong> support</li>
+            </ul>
+        </div>
+        <div class="footer"> <a href="#" class="btn btn-info btn-rect"> Edit </a> <a href="#" class="btn btn-danger btn-rect"> Delete </a></div>
+        <!--<div class="footer"> <a href="#" class="btn btn-info btn-rect">Get Started</a> </div>-->
+    </li>*@
+
+<!-- Quot Ends here -->
+
+@*<div class="row">
+        <div class="col-lg-12">
+            <div class="box">
+                <header>
+                    <div class="icons"><i class="icon-th-large"></i></div>
+                    <h5>Create New Quotation</h5>
+
+                </header>
+                <div id="div-1" class="body collapse in">
+                    <form>
+                        <textarea id="wysihtml5" class="form-control" rows="10"></textarea>
+                        <div class="form-actions">
+                            <br />
+                            <input type="submit" value="Create Quotation" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@

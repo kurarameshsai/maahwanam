@@ -1,0 +1,51 @@
+﻿@using System.Globalization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/NmasterPage.cshtml";
+}
+
+
+<div class="sb2-2-3">
+    <div class="col-md-12">
+        <div class="box-inn-sp">
+            <div class="inn-title">
+         <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>Quotation ID</th>
+                                <th>Event Type</th>
+                                <th>Order Date</th>
+                                <th>OrderBookedby</th>
+                                <th>Total Amount</th>
+                                <th>Balance Due</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var orders in ViewBag.order)
+                            {
+                                <tr class="even gradeX">
+                                    <td> @orders.orderid </td>
+                                    <td> @orders.eventtype </td>
+                                    <td> @orders.orderdate.ToString("dd-MM-yyyy") </td>
+                                    <td> @orders.orderbooktype </td>
+                                    <td>  @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@orders.totalprice)).Replace(".00", "") </td>
+                                    <td> @String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@orders.Due)).Replace(".00", "") </td>
+                                    <td> @orders.orderstatus </td>
+                                    <td>
+                                        <button class="savepackage" style="background: #167ee6;color: #fff !important;" onclick="window.location.href='/Admin/quotationlist/FilteredVendors1?id=@orders.orderid'" value="" id=""> Reply Quote</button>
+                                        @*<button class="savepackage" style="background: #167ee6;color: #fff !important;" onclick="window.location.href='/Admin/quotationlist/FilteredVendors1?id=@orders.orderid'" value="" id=""> View Thread </button>*@
+                                        @*<a href="/Admin/quotationlist/QuoteReply?id=@orders.orderid" class="btn btn-default btn-xs"> Reply Quote </a>*@
+                                        @*<a href="/Admin/quotationlist/FilteredVendors1?id=@orders.orderid" class="btn btn-default btn-xs"> View Thread </a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

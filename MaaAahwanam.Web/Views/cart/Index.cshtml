@@ -1,0 +1,559 @@
+﻿@{
+    ViewBag.Title = "Cart";
+    Layout = "~/Views/SharedWeb/UserModuleMasterPage.cshtml";
+}
+@using System.Globalization
+@section css{
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.10/css/uikit.min.css" />
+    <link href="~/newdesign/css/alertify.css" rel="stylesheet" />
+
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        /*form {
+            display: none;
+        }*/
+
+        .tablink {
+            background-color: #fff;
+            color: #212529;
+            float: left;
+            border: 1px;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-size: 14px;
+            width: 16%;
+        }
+        .pks {
+       
+    font-size: 13px;
+    font-weight: 800;
+}
+        .ksimage {
+    width: 150px;
+    height: 160px;
+        }
+            .tablink:hover {
+                background-color: #fff;
+            }
+        /* Style the tab content */
+        .tabcontent {
+            color: white;
+            display: none;
+            padding: 50px;
+            text-align: center;
+        }
+
+
+        #Food Packages {
+            background-color: white;
+        }
+
+        #Hall Details {
+            background-color: white;
+        }
+
+        #Description {
+            background-color: white;
+        }
+
+        #Gallery {
+            background-color: white;
+        }
+
+        #Check Availability {
+            background-color: white;
+        }
+
+        #Policies {
+            background-color: white;
+        }
+
+
+        .zInputWrapper {
+            background-color: #f30712;
+            padding: 1px;
+            margin: 2px;
+            /*border-radius: 12px;*/
+            display: inline-block;
+        }
+
+        .zInput {
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+            background-color: #f30712;
+            margin: 4px;
+            padding: 2px;
+            text-align: center;
+            cursor: default;
+            color: #fff;
+            border: #f30712 1px solid;
+            /*border-radius: 10px;*/
+            font-size: 16px;
+            overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            /*-khtml-user-select: none;*/
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+
+        .zCheckbox {
+            color: #ffffff;
+            border: #f30712 1px solid;
+        }
+
+        .zSelected {
+            color: #f30712;
+            background-color: #f30712;
+        }
+
+            .zSelected.zCheckbox {
+                background-color: #f30712;
+            }
+
+        .first .col-md-4 img {
+            height: 130px;
+            width: 300px;
+        }
+    </style>
+<style>
+    .overlay {
+        background: no-repeat scroll center center #FFF;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999;
+        background-color: rgba(0,0,0,0.8);
+        /* END EXTERNAL S */
+    }
+</style>
+}
+
+@using MaaAahwanam.Web.Custom
+@*<main>*@
+
+<div class="overlay" style="display: none;">
+    <div style="left: 50%; top: 50%; position: fixed; transform: translate(-50%, -50%); text-align: center;">
+        <img src="~/CSSWeb/images/Loader.gif" /><br>
+        <p style="color: white; font-style: italic; font-family:serif;" id="loadermsg"></p>
+    </div>
+</div>
+<div class="bg_color_1">
+    <div class="container margin_60_35" style="max-width:1300px;margin-left:40px">
+        <div class="row">
+            <div class="col-lg-8">
+
+                @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    var user = (CustomPrincipal)HttpContext.Current.User;
+                    if (user.UserType == "Vendor")
+                    {
+                        Response.Redirect("/NUserRegistration/changeid?id=" + user.UserId + "");
+                    }
+                    if (user.UserType == "User")
+                    {
+
+                        <h2 class="uk-h3">CART</h2>
+                        if (ViewBag.cartitems != null)
+                        {
+                            <p style="text-transform:capitalize;font-weight:bold">you got @ViewBag.cartCount items in your bag</p>
+
+                            foreach (var item in ViewBag.cartitems)
+                            {
+                                <div class="room_type first">
+
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            @if (item.image != null)
+                                            {
+                                                <img src="../vendorimages/@item.image" class="img-fluid" alt="">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/noimages.png" class="img-fluid" alt="">
+                                            }
+                                        </div>
+                                        <div class="col-md-8-1" style="background-color: #fff;">
+                                            <input type="hidden" id="cartid" name="cartid[]" value="@item.CartId" />
+                                                                                        <h3 style="text-transform:uppercase;font-weight:700">@item.BusinessName&emsp;<a class="ui violet label" style="padding: 2px 7px 2px 7px;font-size: 13px;font-weight: 100;">@item.ServicType</a><span><br></span></h3>
+                                            @*<p>
+                                                    @item.SelectedPriceType for  @item.Quantity guests <br>Date: @item.eventstartdate.ToString("dd/MM/yyyy").Replace('-', '/')&emsp;&emsp;&emsp;&emsp; <B>@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.Perunitprice)).Replace(".00", "")</B>&emsp;&emsp;&emsp;&emsp;&emsp;
+                                                    <div class="zInputWrapper">
+                                                        <div class="zInput zCheckbox"><span style="display:table;width: 100%;height: 100%;"><span style="display: table-cell;vertical-align:middle;">
+                                                <p>select</p><input type="checkbox" name="selectchart" title="selectcart" value="@item.CartId" style="display: none;"></span></span>*@
+                                            @*<p>
+                                                    @item.SelectedPriceType for @item.Quantity guests <br>@item.eventstartdate.ToString("dd/MM/yyyy").Replace('-', '/')&emsp;&emsp;&emsp;&emsp; <b>$@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.Perunitprice)).Replace(".00", "")</b>&emsp;&emsp;&emsp;&emsp;&emsp;<a href="#0" class="btn_cart add_top_30">
+                                                        Selected&nbsp;<img src="http://design.maa-aahwanam.com/panagea/images/icons/arrow1.png">
+                                                    </a><br><br><span><a href="" onclick="DeletecartItem(@item.CartId)">Delete</a></span>
+                                                </p>*@
+
+                                            <p style="margin-top:-10px">@item.SelectedPriceType for @item.Quantity guests</p>
+                                            <text id="itemsselected" style="display:none"></text>
+                                            <table style="width:500px;border-collapse: collapse;margin-top:-25px">
+                                               
+                                                <tr>
+                                                    <td style="width:30%;border:none;padding-left: 1px;">
+                                                        <text style="font-size:16px;font-weight:700"> 
+                                                           Date: @if (item.eventstartdate != null)
+                                                            {  @item.eventstartdate.ToString("dd-MMM-yyyy")}
+                                                            else
+                                                            { <text> @DateTime.Now.ToString("dd-MMM-yyyy") </text>}
+                                                        </text>
+                                                    </td>
+                                                    <td style="width:40%;border:none;"><b style="font-size: 14px;color: #573791;float:right;">@String.Format(new CultureInfo("en-IN", false), "{0:n}", Convert.ToDouble(@item.TotalPrice)).Replace(".00", "")</b><text style="float:right;font-size: 14px;">₹</text></td>
+                                                    <td style="width:30%;border:none"><input type="checkbox" class="cartcheckbox" style="display:none" value="@item.CartId" checked/><button class="cartselect" style="background-color:#573791;color:#fff;height:35px;width:100px;float:right">Selected <img src="http://design.maa-aahwanam.com/panagea/images/icons/arrow1.png" /></button></td>
+                                                </tr>
+                                            </table>
+                                            <a href="#" onclick="DeletecartItem(@item.CartId)">Remove</a>
+                                        </div>
+                                    </div>
+                                    <!-- /row -->
+                                </div>
+                            <!-- /rom_type -->
+                                <input type="hidden" id="selectedcart" name="selectedcart" class="selectedcart" value="">
+                                <hr style="margin-top:0">
+
+
+
+
+
+                            }
+                        }
+                        else
+                        {
+                            <p> No items in cart</p>
+                        }
+
+                    }
+                }
+                else
+                {
+
+
+                    <div class="box_cart">
+
+                        <center>
+                            <h2><b>AUTHENTICATE TO VIEW CART</b></h2>
+                            <button type="submit" value="email" name="command" class="btn_1 add_top_30" uk-toggle="target: #modal-example">Login<img src="http://design.maa-aahwanam.com/panagea/images/icons/arrow1.png" /></button>
+
+                            @*<b>(OR)&emsp;</b>
+                                <a href="#0" class="btn_1 add_top_30">
+                                    Register&nbsp;<img src="http://design.maa-aahwanam.com/panagea/images/icons/arrow1.png">
+                                </a>*@
+                        </center>
+                        <hr>
+                        <!--End step -->
+
+
+
+                    </div>
+
+
+                }
+                <!-- /rom_type -->
+                <div class="ui people shape" style="padding-right:9px;padding-left:12px;">
+                    <div class="sides">
+                        <div class="active side">
+                            <div class="ui card" style="width: 150px;">
+                                <div>
+                                    <a href="/home"> <img class="ksimage" src="http://design.maa-aahwanam.com/newdesign/images/banquet-bg.png"></a>
+                                </div>
+                                <div class="content">
+                                    <h3 style="font-weight:700">Banquet Hall</h3>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui people shape" style="padding-right:9px;">
+                    <div class="sides">
+                        <div class="active side">
+                            <div class="ui card" style="width: 150px;">
+                                <div>
+                                    <a href="/home"> <img class="ksimage" src="http://design.maa-aahwanam.com/newdesign/images/hotels-bg.png"></a>
+                                </div>
+                                <div class="content">
+                                    <h3 style="font-weight:700">Hotel</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui people shape" style="padding-right:9px;">
+                    <div class="sides">
+                        <div class="active side">
+                            <div class="ui card" style="width: 150px;">
+                                <div>
+                                    <a href="/home"> <img class="ksimage" src="http://design.maa-aahwanam.com/newdesign/images/resort-bg.png"></a>
+                                </div>
+                                <div class="content">
+                                    <h3 style="font-weight:700">Resort</h3>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui people shape" style="padding-right:9px;">
+                    <div class="sides">
+                        <div class="active side">
+                            <div class="ui card" style="width: 150px;">
+                                <div>
+                                    <a href="/home"> <img class="ksimage" src="http://design.maa-aahwanam.com/newdesign/images/functionhalls-bg.png"></a>
+                                </div>
+                                <div class="content">
+                                    <h3 style="font-weight:700">Function Hall</h3>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="ui people shape" style="padding-right:9px;">
+                    <div class="sides">
+                        <div class="active side">
+                            <div class="ui card" style="width: 150px;">
+                                <div>
+                                    <a href="/home"> <img class="ksimage" src="http://design.maa-aahwanam.com/newdesign/images/convention-bg.png"></a>
+                                </div>
+                                <div class="content">
+                                    <h3 style="font-weight:700">Convention Hall</h3>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                @*<img src="http://design.maa-aahwanam.com/panagea/images/photography.png"/>
+
+                    <img src="http://design.maa-aahwanam.com/panagea/images/florist.png"/>
+                    <img src="http://design.maa-aahwanam.com/panagea/images/caterer.png"/>*@
+                @*<div class="ui three column grid">
+                        <div class="column">
+                            <div class="ui fluid card">
+                                <div class="image">
+                                    <img src="http://design.maa-aahwanam.com/panagea/images/photography.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header sticky">PHOTOGRAPHY</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui fluid card">
+                                <div class="image">
+                                    <img src="http://design.maa-aahwanam.com/panagea/images/florist.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header sticky">DECORATOR</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="ui fluid card">
+                                <div class="image">
+                                    <img src="http://design.maa-aahwanam.com/panagea/images/caterer.png">
+                                </div>
+                                <div class="content">
+                                    <a class="header sticky">FLORIST</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>*@
+            </div>
+
+            <!-- /col -->
+
+            <div class="col-lg-4" id="sidebar">
+                @{Html.RenderAction("billing", "cart"); }
+            </div>
+        </div><br>
+    </div>
+</div>
+<!-- /row -->
+@*</main>*@
+<!--/main-->
+<div id="toTop"></div><!-- Back to top button -->
+@section scripts{
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.10/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-rc.10/js/uikit-icons.min.js"></script>
+    <script src="~/newdesign/js/alertify.js"></script>
+
+    <!-- COLOR SWITCHER  -->
+    <script>
+        function email() {
+            var guests = window.localStorage.getItem("guests");
+            var location = window.localStorage.getItem("location");
+            var eventtype = window.localStorage.getItem("eventtype");
+            var date = window.localStorage.getItem("eventdate");
+            var searchedcontent = 'Guests:' + guests + ',Location:' + location + ',Event Type:' + eventtype + ',Selected Date:' + date + '';
+            //alert(searchedcontent);
+            var selcartid = $('.selectedcart').val();
+            if (selcartid == undefined) { alert('select the cart item') } else {
+                $.ajax({
+                    url: '/cart/email',//?CustomerPhoneNumber=' + CustomerPhoneNumber + '&CustomerName=' + CustomerName + '&Password=' + Password + '&Address=' + Address + '&Email=' + Email,
+                    type: 'POST',
+                    data: JSON.stringify({ selcartid: selcartid, searchedcontent: searchedcontent }),
+                    //data: JSON.stringify({ CustomerPhoneNumber, CustomerName, Password, Address, Email }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data == "success" || data == "unique") {
+                            alertify.alert("We will contact you soon");
+                            window.location = "/home/index";
+                        }
+                        else if (data == "Failed") {
+                            alertify.alert("Something Went Wrong!!! Try Again Later");
+                        }
+                        else {
+                            alertify.alertmsg("error");
+                        }
+                    }
+                });
+            }
+        }
+        function booknow(val) {
+            var booktype = val;
+            var guests = window.localStorage.getItem("guests");
+            var location = window.localStorage.getItem("location");
+            var eventtype = window.localStorage.getItem("eventtype");
+            var date = window.localStorage.getItem("eventdate");
+            var searchedcontent = 'Guests:' + guests + ',Location:' + location + ',EventType:' + eventtype + ',SelectedDate:' + date + '';
+            var total = $(".netamount").text();
+            //alert(searchedcontent);
+            var selcartid = $('.selectedcart').val();
+            if (selcartid == undefined) { alert('select the cart item'); }
+            else {
+                $('.overlay').show();
+                $('#loadermsg').text('Booking in process....');
+                $.ajax({
+                    url: '/cart/booknow',//?CustomerPhoneNumber=' + CustomerPhoneNumber + '&CustomerName=' + CustomerName + '&Password=' + Password + '&Address=' + Address + '&Email=' + Email,
+                    type: 'POST',
+                    data: JSON.stringify({ selcartid: selcartid, searchedcontent: searchedcontent, total: total, booktype: booktype }),
+                    //data: JSON.stringify({ CustomerPhoneNumber, CustomerName, Password, Address, Email }),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function (data) {
+                       // if (data == "success" || data == "unique" || data == "Success") {
+                            //alertify.alert("Order is sucessfully placed");
+                        alert(data);
+                            //alertify.confirm('Order Placed', 'Order is sucessfully placed', function () { window.location = "/home/index"; });
+                            window.location = "/home/index";
+                        //}
+                        //else if (data == "Failed") {
+                        //    alertify.alert("Something Went Wrong!!! Try Again Later");
+                        //}
+                        //else {
+                        //    alertify.alertmsg("error");
+                        //}
+                    }
+                });
+            }
+        }
+
+        function DeletecartItem(cartId) {
+            //alert(cartId);
+            alertify.confirm("Are you sure You want to delete.",
+         function () {
+             var obj = {}
+             obj.cartId = cartId;
+             $.ajax({
+                 type: "POST",
+                 url: '/cart/DeletecartItem',//window.location.href.split("/")[0] + '//' + window.location.href.split("/")[2] + '/cart/DeletecartItem',
+                 data: {},
+                 data: JSON.stringify(obj),
+                 //data: sendInfo,
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (data) {
+                     if (data != null) {
+                         alertify.alert("Item Deleted");
+                         window.location.reload();
+                     }
+                 },
+                 error: function (data) {
+                     //alert('error');
+                     alertify.alertmsg("error");
+                 }
+             });
+         })
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#checkbox1').change(function () {
+                if (this.checked) {
+                    var returnVal = confirm("Are you sure?");
+                    $(this).prop("checked", returnVal);
+                }
+                $('#textbox1').val(this.checked);
+            });
+            var cart1 ='';
+            $("input[name='cartid[]']").each(function (i, v) {
+              //  alert(this.value);
+                var cart = this.value;
+                cart1 = cart1 + ',' + cart;
+              //  alert(cart1);
+                $('.selectedcart').val(cart1);
+
+            });
+
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.cartselect').on('click', function () {
+                var thischeckbox = $(this).prev('input.cartcheckbox');
+                if (thischeckbox.is(':checked')) {
+                    thischeckbox.removeAttr('checked');
+                    $(this).css('background-color', 'red').text('Select');
+                    var ids = $(this).prev('input.cartcheckbox').val();
+                   // alert(ids);
+                    var selcartid = $('.selectedcart').val();
+                    var ids1 = selcartid.replace(ids, "");
+                    $('.selectedcart').val(ids1);
+
+                   // alert(ids1);
+                    var url = '/cart/billing?cartid=' + ids1;
+                    $('#sidebar').empty().load(url);
+                }
+                else {
+                    thischeckbox.prop('checked', 'checked');
+                    $(this).css('background-color', '#573791').text('Selected');
+                    var ids = $(this).prev('input.cartcheckbox').val();
+                  //  alert(ids);
+                    var selcartid = $('.selectedcart').val();
+                    var ids1 = selcartid + ',' + ids;
+                    $('.selectedcart').val(ids1);
+                    
+                  //  alert(ids1);
+                    var url = '/cart/billing?cartid=' + ids1;
+                    $('#sidebar').empty().load(url);
+                }
+            });
+        });
+    </script>
+}

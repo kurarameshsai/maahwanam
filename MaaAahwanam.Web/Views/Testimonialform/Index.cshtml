@@ -1,0 +1,310 @@
+﻿@model MaaAahwanam.Models.AdminTestimonial
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Welcome to Maa Aahwanam</title>
+    <link rel="icon" type="../CSSWeb/image/png" href="../CSSWeb/images/favicon.png">
+    <link rel="stylesheet" href="~/CSSWeb/css/masterslider.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/ms_style.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/timeline.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/ms-layers-style.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/tabs.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/themify-icons.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/alert.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/smoothproducts.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/maa-aahwanam.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/responsive.css" />
+    <link rel="stylesheet" href="~/CSSWeb/css/AutocompleteStyle.css" />
+
+
+</head>
+
+<body class="homepage">
+    <header>
+        <div class="sticky-navigation">
+            <div class="top-bar">
+                <div class="pageWidth">
+                    <div class="top-mobile">
+                        <p class="wow fadeInLeft animated"><i class="ti-mobile"></i> 1800 180 180</p>
+                        <div class="searchDiv" style="display:none;">
+                            <a class="dropdown-toggle2" href="javascript:void(0)"><i class="ti-search"></i><span>Search</span></a>
+                            <div class="topSearchForm">
+                                <span class="arrowUp2"></span>
+                                <div class="dropdownList">
+                                    <div class="search-box2" style="left:0; right:0; top:5px;">
+                                        <div class="select-cats">
+                                            <select id="e1" style="width:100%">
+                                                <option>Select Event</option>
+                                            </select>
+                                        </div>
+                                        <div class="search-input">
+                                            <input type="text" class="autosuggest" id="txt_Location_Top" placeholder="Enter your location" />
+                                        </div>
+                                        <div class="submit-button">
+                                            <button class="btn-1" value="Search" onclick="GetSearchValue_Top()">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*@{Html.RenderAction("SigninPartial", "signin");}*@
+                </div>
+            </div>
+            <div class="menu">
+                <div class="pageWidth">
+                    <div class="headLeft">
+                        <a href="../Index"><img src="../CSSWeb/images/logo.png" alt="logo" title="Maa Aahwanam" /></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+    </header>
+    <div class="clear"></div>
+    <div style="margin-top: 50px; margin-left:300px;width:50%">
+        <div class="heading-title">
+            <h2>Testimonial Form</h2>
+        </div>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries.</p>
+        @using (Html.BeginForm("Saveform", "Testimonialform", FormMethod.Post, new { @class = "form-signin", @id = "register_form", @autocomplete = "off", @enctype = "multipart/form-data" }))
+        {
+            <div class="displayDiv">
+                <div class="bidding_form">
+                    <table>
+                        <tr>
+                            <td>
+                                <label>FullName : </label>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.Name, new { @id = "FullName", @name = "FullName", placeholder = "FullName", required = "required", maxlength = 15 })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Email : </label>
+                            </td>
+                            <td>
+                                @Html.TextBoxFor(model => model.Email, new { @id = "Email", @name = "Email", placeholder = "Email", required = "required" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Your Testimonial : </label>
+                            </td>
+                            <td>
+                                @Html.TextAreaFor(model => model.Description, new { @id = "Testimonial", @name = "Testimonial", placeholder = "Testimonial", required = "required" , minlength = 100 })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Your Rating : </label></td>
+                            <td><div class="rate" ></div>@Html.HiddenFor(model=>model.Ratings)</td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Images : </label>
+                            </td>
+                            <td>
+                                @*<input type="file" name="Preferences" placeholder="Preferences"/>*@
+                                <input type='file' multiple="multiple" accept="image/*" id='fileUpload' name="file" required/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Preview : </td>
+                            <td>
+                                @*<div id="dvPreview"></div>*@
+                                @*<div id="editimage" style="min-height: 10px;min-width: 10px; "></div>*@
+                                
+                                <div id="dvPreview" align="center"></div>
+</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-big btn-green float-right">Submit <i class="ti-angle-double-right"></i></button>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </div>
+            </div>
+        }
+    </div>
+    <div style="margin-bottom:30px"></div>
+    @*<div class="clear"></div>*@
+    <footer>
+        <div class="footerBottom">
+            <div class="pageWidth">
+                <p>All rights reserved ©  <a href="http://maa-aahwanam.com/" style="color:white">Maa-Aahwanam.com</a> 2015.</p>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </footer>
+
+    <a href="javascript:void(0)" id="btn-scrollup"><i class="ti-angle-up"></i></a>
+    <style>
+        .deal-thumb, .zoomDiv img {
+            transition: all 1s ease 0s;
+        }
+       
+</style>
+    <style>
+        .overlay {
+            background: no-repeat scroll center center #FFF;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999999;
+            background-color: rgba(0,0,0,0.8);
+            /* END EXTERNAL S */
+        }
+    </style>
+
+    <style>
+        /*Autocomplete css*/
+        .ui-autocomplete {
+            overflow-y: scroll auto;
+            overflow-x: hidden;
+            max-height: 250px;
+            position: relative;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            float: left;
+            display: none;
+            min-width: 160px;
+            padding: 4px 0;
+            margin: 0 0 10px 25px;
+            list-style: none;
+            background-color: #ffffff;
+            border-color: #ccc;
+            border-color: rgba(0, 0, 0, 0.2);
+            border-style: solid;
+            border-width: 1px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            -webkit-background-clip: padding-box;
+            -moz-background-clip: padding;
+            background-clip: padding-box;
+            *border-right-width: 2px;
+            *border-bottom-width: 2px;
+        }
+
+        .ui-menu-item > a.ui-corner-all {
+            display: block;
+            padding: 3px 15px;
+            clear: both;
+            font-weight: normal;
+            line-height: 18px;
+            color: #555555;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .ui-state-hover, .ui-state-active {
+            color: #ffffff;
+            text-decoration: none;
+            background-color: #0088cc;
+            border-radius: 0px;
+            -webkit-border-radius: 0px;
+            -moz-border-radius: 0px;
+            background-image: none;
+        }
+    </style>
+    <script type="text/javascript" src="~/CSSWeb/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/select2.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/menu.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/stickynavigation.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/wow.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/nicescroll.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/plugins.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/validations.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/jquery.counterup.min.js" async></script>
+    <script type="text/javascript" src="~/CSSWeb/js/feedback.js" async></script>
+    <script type="text/javascript" src="~/CSSWeb/js/rater.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/timeline.js" async></script>
+    @*<script type="text/javascript" src="~/CSSWeb/js/responsive-tables.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/jquery.shorten.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/smoothproducts.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/waypoints.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/alert.js" async></script>
+    <script type="text/javascript" src="~/CSSWeb/js/Lazyload.js"></script>*@
+
+    <script type="text/javascript" src="~/CSSWeb/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/masterslider.min.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/tabs.js"></script>
+    <script type="text/javascript" src="~/CSSWeb/js/owl.carousel.min.js"></script>
+
+
+ <script language="javascript" type="text/javascript">
+        $(function () {
+            $("#fileUpload").change(function () {
+                if (typeof (FileReader) != "undefined") {
+                    var dvPreview = $("#dvPreview");
+                    dvPreview.html("");
+                    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                    $($(this)[0].files).each(function () {
+                        var file = $(this);
+                        if (regex.test(file[0].name.toLowerCase())) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = $("<img />");
+                                img.attr("style", "height:100px;width: 100px max-height: 75px;border: 2px solid;margin: 10px 10px 0 0;padding: 1px;");
+                                img.attr("src", e.target.result);
+                                img.addClass();
+                                dvPreview.append(img);
+                            }
+                            reader.readAsDataURL(file[0]);
+                        } else {
+                            alert(file[0].name + " is not a valid image file.");
+                            dvPreview.html("");
+                            return false;
+                        }
+                    });
+                } else {
+                    alert("This browser does not support HTML5 FileReader.");
+                }
+            });
+        });
+</script>
+
+<script>
+   //window.onload = function (){
+   //    history.pushState(document.URL,null,document.URL.split('?')[0]);
+   // }
+    
+</script>
+    <script>
+        //$("#ratings").on('click', function () {
+        //    //alert($(".rate-select-layer span.s1").val());
+        //    alert(document.getElementsByClassName('.rate-select-layer span').value);
+        //});
+        function get(s) {
+            var value = s + 1;
+            $("#Ratings").val(value);
+        }
+    </script>
+</body>
+
+</html>

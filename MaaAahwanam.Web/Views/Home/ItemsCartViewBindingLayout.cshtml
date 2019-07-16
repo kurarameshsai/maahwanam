@@ -1,0 +1,46 @@
+﻿
+<ul>
+    <li>
+        @using MaaAahwanam.Web.Custom
+        @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+        {
+            var user = (CustomPrincipal)HttpContext.Current.User;
+            if (user.UserType == "Admin")
+            {
+                Response.Redirect("/Admin/Login");
+            }
+            if (user.UserType == "Vendor")
+            {
+                Response.Redirect("/vdb/Index");
+            }
+            if (user.UserType == "User")
+            {
+                <span><a id="sign-in" style="color:black;font-size:16px; font-weight: 700;text-transform:capitalize" class="login">@ViewBag.username</a></span>
+                <ul>
+                    <li><a href="/Home/SignOut">Log Out</a></li>
+                </ul>
+            }
+        }
+        else
+        {
+            <span><a href="#sign-in-dialog" id="sign-in" style="color:black;font-size:16px" class="login" title="Sign In">Login/Register</a></span>
+        }
+    </li>
+    @if (System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        <li>
+            <span> <a class="login" style="color:black;font-size:16px; font-weight: 700" href="/cart/Index">Cart(@ViewBag.cartCount)</a> </span>
+        </li>
+    }
+    else
+    {
+        <li>
+            <a href="/pregister" style="color:black;font-size:16px" title="Partner Registration">Partner Registration</a>
+        </li>
+    }
+    
+    <li>
+        <a href="#0" class="btn_5 add_top_30"style="color: black; font-weight: 700;font-size: 16px;background:#fff">Call: +91 7032199007</a>
+    </li>
+    <li><span><img src="~/newdesignstyles/images/customer/india.png" /></span>
+</ul>

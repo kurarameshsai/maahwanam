@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "temp";
+    Layout = "~/Areas/Admin/Views/Shared/MainMaster.cshtml";
+}
+
+<h2>temp</h2>
+
+@using (Html.BeginForm("temp", "CreateVendor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+                                                    <label for="tags" class="control-label col-lg-4">Multiple Uploads</label>
+                                                    <div class="col-lg-4">
+
+                                                        <input type='file' multiple id='fileUpload' name="Multifiles" />
+                                                    </div>
+                                                   <br/>
+                                                    <div id="dvPreview" align="center" style="padding:20px">
+                                                    </div>
+                                                    
+                                                    </div>
+    <div style="text-align:center" class="form-actions no-margin-bottom">
+                                                    <input type="submit" value="Save" class="btn text-muted text-center btn-success" name="Command" />
+                                                    <input type="submit" value="Cancel" class="btn btn-danger" formaction="~/Admin/dashboard/dashboard">
+                                                </div> 
+}
+

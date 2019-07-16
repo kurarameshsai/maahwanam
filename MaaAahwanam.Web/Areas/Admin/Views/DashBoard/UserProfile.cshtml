@@ -1,0 +1,161 @@
+﻿@model MaaAahwanam.Web.Areas.Admin.Models.UserLoginDetailsModel
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Areas/Admin/Views/Shared/Master.cshtml";
+}
+@section header{
+    <!-- PAGE LEVEL STYLES -->
+  <link rel="stylesheet" href="~/Assets/css/bootstrap-fileupload.min.css" />
+    <!-- END PAGE LEVEL  STYLES -->
+}
+
+
+<!--PAGE CONTENT -->
+<div id="content">
+    <div class="inner">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>UserProfile Details</h2>
+            </div>
+        </div>
+        <hr />
+        @*<div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">*@
+        @*<ul class="nav nav-tabs">
+                <li class="active"><a href="#home" data-toggle="tab">General</a> </li>
+                <li><a href="#images" data-toggle="tab">Images</a> </li>
+            </ul>*@
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="home">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="collapse2" class="body collapse in">
+                            @*<form class="form-horizontal" id="popup-validation">*@
+            @using (Html.BeginForm("UserProfile", "DashBoard", FormMethod.Post, new { @class = "form-horizontal", @id = "popup-validation", enctype = "multipart/form-data" }))
+                     {
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Type</label>
+
+                                    <div class="col-lg-4">
+                                        @Html.TextBoxFor(m => m.UserType, new { @class = "validate[required] form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">First Name</label>
+                                    <div class="col-lg-4">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "validate[required] form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Last Name</label>
+                                    <div class="col-lg-4">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "validate[required] form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Phone</label>
+                                    <div class="col-lg-4">
+                                        @Html.TextBoxFor(m => m.UserPhone, new { @class = "validate[required] form-control" })
+                                        @*<input type="text" class="validate[required] form-control" name="req3" id="req3" data-mask="(999) 999-9999">*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Url</label>
+                                    <div class=" col-lg-4">
+                                        @Html.TextBoxFor(m => m.Url, new { @class = "validate[required] form-control" })
+                                        @*<input value="http://" class="validate[required,custom[url]] form-control" type="text" name="url1" id="url1" />*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Address</label>
+                                    <div class="col-lg-4">
+                                        @Html.TextAreaFor(m => m.Address, new { @class = "validate[required] form-control" })
+                                        @*<textarea id="autosize" class="validate[required] form-control" name="req" id="req"></textarea>*@
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">City</label>
+                                    <div class="col-lg-4">
+                                        @Html.TextBoxFor(m => m.City, new { @class = "validate[required] form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">State</label>
+                                    <div class="col-lg-4">                                
+                                        @Html.DropDownListFor(m => m.State, new SelectList(
+                                          new List<Object>{
+                                              new {Text ="Choose a State", Value = ""},
+                                               new { Text ="Telangana", Value = "Telangana"  },
+                                               new { Text ="Andhra Pradesh", Value = "Andhra Pradesh" },
+                                            },
+                                          "value",
+                                                   "text"), new { @class = "validate[required] form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">ZIP Code</label>
+                                    <div class="col-lg-4">
+                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "validate[required] form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-lg-4">Upload Image</label>
+                                    <div class="col-lg-8">
+                                            @if(this.Model.UserImgId==null)
+                                            { 
+                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="~/Assets/img/demoUpload.jpg" alt="" width="100px" height="100px" /></div>
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                            <div>
+                                                <span class="btn btn-file btn-primary">
+                                                    <span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span>
+                                                    <input type="file" name="file" />
+                                                </span> <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                            </div>
+                                            </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="fileupload fileupload-exists" data-provides="fileupload">
+                                                    <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;"><img src="~/Assets/img/demoUpload.jpg" alt="" /></div>
+                                                    <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 150px; max-height: 150px; line-height: 20px;"><img src="/Content/AdminUserfiles/@this.Model.UserImgId" width="100px" height="100px" alt=" image" /></div>
+                                                  @Html.HiddenFor(m => m.UserImgId)@Html.HiddenFor(m => m.UserImgName)
+                                                      <div>
+                                                        <span class="btn btn-file btn-primary">
+                                                            <span class="fileupload-new">Select image</span><span class="fileupload-exists">Change</span>
+                                                            <input type="file" name="file" />
+                                                        </span> <a href="#" class="btn btn-danger fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                                    </div>
+                                                </div>
+                                            }
+                                            
+                                    </div>
+
+                                </div>
+
+                                <div style="text-align:center" class="form-actions no-margin-bottom">
+                                    @*@Html.ActionLink("Save", "UserProfileSave", "DashBoard", new { @class = "btn btn-primary btn-lg " })*@
+                                    <input type="submit" value="Save" class="btn text-muted text-center btn-success" name="Command" />
+                                </div>
+            }
+                            @*</form>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+@section Bottom{
+    <script src="~/Assets/plugins/jquery-2.0.3.min.js"></script>
+    <script src="~/Assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Assets/plugins/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+    <script src="~/Assets/plugins/jasny/js/bootstrap-fileupload.js"></script>
+
+}

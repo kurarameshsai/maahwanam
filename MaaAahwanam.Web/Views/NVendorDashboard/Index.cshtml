@@ -1,0 +1,158 @@
+﻿@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/SharedWeb/NVendorMasterPage.cshtml";
+}
+
+
+
+<div class="page-header height-300 margin-bottom-30">
+    <div class="text-center blue-grey-800 margin-top-50">
+        <div class="font-size-50 margin-bottom-30 blue-grey-800">@ViewBag.Vendor.BusinessName</div>
+        <ul class="list-inline font-size-14">
+            
+            @*<li class="margin-left-20">
+                <i class="icon wb-heart margin-right-5" aria-hidden="true"></i> @ViewBag.Vendor.BusinessName
+            </li>*@
+            <li>
+                <i class="icon wb-map margin-right-5" aria-hidden="true"></i> @ViewBag.Vendor.Landmark,@ViewBag.Vendor.City
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="page-content container-fluid">
+    <div class="row" data-plugin="matchHeight" data-by-row="true">
+        <div class="col-xlg-3 col-lg-4 col-md-12">
+            <!-- Panel Web Designer -->
+            <div class="widget widget-shadow">
+                <div class="widget-content text-center bg-white padding-40">
+                    <div class="avatar avatar-100 margin-bottom-20">
+                        @if (ViewBag.profilepic != "" && ViewBag.profilepic != null)
+                        {
+                            <img src="~/ProfilePictures/@ViewBag.profilepic" alt="@ViewBag.profilepic">
+                        }
+                        else
+                        {
+                            <img src="~/noimages.png" alt="~/noimages.png">
+                        }
+                    </div>
+                    <p class="font-size-20 blue-grey-700">@ViewBag.Vendor.ContactPerson</p>
+                    <p class="blue-grey-400 margin-bottom-20">@ViewBag.Vendor.BusinessName</p>
+                    <p class="margin-bottom-35">
+                        @ViewBag.Vendor.Description
+                    </p>
+                    <ul class="list-inline font-size-18 margin-bottom-35">
+                        <li>
+                            <a class="blue-grey-400" href="javascript:void(0)">
+                                <i class="icon bd-twitter" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="margin-left-10">
+                            <a class="blue-grey-400" href="javascript:void(0)">
+                                <i class="icon bd-facebook" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="margin-left-10">
+                            <a class="blue-grey-400" href="javascript:void(0)">
+                                <i class="icon bd-dribbble" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <li class="margin-left-10">
+                            <a class="blue-grey-400" href="javascript:void(0)">
+                                <i class="icon bd-instagram" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn btn-primary padding-horizontal-40">Follow</button>
+                </div>
+            </div>
+            <!-- End Panel Web Designer -->
+        </div>
+        <div class="col-xlg-6 col-lg-8 col-md-12">
+            <!--Widget-->
+            <div class="widget">
+                <div class="widget-header cover overlay">
+                    <img class="cover-image" src="~/VendorStyles/calendar.png" alt="Calendar">
+                    <div class="overlay-panel overlay-background text-center vertical-align">
+                        <div class="vertical-align-middle">
+                            <div class="widget-time widget-divider">
+                                <span>@DateTime.Now.ToString("MMMM dd,yyyy")</span>
+                            </div>
+                            <h3 class="widget-title margin-bottom-20">Manage Booking Dates.</h3>
+                            <button type="button" onclick="location.href = '/ManageBooking'" class="btn btn-outline btn-inverse">Let's Go..</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Widget-->
+        </div>
+        <div class="col-xlg-3 col-md-12">
+            <div class="row height-full">
+                <div class="col-xlg-12 col-md-6" style="height:50%;">
+                    <!-- Panel Overall Sales -->
+                    <div class="widget widget-shadow bg-blue-600 white">
+                        <div class="widget-content padding-30">
+                            <div class="counter counter-lg counter-inverse text-left">
+                                <div class="counter-label margin-bottom-20">
+                                    <div>Current Orders</div>
+                                    @*<div>Lorem ipsum dolor sit amet</div>*@
+                                </div>
+                                <div class="counter-number-group margin-bottom-15">
+                                    @*<span class="counter-number-related">$</span>*@
+                                    <span class="counter-number">@ViewBag.currentorders</span>
+                                </div>
+                                <div class="counter-label">
+                                    <div class="progress progress-xs margin-bottom-10 bg-blue-800">
+                                        <div class="progress-bar progress-bar-info bg-white" style="width: 42%" aria-valuemax="100"
+                                             aria-valuemin="0" aria-valuenow="42" role="progressbar">
+                                            <span class="sr-only">42%</span>
+                                        </div>
+                                    </div>
+                                    <div class="counter counter-sm text-left">
+                                        <div class="counter-number-group">
+                                            <span class="counter-number font-size-14">42%</span>
+                                            <span class="counter-number-related font-size-14">HIGHER THAN LAST MONTH</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Panel Overall Sales -->
+                </div>
+                <div class="col-xlg-12 col-md-6" style="height:50%;">
+                    <!-- Panel Today's Sales -->
+                    <div class="widget widget-shadow bg-red-600 white">
+                        <div class="widget-content padding-30">
+                            <div class="counter counter-lg counter-inverse text-left">
+                                <div class="counter-label margin-bottom-20">
+                                    <div>Total Orders</div>
+                                    @*<div>Lorem ipsum dolor sit amet</div>*@
+                                </div>
+                                <div class="counter-number-group margin-bottom-10">
+                                    @*<span class="counter-number-related">$</span>*@
+                                    <span class="counter-number">@ViewBag.ordershistory</span>
+                                </div>
+                                <div class="counter-label">
+                                    <div class="progress progress-xs margin-bottom-10 bg-red-800">
+                                        <div class="progress-bar progress-bar-info bg-white" style="width: 70%" aria-valuemax="100"
+                                             aria-valuemin="0" aria-valuenow="70" role="progressbar">
+                                            <span class="sr-only">70%</span>
+                                        </div>
+                                    </div>
+                                    <div class="counter counter-sm text-left">
+                                        <div class="counter-number-group">
+                                            <span class="counter-number font-size-14">70%</span>
+                                            <span class="counter-number-related font-size-14">HIGHER THAN LAST MONTH</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Panel Today's Sales -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
